@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-function App() {
+
+import Header from './Components/Header/Header';
+import FilterPanel from './Components/FilterPanel/FilterPanel';
+import Feed from './Components/Feed/Feed';
+import TopShow from './Components/TopShow/TopShow';
+
+import './css/var.css';
+import './css/universal.css';
+import './css/header.css';
+import './css/filterPanel.css';
+import './css/feed.css';
+import './css/topShow.css';
+import './css/content.css';
+
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          
+          <Route exact path="/" element={<>
+            <Header/>
+            <div id="content">
+              <FilterPanel/>
+              <Feed/>
+              <TopShow/>
+            </div>
+          </>}/>
+          
+          <Route exact path="/auth" element={<>
+            <Header/>
+          </>}/>
+
+        </Routes>
+      </Router>
     </div>
   );
 }

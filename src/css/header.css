@@ -1,0 +1,30 @@
+body {
+    background-color: var(--base-color);
+}
+
+#header {
+    background-color: var(--bar-color);
+    
+    height: var(--header-height);
+    width: var(--header-width);
+
+    margin: var(--header-margin) var(--header-margin);
+    border-radius: var(--header-radius);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+#header-logo {
+    background-color: var(--bar-color);
+    display: flex;
+
+    margin-left: 10px;
+}

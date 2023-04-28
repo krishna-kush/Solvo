@@ -1,0 +1,70 @@
+:root{
+    /* Colors */
+    --title-color: #2097db;
+    /* --bar-color: #ffffff; */
+    --bar-color: grey;
+    --base-color: #f0ede9 ; 
+
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    
+    
+    /* Header */
+    --header-margin: 1vh;
+    --header-radius: 10px;
+    
+    --header-height: 7vh;
+    --header-width: calc( 100vw - var(--header-margin)*2 );
+    
+    --header-items-head-margin: calc( var(--header-height)/10 );
+    
+    --header-items-head-height: calc( var(--header-height) - (var(--header-items-head-margin)*2) - var(--line-height) );
+    
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    
+    
+    /* Panels */
+    --panel-margin: 1vh;
+    --panel-padding: 10px;
+    --panel-radius: 10px;
+    
+    --panel-height: calc( 100vh - var(--header-height) - (var(--header-margin)*2) - (var(--panel-margin)*1) - (var(--panel-padding)*2) ); /* reducing margin and padding in refference to where they inicialise in their personal css */
+    
+    
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    /* Side Panel */
+    --acctual-side-panel-width: 25vw;
+
+    --side-panel-width: calc( var(--acctual-side-panel-width) - var(--panel-margin)*2 - (var(--panel-padding)*2) );
+    
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    
+    
+    /* Feed */
+    --feed-margin: 1vh;
+    --feed-padding: 10px;
+    --feed-radius: 10px;
+
+    --feed-block-right-margin: 0.5vh;
+
+    --feed-height: calc( 100vh - var(--header-height) - (var(--header-margin)*2) - (var(--feed-margin)*1));
+    --feed-width: calc( 100vw - (var(--acctual-side-panel-width)*2) );
+
+    --feed-block-height: calc( 30vh - (var(--feed-margin)*2) - (var(--feed-padding)*2) );
+    --feed-block-width: calc( 100% - (var(--feed-padding)*2) - var(--feed-block-right-margin) );
+    
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    /* Line */
+    --line-height: 0.5vh;
+
+
+    /* Button */
+    --btn-height: 2.5vw;
+}

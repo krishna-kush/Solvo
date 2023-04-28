@@ -1,0 +1,25 @@
+* {
+    margin: 0px;
+    padding: 0px;
+
+    font-size: 1.1vw;
+
+    scroll-behavior: smooth;
+
+    /* Hide Vertical Scrollbar if any */
+    /* overflow-y: auto;  */
+
+}
+
+.panel {
+    background-color: var(--bar-color);
+
+    height: var(--panel-height);
+
+    margin: 0 var(--panel-margin) var(--panel-margin) var(--panel-margin);
+    padding: var(--panel-padding);
+    border-radius: var(--panel-radius);
+/* 
+    display: inline;
+    float: left; */
+}

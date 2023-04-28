@@ -1,0 +1,27 @@
+#feed {
+    display: inline;
+    float: left;
+
+    width: var(--feed-width);
+    height: var(--feed-height);
+
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+#feed::-webkit-scrollbar {
+    /* display: none; */
+    width: 5px;
+    background: transparent;
+
+}
+
+.feed-block {
+    background-color: var(--bar-color);
+
+    width: var(--feed-block-width);
+    height: var(--feed-block-height);
+
+    margin: 0 var(--feed-block-right-margin) var(--feed-margin) 0;
+    padding: var(--feed-padding);
+    border-radius: var(--feed-radius);
+}
