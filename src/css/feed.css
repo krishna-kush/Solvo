@@ -10,7 +10,7 @@
 }
 #feed::-webkit-scrollbar {
     /* display: none; */
-    width: 5px;
+    width: var(--scroll-width);
     background: transparent;
 
 }

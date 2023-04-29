@@ -10,6 +10,7 @@ import Header from './Components/Header/Header';
 import FilterPanel from './Components/FilterPanel/FilterPanel';
 import Feed from './Components/Feed/Feed';
 import TopShow from './Components/TopShow/TopShow';
+import Changer from './Components/Changer/Changer';
 
 import './css/var.css';
 import './css/universal.css';
@@ -18,6 +19,7 @@ import './css/filterPanel.css';
 import './css/feed.css';
 import './css/topShow.css';
 import './css/content.css';
+import './css/changer.css';
 
 
 const App = () => {
@@ -33,6 +35,7 @@ const App = () => {
               <Feed/>
               <TopShow/>
             </div>
+            <Changer/>
           </>}/>
           
           <Route exact path="/auth" element={<>

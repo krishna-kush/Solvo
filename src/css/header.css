@@ -9,6 +9,7 @@ body {
     width: var(--header-width);
 
     margin: var(--header-margin) var(--header-margin);
+    padding: 0 var(--header-padding);
     border-radius: var(--header-radius);
 
     display: flex;

@@ -7,14 +7,22 @@
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    --long-panel-radius: 10px;
+    --scroll-width: 5px;
+
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     
     
     /* Header */
     --header-margin: 1vh;
-    --header-radius: 10px;
+    --header-padding: 10px;
+    --header-radius: var(--long-panel-radius);
     
     --header-height: 7vh;
-    --header-width: calc( 100vw - var(--header-margin)*2 );
+    --header-width: calc( 100vw - var(--header-margin)*2 - var(--header-padding)*2 );
     
     --header-items-head-margin: calc( var(--header-height)/10 );
     
@@ -57,6 +65,33 @@
     --feed-block-height: calc( 30vh - (var(--feed-margin)*2) - (var(--feed-padding)*2) );
     --feed-block-width: calc( 100% - (var(--feed-padding)*2) - var(--feed-block-right-margin) );
     
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    /* Changer */
+    --changer-radius: var(--long-panel-radius);
+
+    --changer-container-width: calc( var(--feed-width) - var(--feed-block-right-margin) - var(--scroll-width) );
+    
+    --changer-height: 7vh;
+    --redu-width: 75;
+    --changer-width: calc( (var(--redu-width)/100) * var(--feed-width) );
+
+    --changer-bottom-gap: 10px;
+    --changer-left-push: calc( (var(--feed-width) - var(--changer-width)) / 2 );
+    /* --changer-left-gap: calc( var(--acctual-side-panel-width) + var(--changer-left-push) ); */
+    --changer-left-gap: calc( var(--acctual-side-panel-width) );
+
+    --changer-blocks-margin-x: 3px;
+    --changer-blocks-margin-y: 10px;
+    --changer-blocks-padding: 10px;
+    --changer-blocks-radius: var(--long-panel-radius);
+    
+    /* --changer-blocks-width: calc( (var(--changer-container-width) / 3) - (var(--changer-blocks-margin-y)*2) - (var(--changer-blocks-padding)*2) ); */
+    --changer-blocks-width: 40px;
+    --changer-blocks-height: calc( var(--changer-height) - var(--changer-blocks-margin-x)*2 );
+
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 

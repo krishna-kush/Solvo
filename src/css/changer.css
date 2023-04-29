@@ -1,0 +1,42 @@
+#changer-container {
+    width: var(--changer-container-width);
+    
+    position: absolute;
+
+    bottom: var(--changer-bottom-gap);
+    left: var(--changer-left-gap);
+
+    /* display: flex;
+    align-items: center; */
+    /* justify-content: space-between; */
+}
+
+#changer {
+    margin: auto;
+    background-color: darkgray;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    overflow: hidden;
+
+    /* z-index: 10; */
+
+
+    width: var(--changer-width);
+    height: var(--changer-height);
+
+    border-radius: var(--changer-radius);    
+}
+
+.changer-block {
+    background-color: blueviolet;
+
+    width: var(--changer-blocks-width);
+    height: var(--changer-blocks-height);
+    border-radius: var(--changer-blocks-radius);
+
+    margin: var(--changer-blocks-margin-x) var(--changer-blocks-margin-y);
+    padding: 0 var(--changer-blocks-padding);
+}
