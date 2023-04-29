@@ -89,8 +89,25 @@
     --changer-blocks-radius: var(--long-panel-radius);
     
     /* --changer-blocks-width: calc( (var(--changer-container-width) / 3) - (var(--changer-blocks-margin-y)*2) - (var(--changer-blocks-padding)*2) ); */
-    --changer-blocks-width: 40px;
     --changer-blocks-height: calc( var(--changer-height) - var(--changer-blocks-margin-x)*2 );
+
+    /* Finding Changer Blocks Width */
+        /* Inicilising Variables */
+        --n: 3;
+        --m: 10px;
+        --twm: calc( var(--changer-container-width) - ( (var(--n) + 1) * var(--m) ) );
+
+        --t: 6; /* to vary */
+        --big: 4; /* to vary */
+        --small: calc( var(--t) - var(--big) );
+        --small-per-unit: calc( var(--small) / (var(--n) - 1) );
+
+        /* Setting main width */
+        --small-w: calc((var(--small-per-unit) / var(--t)) * var(--twm));
+        --big-w: calc((var(--big) / var(--t)) * var(--twm));
+
+    --changer-blocks-width: var(--small-w);
+    --changer-blocks-hover-width: var(--big-w);
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

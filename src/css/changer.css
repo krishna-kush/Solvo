@@ -39,4 +39,17 @@
 
     margin: var(--changer-blocks-margin-x) var(--changer-blocks-margin-y);
     padding: 0 var(--changer-blocks-padding);
+
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+
+}
+.changer-block:hover {
+    background-color: darkblue;
+
+    width: var(--changer-blocks-hover-width);
+}
+
+.selected {
+    width: var(--changer-blocks-hover-width);
 }
