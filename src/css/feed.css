@@ -25,3 +25,8 @@
     padding: var(--feed-padding);
     border-radius: var(--feed-radius);
 }
+
+.last-feed {
+    margin: 0 var(--feed-block-right-margin) 0 0;
+
+}

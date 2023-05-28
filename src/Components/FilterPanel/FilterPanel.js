@@ -1,11 +1,9 @@
 import React from 'react'
 
-const FilterPanel = () => {
+export default () => {
   return (
     <div id="filter-panel" className="panel">
       FilterPanel
     </div>
   )
 }
-
-export default FilterPanel

@@ -9,8 +9,16 @@
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
+    --short-margin: 5px;
+    --long-margin: calc(var(--short-margin)*2);
+    --short-padding: 5px;
+    --short-radius: 5px;
     --long-panel-radius: 10px;
     --scroll-width: 5px;
+
+
+    --transition-midium: 0.3s;
+    --transition-style: ease-out;
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -85,29 +93,62 @@
 
     --changer-blocks-margin-x: 3px;
     --changer-blocks-margin-y: 10px;
-    --changer-blocks-padding: 10px;
+    --changer-blocks-padding-x: 0px;
+    --changer-blocks-padding-y: 10px;
     --changer-blocks-radius: var(--long-panel-radius);
     
-    /* --changer-blocks-width: calc( (var(--changer-container-width) / 3) - (var(--changer-blocks-margin-y)*2) - (var(--changer-blocks-padding)*2) ); */
-    --changer-blocks-height: calc( var(--changer-height) - var(--changer-blocks-margin-x)*2 );
+    --changer-blocks-height: calc( var(--changer-height) - var(--changer-blocks-margin-x)*2 - var(--changer-blocks-padding-x)*2 );
 
+    --changer-blocks-width: calc( (var(--changer-blocks-height)) - (var(--changer-blocks-padding-y)*2) ); /* No margin reduced because it's outside the width of box, although part of box but unseen part */
+    --changer-block-size-multiplier: 3;
+    --changer-blocks-hover-width: calc( var(--changer-blocks-height) * var(--changer-block-size-multiplier) );
+
+
+    /* Ratio Design */
     /* Finding Changer Blocks Width */
         /* Inicilising Variables */
-        --n: 3;
-        --m: 10px;
-        --twm: calc( var(--changer-container-width) - ( (var(--n) + 1) * var(--m) ) );
+        /* --n: 3; */
+        /* --m: 20px; */
+        /* --twm: calc( var(--changer-width) - ( (var(--n) + 1) * var(--m) ) ); */
 
-        --t: 6; /* to vary */
-        --big: 4; /* to vary */
-        --small: calc( var(--t) - var(--big) );
-        --small-per-unit: calc( var(--small) / (var(--n) - 1) );
+        /* --t: 10; to vary */
+        /* --big: 5; to vary */
+        /* --small: calc( var(--t) - var(--big) ); */
+        /* --small-per-unit: calc( var(--small) / (var(--n) - 1) ); */
 
         /* Setting main width */
-        --small-w: calc((var(--small-per-unit) / var(--t)) * var(--twm));
-        --big-w: calc((var(--big) / var(--t)) * var(--twm));
+        /* --small-w: calc((var(--small-per-unit) / var(--t)) * var(--twm)); */
+        /* --big-w: calc((var(--big) / var(--t)) * var(--twm)); */
 
-    --changer-blocks-width: var(--small-w);
-    --changer-blocks-hover-width: var(--big-w);
+    /* --changer-blocks-width: calc( var(--small-w) - (var(--changer-blocks-margin-y)*2) - (var(--changer-blocks-padding)*2) ); */
+    /* --changer-blocks-hover-width: var(--big-w); */
+
+
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+    /* Auth */
+    --auth-cont-height: 100vh;
+    --auth-width: 25%;
+    /* --auth-height: fit- content; */
+    --auth-persumed-height: 40vh;
+
+    --auth-m-top: calc( var(--auth-cont-height) - (var(--auth-cont-height) / 2) - (var(--auth-persumed-height) / 2) );
+
+    --auth-border-radius: 15px;
+
+    --auth-input-cont-width: 60%;
+    --auth-input-cont-half-gap: 4%;
+    --auth-input-cont-left: calc( (100% - var(--auth-input-cont-width)) / 2 );
+    --auth-input-cont-margin-y: 3.5vh;
+
+    --auth-input-height: 3vh;
+    --auth-input-width: 100%;
+    --auth-input-margin-y: 0vh;
+
+    --auth-input-icon-width: 1.5vw;
+    --auth-input-icon-left: calc( var(--auth-input-width) - var(--auth-input-icon-width) );
+
+    --auth-input-cont-height: calc( var(--auth-input-height) + (var(--auth-input-margin-y)*2) );
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

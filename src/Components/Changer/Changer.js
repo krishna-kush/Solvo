@@ -2,7 +2,9 @@ import React from 'react'
 
 import ChangerBlocks from './ChangerBlocks'
 
-const Changer = () => {
+export default () => {
+  let name="changer"
+
   let elements = [
     ["Feed", true],
     ["My Questions", false],
@@ -11,15 +13,13 @@ const Changer = () => {
 
   return (
     <div id="changer-container">
-      <div id="changer">
+      <div id={name}>
       {elements.map((e, i) => {
         return (
-          <ChangerBlocks id={i} name={e[0]} isSelected={e[1]}/>
+          <ChangerBlocks id={i} last={elements.length} name={e[0]} isSelected={e[1]} parent={name}/>
           )
         })}
       </div>
     </div>
   )
 }
-
-export default Changer

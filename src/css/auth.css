@@ -1,0 +1,165 @@
+#auth-container {
+    position: fixed;
+    z-index: 1;
+
+    top: 0px;
+
+    width: 100vw;
+    height: var(--auth-cont-height);
+}
+#auth {
+    background-color: darkgrey;
+
+    width: var(--auth-width);
+    height: fit-content;
+
+    border-radius: var(--auth-border-radius);
+
+    margin: auto;
+
+    position: relative;
+    top: var(--auth-m-top);
+
+    overflow: auto; /* https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element#:~:text=If%20the%20first%20child%20of,It's%20just%20like%20that.&text=You%20can%20fix%20it%20by,such%20as%20a%20simple%20space. */
+}
+
+#welcome {
+    width: fit-content;
+    margin: auto;
+
+    /* margin: 0px auto; */
+    margin-top: var(--long-margin);
+}
+
+.circle {
+    display: inline-block;
+
+    width: 20px;
+    height: 20px;
+    background-color: rgb(46, 46, 46);
+
+    border-radius: 50%;
+
+    text-align: center;
+    line-height: 20px;
+}
+
+.inputs {
+    width: auto;
+}
+
+.input-cont {
+    position: relative;
+
+    /* height: var(--auth-input-cont-height); */
+    width: var(--auth-input-cont-width);
+    left: var(--auth-input-cont-left);
+    
+    margin: var(--auth-input-cont-margin-y) 0 var(--auth-input-cont-margin-y) 0;
+
+    border-bottom: 2px solid white;    
+}
+.half-i-cont {
+    display: inline-block;
+    width: calc((var(--auth-input-cont-width) - var(--auth-input-cont-half-gap)) / 2); /* For Ex: 60, 60-4 / 2 = 28, then 28 is width for cont and 2, 2 (total 4) is right and left cont-margin respectivily*/
+}
+#fname-i {
+    margin-right: calc(var(--auth-input-cont-half-gap) / 2);
+}
+#lname-i {
+    margin-left: calc(var(--auth-input-cont-half-gap) / 2);
+}
+
+.input-cont input {
+    height: var(--auth-input-height);
+    width: var(--auth-input-width);
+
+    /* margin: auto; */
+    margin-bottom: var(--auth-input-margin-y);
+    margin-top: var(--auth-input-margin-y);
+
+    /* position: relative;
+    left: 20%; */
+    
+    /* background: transparent; */
+    border: none;
+}
+
+.shift-down-in-input {
+    position: absolute;
+    top: var(--auth-input-margin-y);
+    line-height: var(--auth-input-height);
+
+    z-index: 1;
+}
+#icon-cont{
+    width: var(--auth-input-icon-width);
+    left: var(--auth-input-icon-left);
+    
+    line-height: var(--auth-input-height);
+
+    z-index: 1;
+}
+.input-text {
+    transition: all var(--transition-midium) var(--transition-style);
+}
+
+.auth-options {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.remember-me label p {
+    display: inline-block;
+    vertical-align: middle;
+
+    font-size: 1rem;
+
+    margin-left: var(--short-margin);
+}
+.remember-me label input{
+    vertical-align: middle;
+}
+.forget-pass {
+}
+
+.login-btn {
+    margin: auto;
+
+    margin-top: var(--short-margin);
+    margin-bottom: var(--short-margin);
+
+    width: calc(80% - var(--short-margin) * 2);
+    height: 3vh;
+
+    text-align: center;
+    line-height: 3vh; /* 3vh = height of the button */
+}
+
+.more {
+    text-align: center;
+
+    margin-top: 2vh;
+}
+
+.options {
+    width: 20%;
+    margin: auto;
+    margin-top: 1vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.not-acc {
+    margin-top: 1.5vh;
+    margin-bottom: var(--long-margin);
+
+    text-align: center;
+}
+.not-acc a {
+    color: white;
+    text-decoration: none;
+}

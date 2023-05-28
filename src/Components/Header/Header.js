@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 
-const Header = () => {
+export default () => {
   return (
     <header id="header">
       <div id="header-logo">
@@ -26,9 +26,10 @@ const Header = () => {
 
       <div id="user-in-header">
         Guest
+        <Link to="auth">
+          LogIn/SignUp
+        </Link>
       </div>
     </header>
   )
 }
-
-export default Header
