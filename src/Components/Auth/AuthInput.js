@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react'
+import { React } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../../state/index'
@@ -13,7 +13,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 export default (params) => {
   const dispatch = useDispatch();
 
-  let data = useSelector((state) => state.auth);
+  let data = useSelector((state) => state.authI);
 
   let name = params.name
 
@@ -75,6 +75,12 @@ export default (params) => {
     <div
       id={`${name}-i`}
       className={setClass(params.type)}
+
+      style={(() => {
+        if (params.mnot) {
+          return {marginTop: '0px'}
+        }
+      })()}
       
       onMouseEnter={() => moveText(`${name}`, 1)}
       onMouseLeave={() => {if (!data[name].focus) {moveText(`${name}`, 0)}}}

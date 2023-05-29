@@ -1,8 +1,19 @@
 import { React, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+
+
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators } from '../../state/index'
+
+import { GoogleLogin } from '@react-oauth/google';
 
 import AuthInput from './AuthInput'
 
 export default () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+
   let [logIn, setLogin] = useState(true)
   
   useEffect(() => {
@@ -17,12 +28,29 @@ export default () => {
     auth.style.top = `${(authContHeight) - (authContHeight/2) - (authHeight/2)}px`
   }
 
+  let googleSuccess = async (res) => {
+    const data = {
+      clientId: res?.clientId, // ?. is optional chaining(will not show error if profileObj is undefined, but return undefined)
+      credential: res?.credential,
+    }
+
+    let temp = await actionCreators.userCheck(data)
+    temp(dispatch);
+    // console.log(authData) // this will not work because authData is not updated yet it'll show previous state, but it'll be updated on next rendering of the signIn component...
+
+    navigate('/')
+  }
+  let googleFailure = (error) => {
+    console.log(error)
+    console.log("failed goog")
+  }
+
 
   return (
     <div id='auth-container'>
       <div id='auth'>
         <div id='welcome' className='small-box'>
-          Welcome
+          {logIn? "Welcome" : "Welcome Again"}
         </div>
 
         {logIn? <>
@@ -50,6 +78,15 @@ export default () => {
           
           <div className='options'>
             <div className='google circle'>G</div>
+            <div
+            // style={{width:"50%"}}
+            >
+            <GoogleLogin
+              onSuccess={googleSuccess}
+              onFailure={googleFailure}
+              // cookiePolicy="single_host_origin"
+            />
+            </div>
             <div className='google circle'>F</div>
           </div>
         </div>
@@ -68,7 +105,8 @@ export default () => {
           <AuthInput name='fname' type='half'/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
           <AuthInput name='lname' type='half'/>
 
-          <AuthInput name='email' type='full'/>
+          <AuthInput name='email' type='full' mnot={true}/>
+          <AuthInput name='password' type='full'/>
         </div>
 
         <div id='login-button-cont'>

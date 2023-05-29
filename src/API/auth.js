@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 export const createUser = (data) => {
-    Axios.post('http://localhost:5000/user/create', data)
+    Axios.post('http://localhost:5000/auth/create', data)
     .then((res) => {
         // update token or send err\
         console.log(res);
@@ -12,7 +12,7 @@ export const createUser = (data) => {
 export const checkToken = (data) => {
     //get the token from the local storage
     
-    let mdata = Axios.post('http://localhost:5000/user/check', data)
+    let mdata = Axios.post('http://localhost:5000/auth/check', data)
     .then((res) => {
         // update token or send err
         return res.data
