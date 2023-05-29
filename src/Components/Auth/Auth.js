@@ -58,14 +58,14 @@ export default () => {
         <div className='not-acc'>
           <a onClick={() => {
             setLogin(false)
-            centerAuthY() // not working, why?? bcz setLogin will re-render the whole component, but beffore it centerAuthY will run..., so my guess rendering is being done in async way, Solution: use useEffect.
+            // centerAuthY() // FIXED: not working, why?? bcz setLogin will re-render the whole component, but beffore it centerAuthY will run..., so my guess rendering is being done in async way, Solution: use useEffect.
             }} href='#'>Don't have an account? <span>Register</span></a>
         </div>
 
         </> : <>
 
         <div className='inputs'>
-          <AuthInput name='fname' type='half'/> {/* while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
+          <AuthInput name='fname' type='half'/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
           <AuthInput name='lname' type='half'/>
 
           <AuthInput name='email' type='full'/>
@@ -73,6 +73,12 @@ export default () => {
 
         <div id='login-button-cont'>
           <div className='login-btn small-box'>SignUp</div>
+        </div>
+
+        <div className='not-acc'>
+          <a onClick={() => {
+            setLogin(true)
+            }} href='#'>LogIn</a>
         </div>
 
         </>}

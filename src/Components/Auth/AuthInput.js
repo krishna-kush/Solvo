@@ -1,4 +1,4 @@
-import { React } from 'react'
+import { React, useEffect } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../../state/index'
@@ -14,7 +14,6 @@ export default (params) => {
   const dispatch = useDispatch();
 
   let data = useSelector((state) => state.auth);
-  console.log(data);
 
   let name = params.name
 
@@ -28,12 +27,19 @@ export default (params) => {
     changeData(name, 'value', value)
   }
 
-  let moveText = (id, dir) => {
-    let text = document.getElementById(id)
-    if (!dir && data[id.split('-')[0]].value == '') {
+  let moveText = (name, dir) => {
+    let text = document.getElementById(name)
+    if (!dir && data[name].value == '') {
       text.style.transform = 'translateY(0%)'
     } else {
       text.style.transform = 'translateY(-100%)'
+    }
+  }
+  let moveTextClass = (name) => {
+    if (data[name].value == '') {
+      return {transform: "translateY(0%)"}
+    } else {
+      return {transform: "translateY(-100%)"}
     }
   }
 
@@ -70,20 +76,23 @@ export default (params) => {
       id={`${name}-i`}
       className={setClass(params.type)}
       
-      onMouseEnter={() => moveText(`${name}-text`, 1)}
-      onMouseLeave={() => {if (!data[name].focus) {moveText(`${name}-text`, 0)}}}
+      onMouseEnter={() => moveText(`${name}`, 1)}
+      onMouseLeave={() => {if (!data[name].focus) {moveText(`${name}`, 0)}}}
       >
-        <div id={`${name}-text`} className='input-text shift-down-in-input'>
+        <div
+        id={`${name}`} className='input-text shift-down-in-input'
+        style={moveTextClass(name)} // because after getting to sighup from login component, the text is not moving up, to reset it...
+        >
           <p className=''>{getName(name)}</p>
         </div>
         <input type='text' name={`${name}`}
         onChange={textChange}
         onFocus={() => {
-          moveText(`${name}-text`, 1)
+          moveText(`${name}`, 1)
           changeData(`${name}`, 'focus', true)
         }}
         onBlur={() => {
-          moveText(`${name}-text`, 0)
+          moveText(`${name}`, 0)
           changeData(`${name}`, 'focus', false)
         }}
         value={data[name].value}
