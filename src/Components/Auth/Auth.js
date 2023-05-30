@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../../state/index'
 
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google'; // useGoogleLogin is for custom button just use onClick and call it's signIn function, Ref: https://www.npmjs.com/package/@react-oauth/google
 
 import AuthInput from './AuthInput'
 
@@ -13,12 +13,16 @@ export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-
   let [logIn, setLogin] = useState(true)
+  let [authWidth, setAuthWidth] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
   
   useEffect(() => {
     centerAuthY()
   }, [logIn])
+  useEffect(() => {
+    setAuthWidth(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
+    // setAuthWidth(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
+  }, [])
   
   let centerAuthY = () => {
     let authContHeight = document.getElementById('auth-container').offsetHeight
@@ -45,7 +49,6 @@ export default () => {
     console.log("failed goog")
   }
 
-
   return (
     <div id='auth-container'>
       <div id='auth'>
@@ -70,25 +73,28 @@ export default () => {
         </div>
 
         <div id='login-button-cont'>
-          <div className='login-btn small-box'>LogIn</div>
+          <div id='login-btn' className='login-btn small-box'>LogIn</div>
         </div>
 
         <div className='more'>
-          <div className=''>Or Sign Up Using</div>
-          
-          <div className='options'>
-            <div className='google circle'>G</div>
+          <p className=''> OR</p>
             <div
-            // style={{width:"50%"}}
+            style={{width: authWidth, margin: "auto",}}
             >
             <GoogleLogin
               onSuccess={googleSuccess}
               onFailure={googleFailure}
               // cookiePolicy="single_host_origin"
+              useOneTap
+
+              width={authWidth}
+              // shape="square"
             />
             </div>
+          {/* <div className='options'>
+            <div className='google circle'>G</div>
             <div className='google circle'>F</div>
-          </div>
+          </div> */}
         </div>
 
 

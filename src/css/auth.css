@@ -130,7 +130,7 @@
     margin-top: var(--short-margin);
     margin-bottom: var(--short-margin);
 
-    width: calc(80% - var(--short-margin) * 2);
+    width: var(--auth-btn-width);
     height: 3vh;
 
     text-align: center;
@@ -140,7 +140,10 @@
 .more {
     text-align: center;
 
-    margin-top: 2vh;
+    margin-top: 1vh;
+}
+.more p {
+    margin-bottom: 1vh;
 }
 
 .options {

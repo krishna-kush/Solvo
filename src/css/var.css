@@ -150,6 +150,9 @@
 
     --auth-input-cont-height: calc( var(--auth-input-height) + (var(--auth-input-margin-y)*2) );
 
+    --auth-btn-width-percent: 80%;
+    --auth-btn-width: calc(var(--auth-btn-width-percent) - (var(--short-padding)*2));
+
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
