@@ -1,8 +1,8 @@
-import { createUser, checkToken } from '../../API/auth'
+import { gAuth, checkToken } from '../../API/auth'
 import { CREATE, CHECK, UPDATE } from '../../constants/actionTypes'
 
 
-export const updateAuthInput = (data) => {
+export const updateInput = (data) => {
     return (dispatch) => {
         dispatch({
             type: UPDATE,
@@ -11,10 +11,9 @@ export const updateAuthInput = (data) => {
     }
 }
 
-export const userCheck = async (data) => {
+export const google = async (data) => {
 
-    const ans = await checkToken(data);
-    console.log(ans)
+    const ans = await gAuth(data);
 
     return (dispatch) => {
         dispatch({

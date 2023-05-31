@@ -40,7 +40,7 @@ import UserGoogle from '../models/userGoogle.js';
 //     }
 // }
 
-export const checkUser = async (req, res) => {
+export const google = async (req, res) => {
     try {
         const token = req.body.credential;
         const clientId  = req.body.clientId;

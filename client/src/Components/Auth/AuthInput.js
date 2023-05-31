@@ -18,7 +18,7 @@ export default (params) => {
   let name = params.name
 
   let changeData = (what0, what1, to) => {
-    dispatch(actionCreators.updateAuthInput([what0, what1, to]))
+    dispatch(actionCreators.auth.updateInput([what0, what1, to]))
   }
   let textChange = (e) => {
     let name = e.target.name

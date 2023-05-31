@@ -9,10 +9,10 @@ export const createUser = (data) => {
     })
 }
 
-export const checkToken = (data) => {
+export const gAuth = (data) => {
     //get the token from the local storage
     
-    let mdata = Axios.post('http://localhost:5000/auth/check', data)
+    let mdata = Axios.post('http://localhost:5000/auth/google', data)
     .then((res) => {
         // update token or send err
         return res.data

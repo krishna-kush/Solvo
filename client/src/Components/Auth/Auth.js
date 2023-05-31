@@ -38,7 +38,7 @@ export default () => {
       credential: res?.credential,
     }
 
-    let temp = await actionCreators.userCheck(data)
+    let temp = await actionCreators.auth.google(data)
     temp(dispatch);
     // console.log(authData) // this will not work because authData is not updated yet it'll show previous state, but it'll be updated on next rendering of the signIn component...
 

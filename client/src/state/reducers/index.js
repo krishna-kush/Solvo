@@ -5,7 +5,6 @@ import authReducer from "./authReducer";
 const reducers = combineReducers({
     authI: authInputReducer,
     auth: authReducer,
-
 })
 
 export default reducers
