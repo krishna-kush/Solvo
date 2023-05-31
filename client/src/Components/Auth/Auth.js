@@ -11,17 +11,19 @@ import AuthInput from './AuthInput'
 
 export default () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  let [logIn, setLogin] = useState(true)
-  let [authWidth, setAuthWidth] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
+  let data = useSelector((state) => state.authI);
+
+  let [log_in, set_log_in] = useState(true)
+  let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
   
   useEffect(() => {
     centerAuthY()
-  }, [logIn])
+  }, [log_in])
   useEffect(() => {
-    setAuthWidth(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
-    // setAuthWidth(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
+    set_auth_width(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
+    // set_auth_width(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
   }, [])
   
   let centerAuthY = () => {
@@ -30,6 +32,38 @@ export default () => {
     let authHeight = auth.offsetHeight
 
     auth.style.top = `${(authContHeight) - (authContHeight/2) - (authHeight/2)}px`
+  }
+
+  let logIn = async () => {
+    let datatosend = {
+      email: data.email.value,
+      password: data.password.value,
+    }
+    // let reset = actionCreators.auth.resetInput()
+    // dispatch(reset); // this will clear the input fields, for when we reLogin
+
+    // dispatch(actionCreators.auth.resetInput()); // OR
+    actionCreators.auth.resetInput()(dispatch); // this is another way to dispatch in one line, but it'll not work for async functions... like below
+
+    let temp = await actionCreators.auth.logIn(datatosend)
+    temp(dispatch);
+
+    navigate('/')
+  }
+  let signUp = async () => {
+    let datatosend = {
+      email: data.email.value,
+      password: data.password.value,
+      firstName: data.fname.value,
+      lastName: data.lname.value,
+    }
+
+    actionCreators.auth.resetInput()(dispatch)
+
+    let temp = await actionCreators.auth.signUp(datatosend)
+    temp(dispatch);
+
+    navigate('/')
   }
 
   let googleSuccess = async (res) => {
@@ -46,17 +80,17 @@ export default () => {
   }
   let googleFailure = (error) => {
     console.log(error)
-    console.log("failed goog")
+    console.log("failed google auth")
   }
 
   return (
     <div id='auth-container'>
       <div id='auth'>
         <div id='welcome' className='small-box'>
-          {logIn? "Welcome" : "Welcome Again"}
+          {log_in? "Welcome" : "Welcome Again"}
         </div>
 
-        {logIn? <>
+        {log_in? <>
         <div className='inputs'>
           <AuthInput name='email' type='full'/>
           <AuthInput name='password' type='full'/>
@@ -73,13 +107,15 @@ export default () => {
         </div>
 
         <div id='login-button-cont'>
-          <div id='login-btn' className='login-btn small-box'>LogIn</div>
+          <div id='login-btn' className='login-btn small-box'
+          onClick={logIn}
+          >LogIn</div>
         </div>
 
         <div className='more'>
           <p className=''> OR</p>
             <div
-            style={{width: authWidth, margin: "auto",}}
+            style={{width: auth_width, margin: "auto",}}
             >
             <GoogleLogin
               onSuccess={googleSuccess}
@@ -87,7 +123,7 @@ export default () => {
               // cookiePolicy="single_host_origin"
               useOneTap
 
-              width={authWidth}
+              width={auth_width}
               // shape="square"
             />
             </div>
@@ -100,8 +136,8 @@ export default () => {
 
         <div className='not-acc'>
           <a onClick={() => {
-            setLogin(false)
-            // centerAuthY() // FIXED: not working, why?? bcz setLogin will re-render the whole component, but beffore it centerAuthY will run..., so my guess rendering is being done in async way, Solution: use useEffect.
+            set_log_in(false)
+            // centerAuthY() // FIXED: not working, why?? bcz set_log_in will re-render the whole component, but beffore it centerAuthY will run..., so my guess rendering is being done in async way, Solution: use useEffect.
             }} href='#'>Don't have an account? <span>Register</span></a>
         </div>
 
@@ -116,12 +152,14 @@ export default () => {
         </div>
 
         <div id='login-button-cont'>
-          <div className='login-btn small-box'>SignUp</div>
+          <div className='login-btn small-box'
+            onClick={signUp}
+          >SignUp</div>
         </div>
 
         <div className='not-acc'>
           <a onClick={() => {
-            setLogin(true)
+            set_log_in(true)
             }} href='#'>LogIn</a>
         </div>
 

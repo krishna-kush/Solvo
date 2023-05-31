@@ -91,7 +91,10 @@ export default (params) => {
         >
           <p className=''>{getName(name)}</p>
         </div>
-        <input type='text' name={`${name}`}
+        <input
+        type='text'
+        name={`${name}`}
+
         onChange={textChange}
         onFocus={() => {
           moveText(`${name}`, 1)

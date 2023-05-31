@@ -48,7 +48,7 @@ export default () => {
       <div id="user-in-header">
       {user? (
         <>
-        <div style={{display:"inline-block"}}>
+        <div style={{display:"inline-block", marginRight:"10px"}}>
           {user.name}
         </div>
         <button
