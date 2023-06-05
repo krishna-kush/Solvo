@@ -4,6 +4,10 @@ import { CREATE, DELETE, CHECK, LOGOUT } from '../../constants/actionTypes'
 const reducer = (state = { authData: null }, action) => {
     switch (action.type) {
         case CHECK:
+            // if (action.payload.status==404) {
+                
+            //     return { ...state, authData: null }
+            // }
             if (action.payload.source=='gAuth') {
                 let data = {
                     data: { ...action.payload.data }, // how to spread everything but token

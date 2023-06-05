@@ -21,6 +21,13 @@ export const resetInput = () => {
 export const logIn = async (data) => {
     const ans = await checkUser(data);
 
+    if (ans.data.status != 200) { // for status 200 as it's not error, format should be ans.status
+        return {
+            status: ans.data.status,
+            message: ans.data.data.message,
+        }
+    }
+
     return (dispatch) => {
         dispatch({
             type: CHECK,

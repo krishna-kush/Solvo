@@ -38,15 +38,24 @@ export default () => {
     let datatosend = {
       email: data.email.value,
       password: data.password.value,
+      
     }
+    
+    let temp = await actionCreators.auth.logIn(datatosend)
+
+    if (temp.status) {
+      alert(temp.message)
+      return 0
+    }
+
+    temp(dispatch);
+    
+    actionCreators.auth.resetInput()(dispatch); // this is another way to dispatch in one line, but it'll not work for async functions... like below
+    
+    // dispatch(actionCreators.auth.resetInput()); // OR
     // let reset = actionCreators.auth.resetInput()
     // dispatch(reset); // this will clear the input fields, for when we reLogin
 
-    // dispatch(actionCreators.auth.resetInput()); // OR
-    actionCreators.auth.resetInput()(dispatch); // this is another way to dispatch in one line, but it'll not work for async functions... like below
-
-    let temp = await actionCreators.auth.logIn(datatosend)
-    temp(dispatch);
 
     navigate('/')
   }

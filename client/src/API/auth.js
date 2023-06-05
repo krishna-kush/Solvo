@@ -3,8 +3,15 @@ import Axios from 'axios'
 export const checkUser = async (data) => {
     let mdata = await Axios.post('http://localhost:5000/auth/check', data)
     .then((res) => {
-        return res.data
+        return {
+            ...res.data,
+            status: res.status,
+        }
     })
+    .catch((err) => {
+        return err.response
+    })
+
     return {
         source: 'checkUser',    
         data: mdata,
