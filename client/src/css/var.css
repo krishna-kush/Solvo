@@ -16,6 +16,12 @@
     --long-panel-radius: 10px;
     --scroll-width: 5px;
 
+    --x-small-font: 0.7rem;
+    --small-font: 0.8rem;
+    --normal-font: 1rem;
+    --large-font: 1.2rem;
+    --x-large-font: 2rem;
+
 
     --transition-midium: 0.3s;
     --transition-style: ease-out;
@@ -65,14 +71,21 @@
     --feed-padding: 10px;
     --feed-radius: 10px;
 
-    --feed-block-right-margin: 0.5vh;
+    --feed-block-right-margin: 0.3vw;
 
     --feed-height: calc( 100vh - var(--header-height) - (var(--header-margin)*2) - (var(--feed-margin)*1));
     --feed-width: calc( 100vw - (var(--acctual-side-panel-width)*2) );
 
     --feed-block-height: calc( 30vh - (var(--feed-margin)*2) - (var(--feed-padding)*2) );
+    /* --feed-block-height: calc( 30vh - (var(--feed-margin)*2)); */
     --feed-block-width: calc( 100% - (var(--feed-padding)*2) - var(--feed-block-right-margin) );
+
+
+    --id-margin: calc(var(--short-margin));
     
+    --id-height: calc((0.15 * var(--feed-block-height)) - var(--id-margin)); /* 20%(20/100) of feed-block-height */
+
+
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 

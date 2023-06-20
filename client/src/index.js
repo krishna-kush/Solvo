@@ -1,5 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import {
+  React, 
+  // StrictMode
+} from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
@@ -9,15 +12,15 @@ import { store } from './state/state.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
+  // <StrictMode>
+  <Provider store={store}>
       <GoogleOAuthProvider clientId='298447624013-hoh0qifah56cvqh6r10v811i0svmtlp7.apps.googleusercontent.com'>
         <App />
       </GoogleOAuthProvider>
     </Provider>
-  </React.StrictMode>
+  // <StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

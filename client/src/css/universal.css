@@ -2,7 +2,7 @@
     margin: 0px;
     padding: 0px;
 
-    font-size: 1.1vw;
+    font-size: var(--normal-font);
 
     scroll-behavior: smooth;
 
@@ -32,4 +32,11 @@
     background-color: rgb(46, 46, 46);
     
     border-radius: var(--short-radius);
+}
+
+.circle {
+    height: 100%;
+    aspect-ratio: 1;
+
+    border-radius: 50%; /* 50% of height, and both border will make 100% of height, hence a circle */
 }

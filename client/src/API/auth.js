@@ -1,5 +1,17 @@
 import Axios from 'axios'
 
+export const whoMin = async (_id, source) => {
+    let mdata = await Axios.post('http://localhost:5000/auth/who', {_id, source})
+    .then((res) => {
+        // console.log(res);
+        return res.data
+    })
+    return {
+        source: 'whoMin',    
+        data: mdata,
+    }
+}
+
 export const checkUser = async (data) => {
     let mdata = await Axios.post('http://localhost:5000/auth/check', data)
     .then((res) => {

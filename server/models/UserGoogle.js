@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = mongoose.Schema({
     name: String,
     email: String,
-    picture: {
+    photo: {
         type: String,
         default: 0
     },
@@ -13,6 +13,6 @@ const userSchema = mongoose.Schema({
     },
 })
 
-var userGoogle = mongoose.model('userGoogle', userSchema);
+var UserGoogle = mongoose.model('UserGoogle', userSchema);
 
-export default userGoogle;
+export default UserGoogle;

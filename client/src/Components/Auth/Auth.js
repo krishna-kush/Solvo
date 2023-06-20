@@ -38,7 +38,11 @@ export default () => {
     let datatosend = {
       email: data.email.value,
       password: data.password.value,
-      
+    }
+
+    if (datatosend.email === "" || datatosend.password === "") {
+      alert("Please fill all the fields")
+      return 0
     }
     
     let temp = await actionCreators.auth.logIn(datatosend)

@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library'
 
 // import User from '../models/user.js';
-import UserGoogle from '../models/userGoogle.js';
-import User from '../models/user.js';
+import UserGoogle from '../models/UserGoogle.js';
+import User from '../models/User.js';
 
 // export const getUser = async (req, res) => { 
 //     try {
@@ -14,6 +14,33 @@ import User from '../models/user.js';
 //         res.status(404).json({ message: error.message });
 //     }
 // }
+
+export const who = async (req, res) => {
+    try {
+        const { _id, source } = req.body;
+
+        const desiredFields = ['name', 'email', 'photo']
+        let existingUser;
+        
+        if (source==='UserGoogle') {
+            existingUser = await UserGoogle.findOne({ _id })
+            .select(desiredFields.join(' '));
+        } else {
+            existingUser = await User.findOne({ _id })
+            .select(desiredFields.join(' '));
+        }
+
+        res.status(200).json({
+            _id: _id,
+            result: existingUser
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+
+}
 
 export const logIn = async (req, res) => {
     try {

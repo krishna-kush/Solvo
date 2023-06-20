@@ -22,8 +22,8 @@ mongoose.connect(CONNECTION_URL, {
 // Mongoose Setup
 
 
-// import postRoutes from './routes/posts.js';
 import authRoutes from './routes/auth.js';
+import postRoutes from './routes/posts.js';
 
 const server = express();
 const PORT = process.env.PORT || 5000; //env if heroku, it'll populate it automatically...
@@ -36,8 +36,8 @@ server.use(express.json({limit: '50mb'}));
 server.use(express.urlencoded({limit: '50mb'}));
 
 
-// server.use('/posts', postRoutes);
 server.use('/auth', authRoutes);
+server.use('/posts', postRoutes);
 
 
 server.listen(PORT, () =>{

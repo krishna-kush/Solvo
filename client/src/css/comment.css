@@ -1,0 +1,36 @@
+.comment-cont {
+    background-color: rgb(103, 101, 101);
+    padding: var(--short-padding);
+}
+.comment-content {
+    padding-left: calc(var(--id-height) + var(--short-margin));
+}
+.more {
+    padding-left: calc(var(--id-height) + var(--short-margin));
+}
+
+.comment p {
+    text-align: justify;
+}
+
+.interact-comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    margin-top: var(--short-margin);
+}
+.interact-comment-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.interact-comment-child left {
+    margin-right: var(--short-margin);
+}
+/* 
+.space {
+    margin: 0 calc(var(--short-margin));
+} */

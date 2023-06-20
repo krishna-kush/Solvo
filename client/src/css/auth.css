@@ -31,7 +31,7 @@
     margin-top: var(--long-margin);
 }
 
-.circle {
+/* .circle {
     display: inline-block;
 
     width: 20px;
@@ -42,7 +42,7 @@
 
     text-align: center;
     line-height: 20px;
-}
+} */
 
 .inputs {
     width: auto;

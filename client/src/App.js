@@ -20,6 +20,7 @@ import './css/universal.css';
 import './css/header.css';
 import './css/filterPanel.css';
 import './css/feed.css';
+import './css/comment.css';
 import './css/topShow.css';
 import './css/content.css';
 import './css/changer.css';

@@ -19,14 +19,129 @@
     background-color: var(--bar-color);
 
     width: var(--feed-block-width);
-    height: var(--feed-block-height);
+    /* height: var(--feed-block-height); */
+    height: fit-content;
+
+    overflow: hidden;
 
     margin: 0 var(--feed-block-right-margin) var(--feed-margin) 0;
-    padding: var(--feed-padding);
+    padding: var(--feed-padding); /* Width is calculated with padding involve, so commenting it'll affect design, if dont want it set it to zero from var.css */
+    border-radius: var(--feed-radius) var(--feed-radius) 0 0;
     border-radius: var(--feed-radius);
 }
 
 .last-feed {
     margin: 0 var(--feed-block-right-margin) 0 0;
+}
 
+.feed-top {
+    padding: var(--feed-padding);
+}
+
+.id {
+    height: var(--id-height);
+    margin-bottom: var(--id-margin);
+
+    display: flex;
+}
+
+.id-img {
+    background-color: aqua;
+}
+
+.id-details {
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    margin-left: var(--short-margin);
+
+    width: fit-content;
+    height: 100%;
+}
+
+.id-details-top {
+    display: flex;
+}
+.id-date{
+    font-size: var(--small-font);
+    display: flex;
+    align-items: center;
+}
+.id-bottom {
+    
+}
+
+
+.dot {
+    width: 1vw;
+}
+.dot-inner {
+    /* aspect-ratio: 1; */
+    /* height: 50%; */
+    /* width: 50%; */
+    /* width: attr(height); */
+    /* margin: 0 auto; */
+    /* line-height: 100%; */
+
+    /* position: relative;
+    top: 25%; */
+    /* line-height: 100%; */
+
+    /* height: 10px; */
+    /* width: 10px; */
+    
+    /* background-color: white; */
+
+    /* border-radius: 50%; */
+    /* ^ a try for dynamic dot... */
+
+    width: fit-content;
+    margin: auto;
+}
+
+
+.question-bar {
+    margin-top: var(--long-margin);
+}
+.question-bar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.question-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.question-details-child {
+    background-color: rgb(97, 97, 97);
+}
+.answers-count {
+    font-size: var(--x-small-font);
+}
+
+.answers {
+    margin: var(--long-margin) var(--short-margin);
+}
+
+.comment-cont {
+    background-color: rgb(103, 101, 101);
+    padding: var(--short-padding);
+}
+
+.user-answer {
+    width: 100%;
+}
+
+.feed-more {
+    background-color: rgb(148, 160, 160);
+    width: 100%;
+    height: 3vh;
+}
+.feed-more p {
+    margin: auto;
+    text-align: center;
+    line-height: 3vh;
 }

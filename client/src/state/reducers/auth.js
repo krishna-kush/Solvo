@@ -10,20 +10,22 @@ const reducer = (state = { authData: null }, action) => {
             // }
             if (action.payload.source=='gAuth') {
                 let data = {
-                    data: { ...action.payload.data }, // how to spread everything but token
+                    data: { ...action.payload.data, source: 'google', }, // how to spread everything but token
                     token: action.payload.data.token,
+                    
                 }
                 // console.log('check', data, action.payload);
                 localStorage.setItem('profile', JSON.stringify(data.data))
-                return { ...state, authData: data.data, token: data.token }
+                return { ...state, authData: data.data, token: data.token, source: 'google' }
             } else if (action.payload.source=='createUser' || action.payload.source=='checkUser') {
                 let data = {
-                    data: { ...action.payload.data.result }, // how to spread everything but token
+                    data: { ...action.payload.data.result, source: 'own', }, // how to spread everything but token
                     token: action.payload.data.token,
+                    
                 }
                 localStorage.setItem('profile', JSON.stringify(data.data))
                 localStorage.setItem('token', JSON.stringify(data.token))
-                return { ...state, authData: data.data, token: data.token }
+                return { ...state, authData: data.data, token: data.token, source: 'own' }
             }
         case LOGOUT:
             localStorage.clear()
