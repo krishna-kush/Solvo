@@ -19,8 +19,9 @@ const Comments = (params) => {
   let [showReplyBox, setShowReplyBox] = useState(false)
   let [reply, setReply] = useState('')
 
-  let upComment = () => {
-    actionCreators.comment.upComment(reply, params._id, profile._id, profile.source)
+  let upComment = async () => {
+    let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
+    dispatch(temp)
   }
 
   let showReplies = async (_id, child_ids, post_id) => {

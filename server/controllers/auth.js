@@ -17,7 +17,7 @@ import User from '../models/User.js';
 
 export const who = async (req, res) => {
     try {
-        const { _id, source } = req.body;
+        let { _id, source } = req.body;
 
         const desiredFields = ['name', 'email', 'photo']
         let existingUser;

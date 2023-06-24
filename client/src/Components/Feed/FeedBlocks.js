@@ -1,12 +1,13 @@
 import { React, useState, useEffect} from 'react'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Id from './Id'
 import Comments from './Comments'
 import { actionCreators } from '../../state'
 
 export default (params) => {
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   let a = document.getElementsByClassName(`dot-inner`)[0].style.height 
@@ -18,8 +19,11 @@ export default (params) => {
   // console.log(data);
 
   let [ans, setAns] = useState('')
-  let upAnswer = () => {
-    actionCreators.post.upAnswer(ans, data._id, profile._id, profile.source)
+  let upAnswer = async (firstToAns) => {
+    const temp = await actionCreators.post.upAnswer(ans, data._id, profile._id, profile.source, params.id)
+    dispatch(temp)
+
+    if (firstToAns) {setShowComments(true)}
   }
 
   let [showComments, setShowComments] = useState(false)
@@ -41,7 +45,7 @@ export default (params) => {
   }
 
   let firstToAns = () => {
-    if (data?.ans) return `Write your answer...`
+    if (data?.answers.length) return `Write your answer...`
     return `Be the first to answer...`
   }
 
@@ -106,9 +110,9 @@ export default (params) => {
           placeholder={firstToAns()}
           onChange={(e) => {setAns(e.target.value)}}/>
 
-          <div
-          onClick={upAnswer}
-          >Submit</div>
+          <button
+          onClick={() => {upAnswer(data?.answers.length?false:true)}}
+          >Submit</button>
         </div>
       </div>
 

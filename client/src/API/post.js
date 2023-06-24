@@ -9,21 +9,14 @@ export const createPost = async (data) => {
         return err.response
     })
 
-    console.log(mdata);
-
     return {
         source: 'create',    
-        data: mdata,
+        data: mdata.data.result,
     }
 }
 
 export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/upAnswer', {
-        ans: ans,
-        post_id: post_id,
-        user_id: user_id,
-        user_source: user_source,
-    })
+    let mdata = await Axios.post('http://localhost:5000/posts/upAnswer', { ans, post_id, user_id, user_source})
     .then((res) => {
         return res
     })
@@ -33,7 +26,7 @@ export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
 
     return {
         source: 'upAnswer',    
-        data: mdata,
+        data: mdata.data.result,
     }
 }
 

@@ -11,11 +11,17 @@ const Comments = (params) => {
   let renderComments = (data) => {
     const comment = <><Comment _id={data._id} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike}/></>
 
-    if (data.childComments.length && (typeof data.childComments[0] != 'string') ) {
+    let removeStringsFromArray = (arr) => {
+      return arr.filter(item => typeof item !== 'string');
+    }
+
+    let childComments = removeStringsFromArray(data.childComments)
+
+    if (childComments.length) {
       return (
         <>
         {comment}
-        {data.childComments.map((data, i) => {
+        {childComments.map((data, i) => {
           return (
             <React.Fragment key={i}>
             {renderComments(data)}

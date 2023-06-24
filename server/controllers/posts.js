@@ -8,8 +8,8 @@ import UserGoogle from '../models/UserGoogle.js';
 export const create = async (req, res) => {
     try {
         let { question, _id, source } = req.body;
-        console.log(question, _id);
-        console.log(typeof _id, _id);
+        // console.log(question, _id);
+        // console.log(typeof _id, _id);
         if (source=='google') {
             source = 'UserGoogle';
         } else if (source=='own') {
@@ -26,8 +26,11 @@ export const create = async (req, res) => {
         .catch((err) => {
             console.log(err);
         })
+        const populatedPost = await post.populate('creator')
 
-        console.log(post);
+        console.log(populatedPost);
+
+        res.status(200).json({ result: populatedPost });
 
     }
     catch (error) {
@@ -52,6 +55,7 @@ export const upAnswer = async (req, res) => {
             creator: user_id,
             creatorRefModel: user_source
         })
+        const populatedComment = await comment.populate('creator')
         console.log(comment);
 
         await Post.findOneAndUpdate({
@@ -67,6 +71,7 @@ export const upAnswer = async (req, res) => {
 
         // console.log(existingPost); // this will be post before update
 
+        res.status(200).json({ result: populatedComment, message: "Answer added successfully" });
     }
     catch (error) {
         console.log(error);
@@ -90,6 +95,7 @@ export const upComment = async (req, res) => {
             creator: user_id,
             creatorRefModel: user_source
         })
+        const populatedComment = await comment.populate('creator')
         console.log(comment);
 
         await Comment.findOneAndUpdate({
@@ -104,7 +110,7 @@ export const upComment = async (req, res) => {
         })
 
         // console.log(existingPost); // this will be post before update
-
+        res.status(200).json({result: populatedComment})
     }
     catch (error) {
         console.log(error);

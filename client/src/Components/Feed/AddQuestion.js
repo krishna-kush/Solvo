@@ -1,23 +1,25 @@
 import { React, useState } from 'react'
 
+import { useDispatch } from 'react-redux'
+
 import { actionCreators } from '../../state'
 
 import Id from './Id'
 
 const AddQuestion = () => {
+  const dispatch = useDispatch();
 
   let [data, setData] = useState('')
 
   let profile = JSON.parse(localStorage.getItem('profile'))
 
-  let post = () => {
-    actionCreators.post.create({
+  let post = async () => {
+    const temp = await actionCreators.post.create({
       question: data,
       _id: profile._id,
       source: profile.source,
     })
-
-    // setData('') // from dispatch
+    dispatch(temp)
   }
 
   let textChange = (e) => {

@@ -1,24 +1,26 @@
 import { createPost, getAllPost, upAnswerPost } from "../../API/post"
 
-import { SET_POST } from "../../constants/actionTypes"
+import { SET_POST, ADD_POST, ADD_ANSWER } from "../../constants/actionTypes"
 
 export const create = async (data) => {
     let res = await createPost(data)
-    
-    console.log(res);
-    
-    // return (dispatch) => {
-    //     dispatch({
-    //         type: 'CREATE_POST',
-    //         payload: ans
-    //     })
-    // }
+        
+    return (dispatch) => {
+        dispatch({
+            type: ADD_POST,
+            payload: res
+        })
+    }
 }
 
-export const upAnswer = async (ans, post_id, user_id, user_source) => {
+export const upAnswer = async (ans, post_id, user_id, user_source, post_no) => {
     let res = await upAnswerPost(ans, post_id, user_id, user_source)
-
-    console.log(res);
+    return (dispatch) => {
+        dispatch({
+            type: ADD_ANSWER,
+            payload: {data: res.data, post_no}
+        })
+    }  
 }
 
 export const getAll = async (data) => {
