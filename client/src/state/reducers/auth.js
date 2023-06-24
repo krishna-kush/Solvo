@@ -1,9 +1,9 @@
-import { CREATE, DELETE, CHECK, LOGOUT } from '../../constants/actionTypes'
+import { LOG, LOGOUT } from '../../constants/actionTypes'
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = { authData: null }, action) => {
     switch (action.type) {
-        case CHECK:
+        case LOG:
             // if (action.payload.status==404) {
                 
             //     return { ...state, authData: null }

@@ -22,6 +22,12 @@ export const who = async (req, res) => {
         const desiredFields = ['name', 'email', 'photo']
         let existingUser;
         
+        if (source=='google') {
+            source = 'UserGoogle';
+        } else if (source=='own') {
+            source = 'User';
+        }
+        
         if (source==='UserGoogle') {
             existingUser = await UserGoogle.findOne({ _id })
             .select(desiredFields.join(' '));

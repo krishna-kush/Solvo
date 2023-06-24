@@ -1,5 +1,5 @@
 // import { createUser } from '../../API/auth'
-import { UPDATE, CLEAR, RESET } from '../../constants/actionTypes'
+import { UPDATE_INPUT, RESET_INPUT } from '../../constants/actionTypes'
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = {
@@ -11,14 +11,14 @@ const reducer = (state = {
   }, action) => {
     
     switch (action.type) {
-        case UPDATE:
+        case UPDATE_INPUT:
             return { 
                 ...state,
                 [action.payload[0]]: {
                     ...state[action.payload[0]],
                     [action.payload[1]]: action.payload[2]
                 }}
-        case RESET:
+        case RESET_INPUT:
             return {
                 email: {value: '', focus: false},
                 password: {value: '', focus: false},

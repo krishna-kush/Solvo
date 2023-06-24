@@ -73,6 +73,44 @@ export const upAnswer = async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
+export const upComment = async (req, res) => {
+    try {
+        let { comment_text, parent_comment_id, user_id, user_source } = req.body;
+        // console.log(ans, post_id, user_id);
+
+        if (user_source=='google') {
+            user_source = 'UserGoogle';
+        } else if (user_source=='own') {
+            user_source = 'User';
+        }
+
+        const comment = await Comment.create({
+            _id: new mongoose.Types.ObjectId(),
+            comment: comment_text,
+            creator: user_id,
+            creatorRefModel: user_source
+        })
+        console.log(comment);
+
+        await Comment.findOneAndUpdate({
+            _id: parent_comment_id,
+        }, {
+            $push: {
+                childComments: comment._id,
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+        // console.log(existingPost); // this will be post before update
+
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
 
 export const getAll = async (req, res) => {
     try {
@@ -113,33 +151,13 @@ export const getAll = async (req, res) => {
     }
 }
 
-export const getComments = async (req, res) => {
+export const getComment = async (req, res) => {
     try {
-        // const { email, password } = req.body;
-        
-        console.log('done');
-        let a = await Comment.findOne({
-            _id : "64813e8ef2356b84d0049966"
-        })
-        let b = await Comment.findOne({
-            _id : "648144edc88ebc1d8f2eb8df"
-        })
-        let c = await Comment.findOne({
-            _id : "6481450535cf67b6e09ee08a"
-        })
-        // console.log('a', a);
-        // console.log('done');
+        const comment = await Comment.find({_id: req.body._id}).populate('creator')
 
-        const existingUser = await Comment.create({
-            comment: "Comment",
-            creator: "Creator",
-
-            childComments: [a._id, b._id, c],
-        });
-        console.log(existingUser);
-        console.log('done');
-        
-    } catch (error) {
+        res.status(200).json({result: comment})
+    }
+    catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong" });
     }

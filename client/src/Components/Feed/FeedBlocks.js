@@ -22,6 +22,16 @@ export default (params) => {
     actionCreators.post.upAnswer(ans, data._id, profile._id, profile.source)
   }
 
+  let [showComments, setShowComments] = useState(false)
+
+  let toggle = (value, setValue) => {
+    if (value===false) {
+      setValue(true)
+    } else {
+      setValue(false)
+    }
+  }
+
   let setClass = (if_last) => {
     if (if_last) {
       return "feed-block last-feed"
@@ -70,13 +80,25 @@ export default (params) => {
           </div>
         </div>
 
-        <div className="answers">
-          <div className="answer">
-            {/* {data.ans.map((ans, index) => { */}
-              <Comments id={params.id}/>
-            {/* }} */}
+        {data.answers.length ? (
+          <button id='if-comments'
+          onClick={() => {toggle(showComments, setShowComments)}}
+          >
+            Show Answers
+          </button>
+        ) : (<></>)
+        }
+
+        {showComments? (
+          <div className="answers">
+            <div className="answer">
+              {/* {data.ans.map((ans, index) => { */}
+                <Comments id={params.id}/>
+              {/* }} */}
+            </div>
           </div>
-        </div>
+
+        ) : (<></>)}
 
         <div className="user-answer">
           <input 

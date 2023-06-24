@@ -1,11 +1,11 @@
 import { whoMin, gAuth, createUser, checkUser } from '../../API/auth'
-import { CHECK, UPDATE, RESET } from '../../constants/actionTypes'
+import { LOG, UPDATE_INPUT, RESET_INPUT, ADD_ID } from '../../constants/actionTypes'
 
 
 export const updateInput = (data) => {
     return (dispatch) => {
         dispatch({
-            type: UPDATE,
+            type: UPDATE_INPUT,
             payload: data
         })
     }
@@ -13,7 +13,7 @@ export const updateInput = (data) => {
 export const resetInput = () => {
     return (dispatch) => {
         dispatch({
-            type: RESET,
+            type: RESET_INPUT,
         })
     }
 }
@@ -23,7 +23,7 @@ export const whoAdd = async (_id, source) => {
 
     return (dispatch) => {
         dispatch({
-            type: 'ADD_ID',
+            type: ADD_ID,
             payload: ans.data
         })
     }
@@ -41,7 +41,7 @@ export const logIn = async (data) => {
 
     return (dispatch) => {
         dispatch({
-            type: CHECK,
+            type: LOG,
             payload: ans
         })
     }
@@ -51,7 +51,7 @@ export const signUp = async (data) => {
 
     return (dispatch) => {
         dispatch({
-            type: CHECK,
+            type: LOG,
             payload: ans
         })
     }
@@ -62,7 +62,7 @@ export const google = async (data) => {
 
     return (dispatch) => {
         dispatch({
-            type: CHECK,
+            type: LOG,
             payload: ans
         })
     }

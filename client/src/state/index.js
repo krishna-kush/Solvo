@@ -1,28 +1,29 @@
 // export * as actionCreators from './action-creaters/index.js'
 
 import { updateInput, resetInput, whoAdd, google, logIn, signUp } from './action-creaters/auth.js'
-import { comment } from './action-creaters/comments.js'
+import { showComments, upComment } from './action-creaters/comments.js'
 import { create, upAnswer, getAll } from './action-creaters/post.js'
 
 const actionCreators = {
     auth: {
         updateInput: updateInput,
-        resetInput: resetInput,
+        resetInput,
 
         whoAdd,
         
-        google: google,
-        signUp: signUp,
-        logIn: logIn,
+        google,
+        signUp,
+        logIn,
     },
 
     comment: {
-        getComment: comment,
+        showComments,
+        upComment,
     },
 
     post: {
-        create: create,
-        upAnswer: upAnswer,
+        create,
+        upAnswer,
         getAll,
     },
 }

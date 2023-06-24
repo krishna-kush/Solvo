@@ -36,7 +36,7 @@ export default () => {
     <div id="feed">
 
       <div className="ad-ques-cont">
-        {/* <AddQuestion/> */}
+        <AddQuestion/>
       </div>
 
       <div className="feed-blocks-cont">

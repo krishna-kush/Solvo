@@ -8,18 +8,9 @@ const AddQuestion = () => {
 
   let [data, setData] = useState('')
 
-  let textChange = (e) => {
-    // let name = e.target.name
-    let value = e.target.value
-
-    setData(value)
-
-    // changeData(name, 'value', value)
-  }
+  let profile = JSON.parse(localStorage.getItem('profile'))
 
   let post = () => {
-    let profile = JSON.parse(localStorage.getItem('profile'))
-
     actionCreators.post.create({
       question: data,
       _id: profile._id,
@@ -29,10 +20,25 @@ const AddQuestion = () => {
     // setData('') // from dispatch
   }
 
+  let textChange = (e) => {
+    // let name = e.target.name
+    let value = e.target.value
+
+    setData(value)
+
+    // changeData(name, 'value', value)
+  }
+
+  if (!profile) {
+    return (
+      <div>Loding...</div>
+    )
+  }
+
   return (
     <div className='feed-block'>
       <div className='feed-top'>
-        <Id id={0} full={true}/>
+        <Id _id={profile._id} source={profile.source} full={true}/>
 
         <input 
         onChange={textChange}

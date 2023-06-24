@@ -1,6 +1,6 @@
-import React from 'react'
+import { React, useState} from 'react'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as share } from '@fortawesome/free-solid-svg-icons'
@@ -10,27 +10,48 @@ import { actionCreators } from '../../state/index'
 import Id from './Id'
 
 const Comments = (params) => {
-  let get = () => {
-    actionCreators.comment.getComment()
-  }
+  const dispatch = useDispatch();
 
-  let data = useSelector((state) => state.post[params.id].answers[params.index]);
+  // let data = useSelector((state) => state.post[params.id].answers[params.index]);
   // console.log(data);
+  let profile = JSON.parse(localStorage.getItem('profile'))
 
+  let [showReplyBox, setShowReplyBox] = useState(false)
+  let [reply, setReply] = useState('')
 
-  if (!data) {
-    return (
-      <div>Loding...</div>
-    )
+  let upComment = () => {
+    actionCreators.comment.upComment(reply, params._id, profile._id, profile.source)
   }
+
+  let showReplies = async (_id, child_ids, post_id) => {
+    let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
+    dispatch(temp)
+  }
+  
+  let toggle = (value, setValue) => {
+    if (value===false) {
+      setValue(true)
+    } else {
+      setValue(false)
+    }
+  }
+  
+
+  // if (!data) {
+  //   return (
+  //     <div>Loding...</div>
+  //   )
+  // }
 
   return (
-    <div className="comment-cont">
-      <Id _id={data.creator._id} source={data.creatorRefModel} full={false}/>
+    <div className="comment-cont"
+    style={{}}>
+      {/* side width for indentation calc */}
+      <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
 
       <div className='comment-content'>
         <div className="comment">
-          {data.comment}
+          {params.comment}
         </div>
 
         <div className='interact-comment'>
@@ -39,7 +60,7 @@ const Comments = (params) => {
               <FontAwesomeIcon icon={faArrowUp} />
             </left>
             <div>
-              {data.like.count}
+              {params.like.count}
             </div>
           </div>
           <div className='interact-comment-child downvote'>
@@ -47,7 +68,7 @@ const Comments = (params) => {
               <FontAwesomeIcon icon={faArrowDown} />
             </left>
             <div>
-            {data.dislike.count}
+            {params.dislike.count}
             </div>
           </div>
           <div className='interact-comment-child comment-count'>
@@ -67,56 +88,22 @@ const Comments = (params) => {
             </div>
           </div>
         </div>
+
+        {params.childComments.length? (
+          <button onClick={() => {showReplies(params._id, params.childComments, params.post_id)}}>
+            Show Replies
+          </button>
+        ) : (<></>)}
+        <button onClick={() => {toggle(showReplyBox, setShowReplyBox)}}>
+          Replie
+        </button>
+        {showReplyBox? (
+          <>
+          <input onChange={(e) => {setReply(e.target.value)}}/>
+          <button onClick={upComment}>Send</button>
+          </>
+        ) : (<></>)}
       </div>
-
-      {/* <div className='more'>
-          <div className="comment-cont">
-          <Id id={params.id} full={false}/>
-
-          <div className='comment-content'>
-            <div className="comment">
-              <p>{params.ans}</p>
-            </div>
-
-            <div className='interact-comment'>
-              <div className='interact-comment-child upvote'>
-                <left className='icon'>
-                  <FontAwesomeIcon icon={faArrowUp} />
-                </left>
-                <div>
-                  20k
-                </div>
-              </div>
-              <div className='interact-comment-child downvote'>
-                <left className='icon'>
-                  <FontAwesomeIcon icon={faArrowDown} />
-                </left>
-                <div>
-                  10k
-                </div>
-              </div>
-              <div className='interact-comment-child comment-count'>
-                <left className='icon'>
-                  <FontAwesomeIcon icon={faComment} />
-                </left>
-                <div>
-                  1.5k
-                </div>
-              </div>
-              <div className='interact-comment-child share'>
-                <left className='icon'>
-                  <FontAwesomeIcon icon={share} />
-                </left>
-                <div>
-                  0.5k
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-      </div> */}
-
-      <div onClick={get}>get</div>
     </div>
   )
 }
