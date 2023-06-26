@@ -40,3 +40,10 @@
 
     border-radius: 50%; /* 50% of height, and both border will make 100% of height, hence a circle */
 }
+
+/* .img {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+} */

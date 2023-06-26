@@ -61,6 +61,7 @@ export default (params) => {
     className={data?.last?setClass(1):setClass(0)}>
 
       <div className='feed-top'>
+        {/* console.log(data.creator); */}
         <Id _id={data.creator._id} source={data.creatorRefModel} full={true}/>
 
         <div className="question-bar">

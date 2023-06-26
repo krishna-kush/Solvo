@@ -16,7 +16,7 @@ const Comments = (params) => {
   // console.log(data);
   let profile = JSON.parse(localStorage.getItem('profile'))
 
-  let [showReplyBox, setShowReplyBox] = useState(false)
+  let [showReplyInputBox, setShowReplyInputBox] = useState(false)
   let [reply, setReply] = useState('')
 
   let upComment = async () => {
@@ -108,10 +108,10 @@ const Comments = (params) => {
             Show Replies
           </button>
         ) : (<></>)}
-        <button onClick={() => {toggle(showReplyBox, setShowReplyBox)}}>
+        <button onClick={() => {toggle(showReplyInputBox, setShowReplyInputBox)}}>
           Replie
         </button>
-        {showReplyBox? (
+        {showReplyInputBox? (
           <>
           <input onChange={(e) => {setReply(e.target.value)}}/>
           <button onClick={upComment}>Send</button>

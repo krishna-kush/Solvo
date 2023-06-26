@@ -122,7 +122,7 @@ export const google = async (req, res) => {
             const data = {
                 name: name,
                 email: email,
-                picture: picture,
+                photo: picture,
             }
             UserGoogle.create(data)
             

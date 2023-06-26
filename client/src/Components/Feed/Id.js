@@ -8,6 +8,7 @@ const Id = (params) => {
   const dispatch = useDispatch()
 
   let creator = useSelector((state) => {return state.ids[params._id]})
+  // console.log(creator);
 
   let upId = async () => {
     if (!creator) {
@@ -25,7 +26,9 @@ const Id = (params) => {
 
   return (
     <div className="id">
-      <div className="id-img circle">
+      {/* <div className="id-img circle"> */}
+      <div>
+        <img className="id-img circle" src={creator.photo} />
       </div>
       <div className="id-details">
         <div className="id-details-top">

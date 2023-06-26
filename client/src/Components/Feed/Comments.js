@@ -6,11 +6,11 @@ import Comment from './Comment'
 
 const Comments = (params) => {
 
-  let [count, setCount] = useState(0)
+  let count = 0
 
   let data = useSelector((state) => state.post[params.id].answers);
 
-  let renderComments = (data) => {
+  let renderComments = (data, count) => {
     const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike}/></>}
 
     let removeStringsFromArray = (arr) => {
@@ -21,14 +21,15 @@ const Comments = (params) => {
 
     if (childComments.length) {
       // count++
+      // setCount((prevCount) => prevCount + 1) // Incrementing Count, inside a func. otherwise it'll also print value of count in html. The increment in count is comming after render of parent comment. */}
       return (
         <>
         {comment(count)}
-        {(() => {count++})()} {/* Incrementing Count, inside a func. otherwise it'll also print value of count in html. The increment in count is comming after render of parent comment. */}
+        {(() => {count++})()}
         {childComments.map((data, i) => {
           return (
             <React.Fragment key={i}>
-            {renderComments(data)}
+            {renderComments(data, count)}
             </React.Fragment>
           )
         })}
@@ -51,7 +52,7 @@ const Comments = (params) => {
       return (
       <React.Fragment key={i}>
       {/* // to compile html without div */}
-      {renderComments(data)}
+      {renderComments(data, count)}
       </React.Fragment>
       )
     })}
