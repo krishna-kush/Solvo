@@ -36,6 +36,14 @@ const Comments = (params) => {
       setValue(false)
     }
   }
+
+  let paddingLeft = (iter) => {
+    const element = document.getElementsByClassName('comment-content')[0];
+    const computedStyle = window.getComputedStyle(element);
+    let propertyValue = computedStyle.getPropertyValue('padding-left');
+
+    return parseFloat(propertyValue)*iter
+  }
   
 
   // if (!data) {
@@ -46,8 +54,13 @@ const Comments = (params) => {
 
   return (
     <div className="comment-cont"
-    style={{}}>
-      {/* side width for indentation calc */}
+    style={(() => {
+      if (params.iter===0) {
+        return {}
+      } else {
+        return {paddingLeft: paddingLeft(params.iter)}
+      }
+    })()}>
       <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
 
       <div className='comment-content'>

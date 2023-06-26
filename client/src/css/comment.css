@@ -3,10 +3,10 @@
     padding: var(--short-padding);
 }
 .comment-content {
-    padding-left: calc(var(--id-height) + var(--short-margin));
+    padding-left: var(--comment-padding);
 }
 .more {
-    padding-left: calc(var(--id-height) + var(--short-margin));
+    padding-left: var(--comment-padding);
 }
 
 .comment p {

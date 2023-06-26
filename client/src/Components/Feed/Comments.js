@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -6,10 +6,12 @@ import Comment from './Comment'
 
 const Comments = (params) => {
 
+  let [count, setCount] = useState(0)
+
   let data = useSelector((state) => state.post[params.id].answers);
 
   let renderComments = (data) => {
-    const comment = <><Comment _id={data._id} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike}/></>
+    const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike}/></>}
 
     let removeStringsFromArray = (arr) => {
       return arr.filter(item => typeof item !== 'string');
@@ -18,9 +20,11 @@ const Comments = (params) => {
     let childComments = removeStringsFromArray(data.childComments)
 
     if (childComments.length) {
+      // count++
       return (
         <>
-        {comment}
+        {comment(count)}
+        {(() => {count++})()} {/* Incrementing Count, inside a func. otherwise it'll also print value of count in html. The increment in count is comming after render of parent comment. */}
         {childComments.map((data, i) => {
           return (
             <React.Fragment key={i}>
@@ -31,7 +35,7 @@ const Comments = (params) => {
         </>
       )
     }
-    return comment
+    return comment(count)
   }
 
 
