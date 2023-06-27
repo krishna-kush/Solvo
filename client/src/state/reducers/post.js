@@ -82,13 +82,14 @@ const reducer = (state = [], action) => {
                         ) {
                         return {
                         ...item,
-                        childComments: search(item.childComments, key, value),
+                        childComments: search(item.childComments, key, value, what),
                         };
                     } else {
                         return item;
                     }
                 });
             };
+            // console.log(state);
             
             let updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
@@ -100,6 +101,7 @@ const reducer = (state = [], action) => {
                 return post;
                 }
             });
+            // console.log(updatedState);
 
             return updatedState;
         }

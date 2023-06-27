@@ -123,12 +123,19 @@
 }
 
 .answers {
+    background-color: rgb(103, 101, 101);
     margin: var(--long-margin) var(--short-margin);
+
+    overflow: auto; /* contribute to scroll in y feature when overflooded by comments */
+    width: auto;
+
 }
 
 .comment-cont {
-    background-color: rgb(103, 101, 101);
+    /* background-color: rgb(103, 101, 101); */
     padding: var(--short-padding);
+
+    width: fit-content; /* contribute to scroll in y feature when overflooded by comments */
 }
 
 .user-answer {

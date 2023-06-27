@@ -18,7 +18,7 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 100%;
+    width: fit-content;
 
     margin-top: var(--short-margin);
 }
@@ -26,6 +26,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    margin-right: calc(var(--short-margin)*5);
 }
 .interact-comment-child left {
     margin-right: var(--short-margin);
