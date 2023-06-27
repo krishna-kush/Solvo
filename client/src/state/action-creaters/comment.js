@@ -39,7 +39,7 @@ export const increment = async (what, comment_id, user_id, user_source, post_id)
             dispatch({
                 type: 'INCREMENT',
                 source: 'increment',
-                payload: {comment_id, post_id, what}
+                payload: {comment_id, post_id, what, inc: res.data.data.found? -1 : 1}
             })
         }
     }

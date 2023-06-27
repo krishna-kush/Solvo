@@ -120,6 +120,7 @@ export const upComment = async (req, res) => {
 export const increment = async (req, res) => {
     try {
         let { what, comment_id, user_id, user_source } = req.body;
+        // console.log(user_id, user_source, `${what}.ids`);
 
         if (user_source=='google') {
             user_source = 'UserGoogle';
@@ -127,19 +128,37 @@ export const increment = async (req, res) => {
             user_source = 'User';
         }
 
-        await Comment.findOneAndUpdate({
-            _id: comment_id,
-        }, {
-            $push: { [`${what}.ids`]: user_id },
-            $push: { [`${what}.${what}RefModel`]: user_source }, // Replace 'User' with the appropriate value
-            $inc: { [`${what}.count`]: 1 },
-        },)
-        .catch((err) => {
-            console.log(err);
-        })
+        let found = true;
 
-        // console.log(existingPost); // this will be post before update
-        res.status(200).json({})
+
+        let existingPost = await Comment.findOneAndUpdate(
+        {
+            _id: comment_id,
+            [`${what}.ids`]: user_id
+        },
+        {
+            $pull: { [`${what}.ids`]: user_id }, // it'll remove all the ids with value user_id
+            $inc: { [`${what}.count`]: -1 }
+        },
+        { new: true }
+        );
+        
+        if (!existingPost) {
+        found = false;
+        existingPost = await Comment.findOneAndUpdate(
+            { _id: comment_id },
+            {
+            $addToSet: {
+                [`${what}.ids`]: user_id,
+                [`${what}.${what}RefModel`]: user_source
+            },
+            $inc: { [`${what}.count`]: 1 }
+            },
+            { new: true }
+        );
+        }
+          
+        res.status(200).json({found: found})
     }
     catch (error) {
         console.log(error);

@@ -81,7 +81,16 @@ export default (params) => {
           </div>
 
           <div className="answers-count">
-            7k answers
+            {(() => {
+              let count = data.answers.length
+              if (count===0) {
+                return 'Not Answered'
+              } else if (count===1) {
+                return '1 Answer'
+              } else {
+                return `${count} Answers`
+              }
+            })()}
           </div>
         </div>
 

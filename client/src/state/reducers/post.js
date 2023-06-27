@@ -71,10 +71,10 @@ const reducer = (state = [], action) => {
         }
 
         case 'INCREMENT': {
-            let search = (list, key, value, what) => {
+            let search = (list, key, value, what, inc) => {
                 return list.map((item) => {
                     if (item[key] === value) {
-                        return { ...item, [what]: { ...item[what], count: item[what].count + 1 } };
+                        return { ...item, [what]: { ...item[what], count: item[what].count + inc } };
                     } else if (
                         item.childComments &&
                         Array.isArray(item.childComments) &&
@@ -82,7 +82,7 @@ const reducer = (state = [], action) => {
                         ) {
                         return {
                         ...item,
-                        childComments: search(item.childComments, key, value, what),
+                        childComments: search(item.childComments, key, value, what, inc),
                         };
                     } else {
                         return item;
@@ -95,7 +95,7 @@ const reducer = (state = [], action) => {
                 if (index === action.payload.post_id) {
                 return {
                     ...post,
-                    answers: search(post.answers, '_id', action.payload.comment_id, action.payload.what),
+                    answers: search(post.answers, '_id', action.payload.comment_id, action.payload.what, action.payload.inc),
                 };
                 } else {
                 return post;
