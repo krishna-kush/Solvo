@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
-export const getComment = async (_id) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/comment', {_id})
+let basic = async (url, parameters={}, source) => {
+    let mdata = await Axios.post(url, parameters)
     .then((res) => {
         return res
     })
@@ -10,22 +10,20 @@ export const getComment = async (_id) => {
     })
 
     return {
-        source: 'getComment',    
+        source: source,    
         data: mdata,
     }
+}
+
+export const getComment = async (_id) => {
+    return await basic('http://localhost:5000/posts/comment', {_id}, 'getComment')
 }
 
 export const upCommentBasic = async (comment_text, parent_comment_id, user_id, user_source) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/upComment', {comment_text, parent_comment_id, user_id, user_source})
-    .then((res) => {
-        return res
-    })
-    .catch((err) => {
-        return err.response
-    })
-
-    return {
-        source: 'upComment',    
-        data: mdata,
-    }
+    return await basic('http://localhost:5000/posts/upComment', {comment_text, parent_comment_id, user_id, user_source}, 'upComment')
 }
+
+export const incrementComment = async (what, comment_id, user_id, user_source) => {
+    return await basic('http://localhost:5000/posts/increment', {what, comment_id, user_id, user_source}, 'increment')
+}
+ 

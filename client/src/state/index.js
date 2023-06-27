@@ -1,7 +1,7 @@
 // export * as actionCreators from './action-creaters/index.js'
 
 import { updateInput, resetInput, whoAdd, google, logIn, signUp } from './action-creaters/auth.js'
-import { showComments, upComment } from './action-creaters/comment.js'
+import { showComments, upComment, increment } from './action-creaters/comment.js'
 import { create, upAnswer, getAll } from './action-creaters/post.js'
 
 const actionCreators = {
@@ -19,6 +19,8 @@ const actionCreators = {
     comment: {
         showComments,
         upComment,
+        
+        increment,
     },
 
     post: {

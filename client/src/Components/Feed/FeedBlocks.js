@@ -3,7 +3,7 @@ import { React, useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Id from './Id'
-import Comments from './Comments'
+import Comments from './Comments/Comments'
 import { actionCreators } from '../../state'
 
 export default (params) => {

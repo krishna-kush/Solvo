@@ -9,9 +9,10 @@ const Comments = (params) => {
   let count = 0
 
   let data = useSelector((state) => state.post[params.id].answers);
+  // console.log(data[0].like.count);
 
   let renderComments = (data, count) => {
-    const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike}/></>}
+    const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share}/></>}
 
     let removeStringsFromArray = (arr) => {
       return arr.filter(item => typeof item !== 'string');

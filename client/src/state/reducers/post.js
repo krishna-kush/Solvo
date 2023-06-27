@@ -13,13 +13,14 @@ const reducer = (state = [], action) => {
 
             return data
 
-        case ADD_POST:
-            let updatedStatePost = [action.payload.data, ...state]
+        case ADD_POST: { // This creats a new block, so we can name updatedState or some other variable again and again and limit it's scope, which was earlier without it not possible. Scope creation do happen in if blocks, maybe case representation of if does not do that...
+            let updatedState = [action.payload.data, ...state]
 
-            return updatedStatePost
+            return updatedState
+        }
 
-        case ADD_ANSWER:
-            let updatedStateAnswer = state.map((post, index) => {
+        case ADD_ANSWER: {
+            let updatedState = state.map((post, index) => {
                 if (index === action.payload.post_no) {
                     return {
                         ...post,
@@ -30,9 +31,10 @@ const reducer = (state = [], action) => {
                 }
             })
 
-            return updatedStateAnswer
+            return updatedState
+        }
 
-        case ADD_CHILD_COMMENTS:
+        case ADD_CHILD_COMMENTS: {
             let search = (list, key, value, new_value) => {
                 return list.map((item) => {
                     if (item[key] === value) {
@@ -66,6 +68,42 @@ const reducer = (state = [], action) => {
                 }
             });
             return updatedState;
+        }
+
+        case 'INCREMENT': {
+            let search = (list, key, value, what) => {
+                return list.map((item) => {
+                    if (item[key] === value) {
+                        return { ...item, [what]: { ...item[what], count: item[what].count + 1 } };
+                    } else if (
+                        item.childComments &&
+                        Array.isArray(item.childComments) &&
+                        item.childComments.length
+                        ) {
+                        return {
+                        ...item,
+                        childComments: search(item.childComments, key, value),
+                        };
+                    } else {
+                        return item;
+                    }
+                });
+            };
+            
+            let updatedState = state.map((post, index) => {
+                if (index === action.payload.post_id) {
+                return {
+                    ...post,
+                    answers: search(post.answers, '_id', action.payload.comment_id, action.payload.what),
+                };
+                } else {
+                return post;
+                }
+            });
+
+            return updatedState;
+        }
+              
 
         default:
             return state

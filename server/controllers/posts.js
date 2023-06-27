@@ -117,6 +117,36 @@ export const upComment = async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
+export const increment = async (req, res) => {
+    try {
+        let { what, comment_id, user_id, user_source } = req.body;
+
+        if (user_source=='google') {
+            user_source = 'UserGoogle';
+        } else if (user_source=='own') {
+            user_source = 'User';
+        }
+
+        await Comment.findOneAndUpdate({
+            _id: comment_id,
+        }, {
+            $push: { [`${what}.ids`]: user_id },
+            $push: { [`${what}.${what}RefModel`]: user_source }, // Replace 'User' with the appropriate value
+            $inc: { [`${what}.count`]: 1 },
+        },)
+        .catch((err) => {
+            console.log(err);
+        })
+
+        // console.log(existingPost); // this will be post before update
+        res.status(200).json({})
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
 
 export const getAll = async (req, res) => {
     try {

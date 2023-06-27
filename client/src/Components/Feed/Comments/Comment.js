@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as share } from '@fortawesome/free-solid-svg-icons'
 
-import { actionCreators } from '../../state/index'
+import { actionCreators } from '../../../state/index'
 
-import Id from './Id'
+import Id from '../Id'
 
 const Comments = (params) => {
   const dispatch = useDispatch();
@@ -18,15 +18,30 @@ const Comments = (params) => {
 
   let [showReplyInputBox, setShowReplyInputBox] = useState(false)
   let [reply, setReply] = useState('')
+  // let [count, setCount] = useState({
+  //   like: params.like.count,
+  //   dislike: params.dislike.count,
+  // })
 
   let upComment = async () => {
     let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
     dispatch(temp)
   }
 
-  let showReplies = async (_id, child_ids, post_id) => {
-    let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
-    dispatch(temp)
+  // let showReplies = async (_id, child_ids, post_id) => {
+  //   let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
+  //   dispatch(temp)
+  // }
+
+  let handle = {
+    showReplies : async (_id, child_ids, post_id) => {
+      let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
+      dispatch(temp)
+    },
+    increment : async (what) => {
+      let temp = await actionCreators.comment.increment(what, params._id, profile._id, profile.source, params.post_id)
+      dispatch(temp)
+    },
   }
   
   let toggle = (value, setValue) => {
@@ -69,7 +84,9 @@ const Comments = (params) => {
         </div>
 
         <div className='interact-comment'>
-          <div className='interact-comment-child upvote'>
+          <div
+          onClick={() => {handle.increment('like')}}
+          className='interact-comment-child upvote'>
             <left className='icon'>
               <FontAwesomeIcon icon={faArrowUp} />
             </left>
@@ -77,12 +94,14 @@ const Comments = (params) => {
               {params.like.count}
             </div>
           </div>
-          <div className='interact-comment-child downvote'>
+          <div
+          onClick={() => {handle.increment('dislike')}} 
+          className='interact-comment-child downvote'>
             <left className='icon'>
               <FontAwesomeIcon icon={faArrowDown} />
             </left>
             <div>
-            {params.dislike.count}
+              {params.dislike.count}
             </div>
           </div>
           <div className='interact-comment-child comment-count'>
@@ -90,21 +109,23 @@ const Comments = (params) => {
               <FontAwesomeIcon icon={faComment} />
             </left>
             <div>
-              1.5k
+              {params.childComments.length}
             </div>
           </div>
-          <div className='interact-comment-child share'>
+          <div
+          onClick={() => {handle.increment('share')}} 
+          className='interact-comment-child share'>
             <left className='icon'>
               <FontAwesomeIcon icon={share} />
             </left>
             <div>
-              0.5k
+              {params.share.count}
             </div>
           </div>
         </div>
 
         {params.childComments.length? (
-          <button onClick={() => {showReplies(params._id, params.childComments, params.post_id)}}>
+          <button onClick={() => {handle.showReplies(params._id, params.childComments, params.post_id)}}>
             Show Replies
           </button>
         ) : (<></>)}

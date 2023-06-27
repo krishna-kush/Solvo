@@ -20,7 +20,11 @@ const commentSchema = mongoose.Schema({
     like: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'likeRefModel',
+        }],
+        likeRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
         }],
         count: {
             type: Number,
@@ -30,7 +34,25 @@ const commentSchema = mongoose.Schema({
     dislike: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'dislikeRefModel',
+        }],
+        dislikeRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
+        }],
+        count: {
+            type: Number,
+            default: 0,
+        },
+    },
+    share: {
+        ids: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'shareRefModel',
+        }],
+        shareRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
         }],
         count: {
             type: Number,
