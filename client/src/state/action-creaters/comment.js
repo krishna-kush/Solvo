@@ -43,5 +43,14 @@ export const increment = async (what, comment_id, user_id, user_source, post_id)
             })
         }
     }
+}
 
+export const indent = (value) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_INDENT',
+            source: 'indent',
+            payload: value
+        })
+    }
 }

@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import authInput from "./authInput";
 import auth from "./auth";
 import ids from "./ids";
+import indent from "./indent";
 import post from "./post";
 
 const reducers = combineReducers({
@@ -10,6 +11,7 @@ const reducers = combineReducers({
 
     ids,
 
+    indent,
     post: post,
 })
 

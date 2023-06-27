@@ -12,6 +12,7 @@ import Id from '../Id'
 const Comments = (params) => {
   const dispatch = useDispatch();
 
+  let indent = useSelector((state) => state.indent);
   // let data = useSelector((state) => state.post[params.id].answers[params.index]);
   // console.log(data);
   let profile = JSON.parse(localStorage.getItem('profile'))
@@ -27,11 +28,6 @@ const Comments = (params) => {
     let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
     dispatch(temp)
   }
-
-  // let showReplies = async (_id, child_ids, post_id) => {
-  //   let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
-  //   dispatch(temp)
-  // }
 
   let handle = {
     showReplies : async (_id, child_ids, post_id) => {
@@ -52,12 +48,20 @@ const Comments = (params) => {
     }
   }
 
-  let paddingLeft = (iter) => {
-    const element = document.getElementsByClassName('comment-content')[0];
-    const computedStyle = window.getComputedStyle(element);
-    let propertyValue = computedStyle.getPropertyValue('padding-left');
+  let paddingLeft = () => {
+    if (params.iter===0) {
+      return {}
+    }
+    else if (indent) {
+      return {paddingLeft: parseFloat(indent)*(params.iter)}
+    } else {
+      const element = document.getElementsByClassName('comment-content')[0];
+      const computedStyle = window.getComputedStyle(element);
+      let propertyValue = computedStyle.getPropertyValue('padding-left');
 
-    return parseFloat(propertyValue)*iter
+      dispatch(actionCreators.comment.indent(propertyValue))
+      return {}
+    }
   }
   
 
@@ -69,13 +73,7 @@ const Comments = (params) => {
 
   return (
     <div className="comment-cont"
-    style={(() => {
-      if (params.iter===0) {
-        return {}
-      } else {
-        return {paddingLeft: paddingLeft(params.iter)}
-      }
-    })()}>
+    style={paddingLeft()}>
       <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
 
       <div className='comment-content'>
@@ -104,7 +102,9 @@ const Comments = (params) => {
               {params.dislike.count}
             </div>
           </div>
-          <div className='interact-comment-child comment-count'>
+          <div
+          onClick={() => {handle.showReplies(params._id, params.childComments, params.post_id)}}
+          className='interact-comment-child comment-count'>
             <left className='icon'>
               <FontAwesomeIcon icon={faComment} />
             </left>
@@ -124,11 +124,11 @@ const Comments = (params) => {
           </div>
         </div>
 
-        {params.childComments.length? (
+        {/* {params.childComments.length? (
           <button onClick={() => {handle.showReplies(params._id, params.childComments, params.post_id)}}>
             Show Replies
           </button>
-        ) : (<></>)}
+        ) : (<></>)} */}
         <button onClick={() => {toggle(showReplyInputBox, setShowReplyInputBox)}}>
           Replie
         </button>
