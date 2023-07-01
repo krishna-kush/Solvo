@@ -1,4 +1,4 @@
-import { createPost, getAllPost, upAnswerPost } from "../../API/post"
+import { createPost, getAllPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 import { SET_POST, ADD_POST, ADD_ANSWER } from "../../constants/actionTypes"
 
@@ -23,8 +23,18 @@ export const upAnswer = async (ans, post_id, user_id, user_source, post_no) => {
     }  
 }
 
-export const getAll = async (data) => {
-    let res = await getAllPost(data)
+export const getAll = async () => {
+    let res = await getAllPost()
+
+    return (dispatch) => {
+        dispatch({
+            type: SET_POST,
+            payload: res
+        })
+    }    
+}
+export const getBySearch = async (search) => {
+    let res = await getPostBySearch(search)
 
     return (dispatch) => {
         dispatch({

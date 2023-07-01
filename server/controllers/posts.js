@@ -205,6 +205,61 @@ export const getAll = async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
+export const getBySearch = async (req, res) => {
+    try {
+        const {search} = req.body;
+        const pattern = ((search) => {return search.split(" ").join("|")})(search);
+        const regexPattern = new RegExp(pattern, 'i');
+
+        let ascending = -1 // -1 for descending order and 1 for ascending order
+        const filteredPosts = await Post.find(
+            { $or: [
+                { $text: { $search: search } }, // The $text operator ignores language-specific stop words, such as the and and in English.
+                { question: { $regex: regexPattern } } // If for above case no match found, perform regex search
+            ]},
+        )
+        .sort({'like.count':ascending})
+        .limit(10)
+        .populate({
+            path: 'creator answers', 
+            populate: {
+                path: 'creator',
+                strictPopulate: false, // why this is needed?
+            }
+        })
+        // Sort the filteredPosts based on a custom scoring function
+        // filteredPosts.sort((a, b) => {
+        //     const aScore = getMatchScore(a.question, search);
+        //     const bScore = getMatchScore(b.question, search);
+            
+        //     return bScore - aScore;
+        // });
+        
+        // Function to calculate the match score
+        // function getMatchScore(question, search) {
+        //     const words = search.toLowerCase().split(" ");
+        //     const questionWords = question.toLowerCase().split(" ");
+            
+        //     let score = 0;
+        //     for (const word of words) {
+        //     for (const questionWord of questionWords) {
+        //         if (questionWord.includes(word)) {
+        //         score++;
+        //         break;
+        //         }
+        //     }
+        //     }
+            
+        //     return score;
+        // }
+
+        res.status(200).json({result: filteredPosts})
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
 
 export const getComment = async (req, res) => {
     try {

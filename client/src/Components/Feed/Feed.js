@@ -1,29 +1,43 @@
 import { React, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import FeedBlocks from './FeedBlocks'
 import AddQuestion from './AddQuestion'
 import { actionCreators } from '../../state'
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
+
 export default () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const query = useQuery(); // this will work like a hook, so whenever it changes react will re-render the component, so we don't need to put it on useEffect
 
+  const searchQuery = query.get('searchQuery') || '';
+  
+  let initializeFeed = async (searchQuery) => {
+    const search = searchQuery.trim()
+    if (search) {
+      let temp = await actionCreators.post.getBySearch(search)
+      temp(dispatch)
+      return
+    }
+    let temp = await actionCreators.post.getAll()
+    temp(dispatch)
+  }
+  initializeFeed(searchQuery)
+  
   let feed_blocks_len = useSelector((state) => state.post.length);
   let feed_blocks = []
   for (let i = 0; i < feed_blocks_len; i++) {
     feed_blocks.push(i)
   }
-
   
-  let temp = async () => {
-    let profile = JSON.parse(localStorage.getItem('profile'))
-    let temp = await actionCreators.post.getAll(profile.source)
-    temp(dispatch)
-  }
   
   useEffect(() => {
-    temp()
   }, [])
   
   // if (!feed_blocks_len) {

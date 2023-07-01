@@ -7,9 +7,10 @@ const reducer = (state = [], action) => {
     switch (action.type) {
         case SET_POST:
             let data = action.payload.data.data.result
-            console.log(data);
 
-            data[data.length-1].last = true
+            if (data.length) {
+                data[data.length-1].last = true
+            }
 
             return data
 

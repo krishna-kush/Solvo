@@ -19,6 +19,7 @@ import './css/universal.css';
 
 import './css/header.css';
 import './css/filterPanel.css';
+import './css/id.css';
 import './css/feed.css';
 import './css/comment.css';
 import './css/topShow.css';
@@ -34,6 +35,16 @@ const App = () => {
         <Routes>
           
           <Route exact path="/" element={<>
+            <Header/>
+            <div id="content">
+              <FilterPanel/>
+              <Feed/>
+              <TopShow/>
+            </div>
+            <Changer/>
+          </>}/>
+
+          <Route exact path="/feed" element={<>
             <Header/>
             <div id="content">
               <FilterPanel/>

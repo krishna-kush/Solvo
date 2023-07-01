@@ -13,23 +13,16 @@ const Comments = (params) => {
   const dispatch = useDispatch();
 
   let indent = useSelector((state) => state.indent);
-  // let data = useSelector((state) => state.post[params.id].answers[params.index]);
-  // console.log(data);
   let profile = JSON.parse(localStorage.getItem('profile'))
 
-  let [showReplyInputBox, setShowReplyInputBox] = useState(false)
   let [reply, setReply] = useState('')
-  // let [count, setCount] = useState({
-  //   like: params.like.count,
-  //   dislike: params.dislike.count,
-  // })
-
-  let upComment = async () => {
-    let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
-    dispatch(temp)
-  }
-
+  let [showReplyInputBox, setShowReplyInputBox] = useState(false)
+  
   let handle = {
+    upComment : async () => {
+      let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
+      dispatch(temp)
+    },
     showReplies : async (_id, child_ids, post_id) => {
       let temp = await actionCreators.comment.showComments(_id, child_ids, post_id)
       dispatch(temp)
@@ -40,14 +33,6 @@ const Comments = (params) => {
     },
   }
   
-  let toggle = (value, setValue) => {
-    if (value===false) {
-      setValue(true)
-    } else {
-      setValue(false)
-    }
-  }
-
   let paddingLeft = () => {
     if (params.iter===0) {
       return {}
@@ -64,7 +49,15 @@ const Comments = (params) => {
     }
   }
   
-
+  let toggle = (value, setValue) => {
+    if (value===false) {
+      setValue(true)
+    } else {
+      setValue(false)
+    }
+  }
+  
+  
   // if (!data) {
   //   return (
   //     <div>Loding...</div>
@@ -135,7 +128,7 @@ const Comments = (params) => {
         {showReplyInputBox? (
           <>
           <input onChange={(e) => {setReply(e.target.value)}}/>
-          <button onClick={upComment}>Send</button>
+          <button onClick={handle.upComment}>Send</button>
           </>
         ) : (<></>)}
       </div>

@@ -2,7 +2,7 @@
 
 import { updateInput, resetInput, whoAdd, google, logIn, signUp } from './action-creaters/auth.js'
 import { showComments, upComment, increment, indent } from './action-creaters/comment.js'
-import { create, upAnswer, getAll } from './action-creaters/post.js'
+import { create, upAnswer, getAll, getBySearch } from './action-creaters/post.js'
 
 const actionCreators = {
     auth: {
@@ -28,6 +28,7 @@ const actionCreators = {
         create,
         upAnswer,
         getAll,
+        getBySearch,
     },
 }
 

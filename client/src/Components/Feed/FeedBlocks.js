@@ -1,4 +1,4 @@
-import { React, useState, useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -16,17 +16,16 @@ export default (params) => {
 
   let data = useSelector((state) => state.post[params.id]);
   let profile = JSON.parse(localStorage.getItem('profile'))
-  // console.log(data);
 
   let [ans, setAns] = useState('')
+  let [showComments, setShowComments] = useState(false)
+  
   let upAnswer = async (firstToAns) => {
     const temp = await actionCreators.post.upAnswer(ans, data._id, profile._id, profile.source, params.id)
     dispatch(temp)
 
     if (firstToAns) {setShowComments(true)}
   }
-
-  let [showComments, setShowComments] = useState(false)
 
   let toggle = (value, setValue) => {
     if (value===false) {

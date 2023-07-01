@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-    question: String,
+    question: {
+        type: String,
+        index: "text", // to create a index for text for search
+    },
     // answer: [String],
     answers: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +27,11 @@ const postSchema = mongoose.Schema({
     like: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'likeRefModel',
+        }],
+        likeRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
         }],
         count: {
             type: Number,
@@ -34,7 +41,25 @@ const postSchema = mongoose.Schema({
     dislike: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'dislikeRefModel',
+        }],
+        dislikeRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
+        }],
+        count: {
+            type: Number,
+            default: 0,
+        },
+    },
+    share: {
+        ids: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'shareRefModel',
+        }],
+        shareRefModel: [{
+            type: String,
+            enum: ['UserGoogle', 'User'],
         }],
         count: {
             type: Number,
@@ -48,6 +73,13 @@ const postSchema = mongoose.Schema({
     },
 })
 
+// // Create indexes
+// postSchema.index({ question: 'text' }); // Create a text index on the 'question' field
+// postSchema.index({ question: 1 }); // Create a regular index on the 'question' field
+
 var Post = mongoose.model('Post', postSchema);
+
+Post.collection.createIndex({ question: 'text' });
+Post.collection.createIndex({ question: 1 }); // Create a regular index on the 'question' field for regex if needed
 
 export default Post;
