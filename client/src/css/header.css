@@ -27,5 +27,7 @@ body {
     background-color: var(--bar-color);
     display: flex;
 
+    /* width: 25vw; */
+
     margin-left: 10px;
 }

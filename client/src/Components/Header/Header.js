@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
-import { actionCreators } from '../../state'
+import Search from './Search'
 
 
 export default () => {
@@ -17,29 +17,12 @@ export default () => {
 
   let [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
-  let [searchInput, setSearchInput] = useState('')
-
   let logOutHandler = () => { 
     dispatch({ type: 'LOGOUT' })
     
     navigate('/auth')
     
     setUser(null)
-  }
-
-  let searchHandler = () => {
-    const search = searchInput.trim()
-    if (search) {
-      navigate(`/feed?searchQuery=${search}`) // navigate is a async function...
-    } else {
-      navigate('/')
-    }
-  }
-
-  let handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      searchHandler()
-    }
   }
 
   return (
@@ -59,11 +42,7 @@ export default () => {
         </div>
       </div>
 
-      <div id="header-search">
-        <input type="text" placeholder="Search"
-        onChange={(e) => setSearchInput(e.target.value)}
-        onKeyDown={handleKeyPress}/>
-      </div>
+      <Search/>
 
       <div id="user-in-header">
       {user? (

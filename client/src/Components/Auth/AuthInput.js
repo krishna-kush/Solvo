@@ -6,9 +6,7 @@ import { actionCreators } from '../../state/index'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faEnvelope } from '@fortawesome/fontawesome-svg-core'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faKey, faUser } from '@fortawesome/free-solid-svg-icons'
 
 export default (params) => {
   const dispatch = useDispatch();

@@ -18,6 +18,7 @@ import './css/var.css';
 import './css/universal.css';
 
 import './css/header.css';
+import './css/search.css';
 import './css/filterPanel.css';
 import './css/id.css';
 import './css/feed.css';

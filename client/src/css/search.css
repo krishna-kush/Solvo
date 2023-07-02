@@ -1,0 +1,47 @@
+#header-search {
+    width: 50vw;
+    height: var(--header-items-head-height);
+}
+
+.search-container {
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    border: 1px solid black;
+
+    border-radius: 100vw; /* how to do it in percentage? */
+}
+
+.icon-inside-search {
+    height: 100%;
+}
+.search-icon {
+    width: fit-content;
+    height: 50%;
+    
+    margin-left: var(--search-curved-width);
+}
+
+.search-container input {
+    height: 100%;
+    /* font-size: var(--small-font); */
+
+    flex-grow: 1; /* To make it grow and take available space */
+
+    margin-left: var(--long-margin);
+    background-color: transparent;
+    
+    outline: none;
+    border: none;
+}
+
+.search-cancle {
+    width: fit-content;
+    height: 50%;
+
+    margin-right: var(--search-curved-width);
+}
