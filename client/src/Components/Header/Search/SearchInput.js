@@ -1,19 +1,22 @@
 import React, { useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+import { useSelector, useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
-const Search = () => {
+import { actionCreators } from '../../../state'
+
+
+const SearchInput = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   
   const delay = 10000;
-  
   const placeholder_list = [
     ['Search for a Question...', 'Search "How to make rockets"'], ['Search inside a Channel', 'Search "NASA/Martian Home Bounty"'],
   ]
 
-  let [input, setInput] = useState('')
+  const input = useSelector((state) => state.searchInput)
+  const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
   let [placeholderIndex, setPlaceholderIndex] = useState([Math.floor(Math.random() * placeholder_list.length), 0])
   let [placeholderText, setPlaceholderText] = useState('')
 
@@ -31,7 +34,7 @@ const Search = () => {
       searchHandler()
     }
   }
-
+  
   useEffect(() => {
     let letter_delay = 100;
 
@@ -82,26 +85,23 @@ const Search = () => {
     };
   }, [placeholderIndex]);
 
+  useEffect(() => {
+    let searchCont = document.getElementById('search-container')
+    const search_curve_width = getComputedStyle(document.documentElement).getPropertyValue('--search-curve-width')
+    if (input) {
+      searchCont.style.borderRadius = `${search_curve_width} ${search_curve_width} 0 0`
+    } else {
+      searchCont.style.borderRadius = search_curve_width
+    }
+  } , [input])
 
   return (
-    <div id="header-search">
-      <div className='search-container'>
-        <div className='search-icon'>
-          <FontAwesomeIcon className='icon-inside-search' icon={faSearch} />
-        </div>
-
-        <input type="text" placeholder={placeholderText}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={handleKeyPress}
-        ></input>
-
-        <div className='search-cancle'>
-          <FontAwesomeIcon className='icon-inside-search' icon={faXmarkCircle} />
-        </div>
-
-    </div>
-    </div>
+    <input id='search-input' type="text" placeholder={placeholderText}
+    onChange={(e) => {setInput(e.target.value)}}
+    onKeyDown={handleKeyPress}
+    required
+    ></input>
   )
 }
 
-export default Search
+export default SearchInput

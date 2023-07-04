@@ -50,7 +50,7 @@
     /* SEARCH */
     /* --search-input-height: calc( var(--header-height) - (var(--header-items-head-margin)*2) - var(--line-height) ); */
 
-    --search-curved-width: calc(var(--header-items-head-height)/2);
+    --search-curve-width: calc(var(--header-items-head-height)/2);
 
     
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

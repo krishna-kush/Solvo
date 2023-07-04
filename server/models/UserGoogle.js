@@ -15,4 +15,6 @@ const userSchema = mongoose.Schema({
 
 var UserGoogle = mongoose.model('UserGoogle', userSchema);
 
+UserGoogle.collection.createIndex({ name: 'text' });
+
 export default UserGoogle;

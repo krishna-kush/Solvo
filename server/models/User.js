@@ -17,4 +17,6 @@ const userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
+User.collection.createIndex({ name: 'text' });
+
 export default User;

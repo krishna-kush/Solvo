@@ -3,7 +3,7 @@
     height: var(--header-items-head-height);
 }
 
-.search-container {
+#search-container {
     width: 100%;
     height: 100%;
     
@@ -13,7 +13,7 @@
     
     border: 1px solid black;
 
-    border-radius: 100vw; /* how to do it in percentage? */
+    border-radius: var(--search-curve-width); /* how to do it in percentage? */
 }
 
 .icon-inside-search {
@@ -23,10 +23,10 @@
     width: fit-content;
     height: 50%;
     
-    margin-left: var(--search-curved-width);
+    margin-left: var(--search-curve-width);
 }
 
-.search-container input {
+#search-container input {
     height: 100%;
     /* font-size: var(--small-font); */
 
@@ -43,5 +43,31 @@
     width: fit-content;
     height: 50%;
 
-    margin-right: var(--search-curved-width);
+    margin-right: var(--search-curve-width);
+}
+
+/* ------------------------------------------------------- */
+
+#searchblocks-container {
+    display: flex;
+    flex-direction: column;
+
+    background-color: darkgray;
+
+    z-index: 1;
+}
+.searchblock {
+    margin-top: var(--long-margin);
+
+    margin-left: var(--long-margin);
+}
+.searchblock:last-child {
+    margin-bottom: var(--long-margin);
+}
+
+.searchblock-child {
+    margin-top: var(--long-margin);
+}
+.searchblock-child:last-child {
+    margin-bottom: var(--long-margin);
 }
