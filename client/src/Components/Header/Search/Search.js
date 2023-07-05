@@ -37,10 +37,12 @@ const Search = () => {
     inputElement.dispatchEvent(enterKeyEvent);
   }
 
-  // to close search blocks when clicked outside of it
+  // to close search blocks when clicked outside of it and outside of search container
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if ((containerRef.current) && 
+        (!containerRef.current.contains(event.target)) &&
+        (event.target.closest('#search-container') === null)) {
         setSearched(true)
       }
     };
@@ -75,15 +77,8 @@ const Search = () => {
 
       </div>
       
-      {(input && !searched)? (
-      <div ref={containerRef} id='searchblocks-container'
-      onMouseEnter={() => {
-        dispatch({type: 'LOCK_SEARCHED'})
-      }}
-      onMouseLeave={() => {
-        dispatch({type: 'UNLOCK_SEARCHED'})
-      }}
-      >
+      {(input && !searched)? (  // Same condition as in SearchInput.js when updating search container style
+      <div ref={containerRef} id='searchblocks-container'>
         {searchBlocks_elements.map((element, index) => {
           return <SearchBlocks element={element} input={input}/>
         })}

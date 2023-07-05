@@ -16,8 +16,8 @@ const SearchInput = () => {
 
   const input = useSelector((state) => state.searchInput)
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
+  const searched = useSelector((state) => state.searched)
   const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
-  const isSearchedLock = useSelector((state) => state.searchedLock)
 
   let [placeholderIndex, setPlaceholderIndex] = useState([Math.floor(Math.random() * placeholder_list.length), 0])
   let [placeholderText, setPlaceholderText] = useState('')
@@ -37,13 +37,8 @@ const SearchInput = () => {
       setSearched(true) // to not render search blocks
     }
   }
-
-  const handleBlur = () => {
-    if (!isSearchedLock) {
-      setSearched(true)
-    }
-  };
   
+  // To Update placeholder text
   useEffect(() => {
     let letter_delay = 100;
 
@@ -94,16 +89,16 @@ const SearchInput = () => {
     };
   }, [placeholderIndex]);
 
+  // To Update style of search container when input changes
   useEffect(() => {
-    // Update style of search container when input changes
     let searchCont = document.getElementById('search-container')
     const search_curve_width = getComputedStyle(document.documentElement).getPropertyValue('--search-curve-width')
-    if (input) {
+    if (input && !searched) {
       searchCont.style.borderRadius = `${search_curve_width} ${search_curve_width} 0 0`
     } else {
       searchCont.style.borderRadius = search_curve_width
     }
-  } , [input])
+  } , [input, searched])
 
   return (
     <input id='search-input' type="text" placeholder={placeholderText}
@@ -111,8 +106,7 @@ const SearchInput = () => {
       setInput(e.target.value)
       setSearched(false)
     }}
-    onFocus={() => {setSearched(false)}}
-    onBlur={handleBlur}
+    onClick={() => {setSearched(false)}}
     onKeyDown={handleKeyPress}
     required
     ></input>
