@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -17,6 +17,8 @@ const SearchInput = () => {
   const input = useSelector((state) => state.searchInput)
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
   const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
+  const isSearchedLock = useSelector((state) => state.searchedLock)
+
   let [placeholderIndex, setPlaceholderIndex] = useState([Math.floor(Math.random() * placeholder_list.length), 0])
   let [placeholderText, setPlaceholderText] = useState('')
 
@@ -32,9 +34,15 @@ const SearchInput = () => {
   let handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchHandler()
-      dispatch(actionCreators.search.updateSearched(true)) // to not render search blocks
+      setSearched(true) // to not render search blocks
     }
   }
+
+  const handleBlur = () => {
+    if (!isSearchedLock) {
+      setSearched(true)
+    }
+  };
   
   useEffect(() => {
     let letter_delay = 100;
@@ -104,7 +112,7 @@ const SearchInput = () => {
       setSearched(false)
     }}
     onFocus={() => {setSearched(false)}}
-    onBlur={() => {setSearched(true)}}
+    onBlur={handleBlur}
     onKeyDown={handleKeyPress}
     required
     ></input>

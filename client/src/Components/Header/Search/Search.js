@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,14 +13,17 @@ import SearchInput from './SearchInput'
 const Search = () => {
   const dispatch = useDispatch()
 
+  const containerRef = useRef(null);
+
   const searchBlocks_elements = ['Questions', 'Topics', 'Channels']
 
   const input = useSelector((state) => state.searchInput)
   const searched = useSelector((state) => state.searched)
+  const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
 
   
-  let triggerEnterKeyEvent = (element_id) => { // Function to trigger "Enter" key press event
+  const triggerEnterKeyEvent = (element_id) => { // Function to trigger "Enter" key press event
     const inputElement = document.getElementById(element_id);
     const enterKeyEvent = new KeyboardEvent('keydown', {
       key: 'Enter',
@@ -34,7 +37,22 @@ const Search = () => {
     inputElement.dispatchEvent(enterKeyEvent);
   }
 
-  
+  // to close search blocks when clicked outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setSearched(true)
+      }
+    };
+
+    // adding the event directly on document not on it's element because we want to listen to all clicks on the page and one element can only listen to it's own events
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div id="header-search">
       <div id='search-container'>
@@ -58,7 +76,14 @@ const Search = () => {
       </div>
       
       {(input && !searched)? (
-      <div id='searchblocks-container'>
+      <div ref={containerRef} id='searchblocks-container'
+      onMouseEnter={() => {
+        dispatch({type: 'LOCK_SEARCHED'})
+      }}
+      onMouseLeave={() => {
+        dispatch({type: 'UNLOCK_SEARCHED'})
+      }}
+      >
         {searchBlocks_elements.map((element, index) => {
           return <SearchBlocks element={element} input={input}/>
         })}

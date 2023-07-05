@@ -1,11 +1,11 @@
-import { whoMin, gAuth, createUser, checkUser } from '../../API/auth'
-import { LOG, UPDATE_INPUT, RESET_INPUT, ADD_ID } from '../../constants/actionTypes'
+import { LOG, UPDATE_AUTH_INPUT, RESET_AUTH_INPUT, ADD_ID } from '../../constants/actionTypes'
 
+import { whoMin, gAuth, createUser, checkUser } from '../../API/auth'
 
 export const updateInput = (data) => {
     return (dispatch) => {
         dispatch({
-            type: UPDATE_INPUT,
+            type: UPDATE_AUTH_INPUT,
             payload: data
         })
     }
@@ -13,7 +13,7 @@ export const updateInput = (data) => {
 export const resetInput = () => {
     return (dispatch) => {
         dispatch({
-            type: RESET_INPUT,
+            type: RESET_AUTH_INPUT,
         })
     }
 }
