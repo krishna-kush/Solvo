@@ -60,6 +60,9 @@
     margin-top: var(--long-margin);
 
     margin-left: var(--long-margin);
+    margin-right: var(--long-margin);
+
+    border-radius: var(--short-radius);
 }
 .searchblock:last-child {
     margin-bottom: var(--long-margin);
@@ -70,4 +73,8 @@
 }
 .searchblock-child:last-child {
     margin-bottom: var(--long-margin);
+}
+
+.dark-hover:hover {
+    background-color: gray;
 }

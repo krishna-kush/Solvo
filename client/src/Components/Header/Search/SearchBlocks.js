@@ -8,7 +8,6 @@ const SearchBlocks = (params) => {
 
   const input = useSelector((state) => state.searchInput)
 
-
   // console.log('render SearchBlocks');
 
   const data = {
@@ -29,9 +28,7 @@ const SearchBlocks = (params) => {
   }, [input])
   
   if (!data[params.element].length) {
-    return (
-      <div>Not Found</div>
-    )
+    return (<></>)
   }
 
   return (
@@ -40,7 +37,7 @@ const SearchBlocks = (params) => {
 
       {data[params.element].map((element, index) => {
         return (
-        <div className='searchblock-child'>
+        <div className='searchblock-child dark-hover'>
           {element}
         </div>
         )

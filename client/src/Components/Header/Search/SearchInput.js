@@ -5,7 +5,6 @@ import {useNavigate} from 'react-router-dom'
 
 import { actionCreators } from '../../../state'
 
-
 const SearchInput = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -17,6 +16,7 @@ const SearchInput = () => {
 
   const input = useSelector((state) => state.searchInput)
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
+  const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
   let [placeholderIndex, setPlaceholderIndex] = useState([Math.floor(Math.random() * placeholder_list.length), 0])
   let [placeholderText, setPlaceholderText] = useState('')
 
@@ -28,10 +28,11 @@ const SearchInput = () => {
       navigate('/')
     }
   }
-
+  
   let handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchHandler()
+      dispatch(actionCreators.search.updateSearched(true)) // to not render search blocks
     }
   }
   
@@ -86,6 +87,7 @@ const SearchInput = () => {
   }, [placeholderIndex]);
 
   useEffect(() => {
+    // Update style of search container when input changes
     let searchCont = document.getElementById('search-container')
     const search_curve_width = getComputedStyle(document.documentElement).getPropertyValue('--search-curve-width')
     if (input) {
@@ -97,7 +99,12 @@ const SearchInput = () => {
 
   return (
     <input id='search-input' type="text" placeholder={placeholderText}
-    onChange={(e) => {setInput(e.target.value)}}
+    onChange={(e) => {
+      setInput(e.target.value)
+      setSearched(false)
+    }}
+    onFocus={() => {setSearched(false)}}
+    onBlur={() => {setSearched(true)}}
     onKeyDown={handleKeyPress}
     required
     ></input>

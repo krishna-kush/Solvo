@@ -1,6 +1,6 @@
-import { createPost, getAllPost, getPostBySearch, upAnswerPost } from "../../API/post"
-
 import { SET_POST, ADD_POST, ADD_ANSWER } from "../../constants/actionTypes"
+
+import { createPost, getAllPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)

@@ -16,7 +16,23 @@ const Search = () => {
   const searchBlocks_elements = ['Questions', 'Topics', 'Channels']
 
   const input = useSelector((state) => state.searchInput)
+  const searched = useSelector((state) => state.searched)
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
+
+  
+  let triggerEnterKeyEvent = (element_id) => { // Function to trigger "Enter" key press event
+    const inputElement = document.getElementById(element_id);
+    const enterKeyEvent = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+      which: 13,
+      bubbles: true,
+      cancelable: true,
+    });
+
+    inputElement.dispatchEvent(enterKeyEvent);
+  }
 
   
   return (
@@ -41,11 +57,13 @@ const Search = () => {
 
       </div>
       
-      {input? (
+      {(input && !searched)? (
       <div id='searchblocks-container'>
         {searchBlocks_elements.map((element, index) => {
           return <SearchBlocks element={element} input={input}/>
         })}
+        <div className='searchblock dark-hover'
+        onClick={() => {triggerEnterKeyEvent('search-input')}}>Search For {input}</div>
       </div>
       ) : (<></>)}
 

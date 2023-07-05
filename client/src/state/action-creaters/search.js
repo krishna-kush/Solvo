@@ -8,6 +8,14 @@ export const updateInput = (input) => {
         })
     }
 }
+export const updateSearched = (input) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'UPDATE_SEARCHED',
+            payload: input
+        })
+    }
+}
 
 
 export const upSearchQuestions = async (input, limit) => {
