@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 import { actionCreators } from '../../../state'
 
+import { searchHandler } from '../../../Utils/Search'
+
+
 const SearchBlocks = (params) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const input = useSelector((state) => state.searchInput)
+  const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
 
-  // console.log('render SearchBlocks');
+  const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
 
   const data = {
     Questions: useSelector((state) => state.search.questions),
@@ -37,7 +43,12 @@ const SearchBlocks = (params) => {
 
       {data[params.element].map((element, index) => {
         return (
-        <div className='searchblock-child dark-hover'>
+        <div className='searchblock-child dark-hover'
+        onClick={() => {
+          searchHandler(element, navigate)
+          document.getElementById('search-input').value = element
+          setSearched(true)
+          }}>
           {element}
         </div>
         )

@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef} from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { actionCreators } from '../../../state'
+
+import { searchHandler } from '../../../Utils/Search'
+import { useQuery } from '../../../Utils/Universal'
 
 const SearchInput = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  
+  const query = useQuery(useLocation);
+  const searchQuery = query.get('searchQuery') || '';
   
   const delay = 10000;
   const placeholder_list = [
@@ -16,24 +22,16 @@ const SearchInput = () => {
 
   const input = useSelector((state) => state.searchInput)
   const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
+
   const searched = useSelector((state) => state.searched)
   const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
 
   let [placeholderIndex, setPlaceholderIndex] = useState([Math.floor(Math.random() * placeholder_list.length), 0])
   let [placeholderText, setPlaceholderText] = useState('')
-
-  let searchHandler = () => {
-    const search = input.trim()
-    if (search) {
-      navigate(`/feed?searchQuery=${search}`) // navigate is a async function...
-    } else {
-      navigate('/')
-    }
-  }
   
   let handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      searchHandler()
+      searchHandler(input, navigate)
       setSearched(true) // to not render search blocks
     }
   }
@@ -99,6 +97,13 @@ const SearchInput = () => {
       searchCont.style.borderRadius = search_curve_width
     }
   } , [input, searched])
+
+  // To Update input value when searchQuery changes from url
+  useEffect(() => {
+    document.getElementById('search-input').value = searchQuery // to set input value to searchQuery at dom
+    setInput(searchQuery) // to set input value to searchQuery at redux
+    setSearched(true) // to not render search blocks, because when change the input value at redux, react will render the search blocks
+  }, [])
 
   return (
     <input id='search-input' type="text" placeholder={placeholderText}

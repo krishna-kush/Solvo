@@ -18,9 +18,10 @@ const Search = () => {
   const searchBlocks_elements = ['Questions', 'Topics', 'Channels']
 
   const input = useSelector((state) => state.searchInput)
+  const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
+  
   const searched = useSelector((state) => state.searched)
   const setSearched = (searched) => {dispatch(actionCreators.search.updateSearched(searched))}
-  const setInput = (input) => {dispatch(actionCreators.search.updateSearchInput(input))}
 
   
   const triggerEnterKeyEvent = (element_id) => { // Function to trigger "Enter" key press event
@@ -83,7 +84,7 @@ const Search = () => {
           return <SearchBlocks element={element} input={input}/>
         })}
         <div className='searchblock dark-hover'
-        onClick={() => {triggerEnterKeyEvent('search-input')}}>Search For {input}</div>
+        onClick={() => {triggerEnterKeyEvent('search-input')}}>Search For "{input}"</div>
       </div>
       ) : (<></>)}
 
