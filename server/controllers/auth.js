@@ -124,6 +124,9 @@ export const google = async (req, res) => {
                 email: email,
                 photo: picture,
             }
+            // const data = {
+            //     id: ticket.getUserId(),
+            // }
             UserGoogle.create(data)
             
             user = await UserGoogle.findOne({ email: email });

@@ -13,14 +13,6 @@ export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const profile = JSON.parse(localStorage.getItem('profile'))
-
-  if (profile) {
-    alert("You are already logged in")
-    navigate('/')
-    return null
-  }
-
   let data = useSelector((state) => state.authI);
 
   let [log_in, set_log_in] = useState(true)

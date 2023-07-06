@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,7 +34,8 @@ import './css/auth.css';
 const App = () => {
   // when relogin how to show auth
   const auth = useSelector(state => state.auth.authData);
-  console.log(auth);
+  const [profile, userProfile] = useState(JSON.parse(localStorage.getItem('profile')));
+  const ifLogedIn = auth || profile;
   const showAlert = auth && window.location.pathname === '/auth';
 
 
@@ -43,7 +44,8 @@ const App = () => {
       <Router>
         <Routes>
           
-          <Route exact path="/" element={<>
+          <Route exact path="/" element={
+          ifLogedIn ? <>
             <Header/>
             <div id="content">
               <FilterPanel/>
@@ -51,7 +53,7 @@ const App = () => {
               <TopShow/>
             </div>
             <Changer/>
-          </>}/>
+          </> : <Navigate to="/auth"/>}/>
 
           <Route exact path="/feed" element={<>
             <Header/>
@@ -67,7 +69,7 @@ const App = () => {
             // profile ? (<> // To understand why when this alert run two times even when path="/". EXPLANATION => So, in react it's not like when url is this that route will run and so on. Maybe react run all the routes at once and pakage them in doing so it run at code to show alert even before loding the site, and when it match the url to provide the package it again run the alert. But for showAlert it's only true when url is "/auth" so it run only once unlike profile which is true for both "/" and "/auth". And hence showAlert really invoke conditional statement.
             showAlert ? (<>
               {alert("You are already logged in, Logout first!!!")}
-              <Navigate to="/" replace={true}/>
+              <Navigate to="/"/>
             </>)
            : 
           <>
