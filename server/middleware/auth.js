@@ -16,7 +16,11 @@ const auth = async (req, res, next) => {
 
             req.userId = decodedData?.sub; // sub is google's name for unique id it provides to every google user
         }
+
+        next();
     } catch (error) {
         console.log(error);
     }
 }
+
+export default auth;

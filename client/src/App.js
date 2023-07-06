@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 
+import { useSelector } from 'react-redux';
 
 import Header from './Components/Header/Header';
 import FilterPanel from './Components/FilterPanel/FilterPanel';
@@ -30,6 +32,12 @@ import './css/auth.css';
 
 
 const App = () => {
+  // when relogin how to show auth
+  const auth = useSelector(state => state.auth.authData);
+  console.log(auth);
+  const showAlert = auth && window.location.pathname === '/auth';
+
+
   return (
     <div className="App">
       <Router>
@@ -55,14 +63,23 @@ const App = () => {
             <Changer/>
           </>}/>
           
-          <Route exact path="/auth" element={<>
-            <Header/>
-            <div id="content">
-              <FilterPanel/>
-              <Feed/>
-              <TopShow/>
+          <Route exact path="/auth" element={
+            // profile ? (<> // To understand why when this alert run two times even when path="/". EXPLANATION => So, in react it's not like when url is this that route will run and so on. Maybe react run all the routes at once and pakage them in doing so it run at code to show alert even before loding the site, and when it match the url to provide the package it again run the alert. But for showAlert it's only true when url is "/auth" so it run only once unlike profile which is true for both "/" and "/auth". And hence showAlert really invoke conditional statement.
+            showAlert ? (<>
+              {alert("You are already logged in, Logout first!!!")}
+              <Navigate to="/" replace={true}/>
+            </>)
+           : 
+          <>
+            <div className='blur'>
+              <Header/>
+              <div id="content">
+                <FilterPanel/>
+                <Feed/>
+                <TopShow/>
+              </div>
+              <Changer/>
             </div>
-            <Changer/>
             <Auth/>
           </>}/>
 

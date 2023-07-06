@@ -1,11 +1,4 @@
 #auth-container {
-    position: fixed;
-    z-index: 1;
-
-    top: 0px;
-
-    width: 100vw;
-    height: var(--auth-cont-height);
 }
 #auth {
     background-color: darkgrey;
@@ -15,12 +8,12 @@
 
     border-radius: var(--auth-border-radius);
 
-    margin: auto;
-
-    position: relative;
-    top: var(--auth-m-top);
-
     overflow: auto; /* https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element#:~:text=If%20the%20first%20child%20of,It's%20just%20like%20that.&text=You%20can%20fix%20it%20by,such%20as%20a%20simple%20space. */
+}
+#not-auth {
+    background-color: darkgrey;
+    height: 500px;
+
 }
 
 #welcome {

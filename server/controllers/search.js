@@ -12,7 +12,7 @@ export const question = async (req, res) => {
         const filteredPosts = await Post.find(
             { $text: { $search: input } },
         )
-        .sort({'like.count':ascending})
+        .sort({'like.count': ascending})
         .limit(limit)
         .select('question');
 

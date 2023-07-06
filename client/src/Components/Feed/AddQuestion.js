@@ -42,7 +42,7 @@ const AddQuestion = () => {
       <div className='feed-top'>
         <Id _id={profile._id} source={profile.source} full={true}/>
 
-        <input 
+        <input
         onChange={textChange}
         className="user-answer" type="text" placeholder="Your Question?"/>
       </div>

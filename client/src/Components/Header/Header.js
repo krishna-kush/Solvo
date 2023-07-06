@@ -20,9 +20,9 @@ export default () => {
   let logOutHandler = () => { 
     dispatch({ type: 'LOGOUT' })
     
-    navigate('/auth')
-    
     setUser(null)
+    
+    navigate('/auth')
   }
 
   return (

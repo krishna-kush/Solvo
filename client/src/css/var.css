@@ -158,12 +158,9 @@
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /* Auth */
-    --auth-cont-height: 100vh;
     --auth-width: 25%;
     /* --auth-height: fit- content; */
     --auth-persumed-height: 40vh;
-
-    --auth-m-top: calc( var(--auth-cont-height) - (var(--auth-cont-height) / 2) - (var(--auth-persumed-height) / 2) );
 
     --auth-border-radius: 15px;
 

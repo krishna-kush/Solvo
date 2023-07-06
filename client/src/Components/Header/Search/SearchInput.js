@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect} from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -106,7 +106,8 @@ const SearchInput = () => {
   }, [])
 
   return (
-    <input id='search-input' type="text" placeholder={placeholderText}
+    <input id='search-input' type="text"
+    placeholder={placeholderText}
     onChange={(e) => {
       setInput(e.target.value)
       setSearched(false)

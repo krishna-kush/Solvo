@@ -13,26 +13,19 @@ export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const profile = JSON.parse(localStorage.getItem('profile'))
+
+  if (profile) {
+    alert("You are already logged in")
+    navigate('/')
+    return null
+  }
+
   let data = useSelector((state) => state.authI);
 
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
   
-  useEffect(() => {
-    centerAuthY()
-  }, [log_in])
-  useEffect(() => {
-    set_auth_width(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
-    // set_auth_width(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
-  }, [])
-  
-  let centerAuthY = () => {
-    let authContHeight = document.getElementById('auth-container').offsetHeight
-    let auth = document.getElementById('auth')
-    let authHeight = auth.offsetHeight
-
-    auth.style.top = `${(authContHeight) - (authContHeight/2) - (authHeight/2)}px`
-  }
 
   let logIn = async () => {
     let datatosend = {
@@ -96,9 +89,16 @@ export default () => {
     console.log("failed google auth")
   }
 
+  useEffect(() => {
+    set_auth_width(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
+    // set_auth_width(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
+  }, [])
+
+  
+
   return (
     <div id='auth-container'>
-      <div id='auth'>
+      <div id='auth' className='center-absolute'>
         <div id='welcome' className='small-box'>
           {log_in? "Welcome" : "Welcome Again"}
         </div>
