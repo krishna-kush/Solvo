@@ -18,7 +18,6 @@ export default () => {
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
   
-
   let logIn = async () => {
     let datatosend = {
       email: data.email.value,
@@ -87,7 +86,6 @@ export default () => {
   }, [])
 
   
-
   return (
     <div id='auth-container'>
       <div id='auth' className='center-absolute'>
@@ -119,19 +117,19 @@ export default () => {
 
         <div className='more'>
           <p className=''> OR</p>
-            <div
-            style={{width: auth_width, margin: "auto",}}
-            >
-            <GoogleLogin
-              onSuccess={googleSuccess}
-              onFailure={googleFailure}
-              // cookiePolicy="single_host_origin"
-              useOneTap
+          <div
+          style={{width: auth_width, margin: "auto",}}
+          >
+          <GoogleLogin
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            // cookiePolicy="single_host_origin"
+            useOneTap
 
-              width={auth_width}
-              // shape="square"
-            />
-            </div>
+            width={auth_width}
+            // shape="square"
+          />
+          </div>
           {/* <div className='options'>
             <div className='google circle'>G</div>
             <div className='google circle'>F</div>
@@ -169,8 +167,6 @@ export default () => {
         </div>
 
         </>}
-
-        
       </div>
     </div>
   )

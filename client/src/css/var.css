@@ -1,10 +1,27 @@
 :root{
     /* Colors */
-    --title-color: #2097db;
-    /* --bar-color: #ffffff; */
-    --base-color: #f0ede9 ; 
-    --bar-color: grey;
-    --in-dark-color: rgb(103, 101, 101);
+
+    /* PINK */
+        /* DAY */
+        --title-color: #FF4D6D;
+        --base-color: #fff; 
+        --bar-color: #ff4d6e28; /* Transparent */
+        --in-bar-color: #FFCCD5;
+        --box-color: #ff4d6eb7; /* Transparent */
+        --in-box-color: #FF4D6D;
+        --in-box-color-selected: #C9184A;
+        
+        /* NIGHT */
+        --dark-title-color: #FF4D6D;
+        --dark-base-color: #000000; 
+        --dark-bar-color: #9f39514d; 
+        --dark-in-bar-color: #FFCCD5;
+        --dark-box-color: #672736ae; 
+        --dark-in-box-color: #FF4D6D;
+        --dark-in-box-color-selected: #C9184A;
+
+    /* PINK */
+
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

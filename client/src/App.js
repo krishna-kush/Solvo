@@ -31,13 +31,27 @@ import './css/changer.css';
 import './css/auth.css';
 
 
+const root_theme = document.querySelector(':root')
+let theme = 'dark';
+// if (theme==='dark') {
+//   root_theme.style.setProperty('--base-color', '#351920')
+//   root_theme.style.setProperty('--bar-color', '#762034')
+//   root_theme.style.setProperty('--box-color', '#bd3a59ae')
+//   root_theme.style.setProperty('--in-box-color', '#7a1c32')
+// }
+if (theme==='dark') {
+  root_theme.style.setProperty('--base-color', 'black')
+  root_theme.style.setProperty('--bar-color', 'grey')
+  root_theme.style.setProperty('--box-color', '#bd3a59ae')
+  root_theme.style.setProperty('--in-box-color', '#C9184A')
+  root_theme.style.setProperty('--in-box-color-selected', '#420819')
+}
+
 const App = () => {
-  // when relogin how to show auth
   const auth = useSelector(state => state.auth.authData);
   const [profile, userProfile] = useState(JSON.parse(localStorage.getItem('profile')));
   const ifLogedIn = auth || profile;
   const showAlert = auth && window.location.pathname === '/auth';
-
 
   return (
     <div className="App">

@@ -1,5 +1,5 @@
 .comment-cont {
-    background-color: rgb(103, 101, 101);
+    background-color: var(--in-bar-color);
     padding: var(--short-padding);
 }
 .comment-content {

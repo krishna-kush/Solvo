@@ -13,7 +13,7 @@
 
 #changer {
     margin: auto;
-    background-color: darkgray;
+    background-color: var(--box-color);
 
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@
 }
 
 .changer-block {
-    background-color: blueviolet;
+    background-color: var(--in-box-color);
 
     width: var(--changer-blocks-width);
     height: var(--changer-blocks-height);
@@ -45,7 +45,7 @@
     transition: all 0.3s ease-out;
 }
 .changer-block:hover {
-    background-color: darkblue;
+    background-color: var(--in-box-color-selected);
 
     width: var(--changer-blocks-hover-width);
 }
