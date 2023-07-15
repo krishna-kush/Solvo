@@ -23,6 +23,21 @@ export default () => {
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  const regex_err_conditions = {
+    password: [
+      'Password must be 8-24 characters long',
+      'Password must contain at least one lowercase letter',
+      'Password must contain at least one uppercase letter',
+      'Password must contain at least one number',
+      'Password must contain at least one special character',
+    ],
+    user: [
+      'Username must be 4-24 characters long',
+      'Username must start with a letter',
+      'Username can only contain letters, numbers, dashes, and underscores',
+    ]
+  }
+
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
 
@@ -66,7 +81,7 @@ export default () => {
         {log_in? <>
         <div className='inputs'>
           <AuthInput name='email' regex={EMAIL_REGEX} type='full'/>
-          <AuthInput name='password' regex={PWD_REGEX} type='full'/>
+          <AuthInput name='password' regex={PWD_REGEX} err_conditions={regex_err_conditions.password} type='full'/>
         </div>
 
         <div className='auth-options'>
@@ -116,11 +131,11 @@ export default () => {
 
         <div className='inputs'>
           <div className='short-i-cont'> {/* To have both Inputs move up, when one do. */}
-            <AuthInput name='fname' regex={USER_REGEX} type='short' length={2}/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
-            <AuthInput name='lname' regex={USER_REGEX} type='short' length={2}/>
+            <AuthInput name='fname' regex={USER_REGEX} err_conditions={regex_err_conditions.user} type='short' length={2}/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
+            <AuthInput name='lname' regex={USER_REGEX} err_conditions={regex_err_conditions.user} type='short' length={2}/>
           </div>
           <AuthInput name='email' regex={EMAIL_REGEX} type='full' mnot={true}/>
-          <AuthInput name='password' regex={PWD_REGEX} type='full'/>
+          <AuthInput name='password' regex={PWD_REGEX} err_conditions={regex_err_conditions.password} type='full'/>
           <AuthInput name='confirm_password' type='full'/>
         </div>
 

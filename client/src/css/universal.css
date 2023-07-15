@@ -11,6 +11,12 @@
 
 }
 
+hr {
+    border:none;
+    height: 1px;
+    background-color: #fff;
+}
+
 /* Cromimum set background-color of the input element to something similar to white when select something from dropdown it provides, the following code is to disable it(Specially for search.css's #search-container input) */
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px var(--bar-color) inset ;
@@ -30,6 +36,9 @@ input:focus {
 }
 .fade {
     opacity: 0.5;
+}
+.d-none {
+    display: none;
 }
 .center-absolute {
     position: absolute;

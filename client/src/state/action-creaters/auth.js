@@ -60,6 +60,7 @@ export const signUp = async (data) => {
 
 export const google = async (data) => {
     const ans = await gAuth(data);
+    console.log(ans);
 
     return (dispatch) => {
         dispatch({

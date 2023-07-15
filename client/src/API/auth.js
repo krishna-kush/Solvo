@@ -42,7 +42,7 @@ export const createUser = async (data) => {
 
 export const gAuth = async (data) => {
     //get the token from the local storage
-    
+
     let mdata = await Axios.post('http://localhost:5000/auth/google', data)
     .then((res) => {
         // update token or send err

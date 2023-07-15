@@ -1,19 +1,24 @@
-import { React, useEffect, useRef } from 'react'
+import { React, useEffect, useRef, useState } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../../state/index'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faEnvelope } from '@fortawesome/fontawesome-svg-core'
-import { faEnvelope, faKey, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faKey, faUser, faCircleInfo, faL } from '@fortawesome/free-solid-svg-icons'
 
 
 export default (params) => {
+  console.log('render');
   const dispatch = useDispatch();
 
   const contRef = useRef(null);
   const inputContRef = useRef(null);
   const errTxtRef = useRef(null);
+  const errInfoIconRef = useRef(null);
+  const errInfoRef = useRef(null);
+
+  const [showErrInfo, setShowErrInfo] = useState(false)
 
   let data = useSelector((state) => state.authI);
 
@@ -58,6 +63,13 @@ export default (params) => {
       return 'Last Name'
     }
   }
+  let getType = (name) => {
+    if (name == 'email' || name == 'fname' || name == 'lname') {
+      return 'text'
+    } else if (name == 'password' || name == 'confirm_password') {
+      return 'text'
+    }
+  }
   let getIcon = (name) => {
     if (name === 'email') {
       return faEnvelope
@@ -68,30 +80,42 @@ export default (params) => {
     }
   }
 
-  // check if input is valid and showing err if there is and adding box shadow style accordingly
+  // check if err and showing err if there is and adding box shadow style accordingly
   useEffect(() => {
     let err_color = window.getComputedStyle(document.documentElement).getPropertyValue('--err-color');
     let transition_time = window.getComputedStyle(document.documentElement).getPropertyValue('--transition-time');
 
-    let condition;
     let text;
 
     if (name === 'confirm_password') {
-      condition = data.confirm_password.value && (data.password.value != data.confirm_password.value)
       text = `Password Don't Match`
     } else {
-      condition = data[name].value && !params.regex.test(data[name].value)
       text = `Not a valid ${getName(name)}`
     }
 
-    if (condition) {
+    // for handling if to show err icon
+    if (params?.err_conditions) {
+      if (name==='lname') {
+        if (data.fname.err || data.lname.err) {
+          errInfoIconRef.current.classList.remove('d-none')
+        } else {
+          errInfoIconRef.current.classList.add('d-none')
+        }
+      } else if (data[name].err && name!=='fname') {
+        errInfoIconRef.current.classList.remove('d-none')
+      } else {
+        errInfoIconRef.current.classList.add('d-none')
+      }
+    }
+
+    // for handling if to show err msg and err box shodow on div boundry
+    if (data[name].err) {
       errTxtRef.current.textContent = text
       errTxtRef.current.classList.remove('hidden')
       
       inputContRef.current.style.setProperty('box-shadow', `0 0 0 1px ${err_color}`)
-
+      
       // updating err authInput state to be used in AuthButton to know if there is err in input
-      changeData(name, 'err', true)
     } else {
       errTxtRef.current.classList.add('hidden')
       setTimeout(() => {
@@ -99,8 +123,27 @@ export default (params) => {
       }, parseInt(transition_time)); // to match with transition time
 
       inputContRef.current.style.setProperty('box-shadow', '0 0 0 1px white')
-
-      changeData(name, 'err', false)
+    }
+  }, (() => {
+    if (name==='lname') { // if lname want to show err icon even if err in fname
+      return [data.fname.err, data.lname.err]
+    } else { return [data[name].err] }
+  })())
+  
+  // to change err info for input
+  useEffect(() => {
+    if (name==='confirm_password') {
+      if (data.confirm_password.value && (data.password.value != data.confirm_password.value)) {
+        changeData(name, 'err', true)
+      } else {
+        changeData(name, 'err', false)
+      }
+    } else {
+      if (data[name].value && !params.regex.test(data[name].value)) {
+        changeData(name, 'err', true)
+      } else {
+        changeData(name, 'err', false)
+      }
     }
   }, (() => { // to make conform_password have multiple dependencies while everything else but one
     if (name==='confirm_password') {
@@ -111,6 +154,14 @@ export default (params) => {
   useEffect(() => {
     if (params.type === 'short') {
       contRef.current.style.setProperty('width', `calc((var(--auth-input-cont-width) - var(--auth-input-cont-half-gap)) / ${params.length})`)
+    }
+  }, [])
+
+  // to position the errInfo div
+  useEffect(() => { // cann't place if condition outside the hook, means cann't conditionally render hook, because react keep count of hook and if that mismatch it'll throw an error
+      if (params?.err_conditions) {
+      errInfoRef.current.style.top = `calc(-${errInfoRef.current.offsetHeight}px - var(--short-margin))`
+      errInfoRef.current.style.left = `calc(100% - (${errInfoRef.current.offsetWidth}px/2))`
     }
   }, [])
 
@@ -138,7 +189,7 @@ export default (params) => {
         {/* <div ref={inputContRef} className='auth-input out-light'> */}
         <div ref={inputContRef} className='auth-input transition'>
           <input
-          type='text'
+          type={getType(name)}
           name={`${name}`}
           className='input-margin-left'
 
@@ -158,6 +209,31 @@ export default (params) => {
             <FontAwesomeIcon icon={getIcon(name)} />
           </div>
         </div>
+
+        {params?.err_conditions? <>
+          <div ref={errInfoIconRef}
+          className='err-info-icon shift-down-in-input input-margin-left d-none transition'
+          >
+            <FontAwesomeIcon 
+            icon={faCircleInfo} 
+
+            onMouseEnter={() => {setShowErrInfo(true)}}
+            onMouseLeave={() => {setShowErrInfo(false)}}
+            />
+          </div>
+
+          <div
+          ref={errInfoRef}
+          id={`${name}-err-info`} 
+          className={`err-info shift-down-in-input input-margin-left transition ${showErrInfo?'':'hidden'}`}>
+            {params.err_conditions.map((err, index) => {
+              return ( <>
+                <p key={index} className=''>{err}</p>
+                {index===(params.err_conditions.length-1)?<></>:<hr/>}
+              </>)
+            })}
+          </div>
+        </> : <></>}
         <div ref={errTxtRef} className='err-msg input-margin-left transition'>{/* Transition can't make it's effect on the text inside but can only on styles. Hence I added hidden class from useEffect */}</div>
       </div>
   )

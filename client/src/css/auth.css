@@ -8,7 +8,7 @@
 
     border-radius: var(--auth-border-radius);
 
-    overflow: auto; /* https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element#:~:text=If%20the%20first%20child%20of,It's%20just%20like%20that.&text=You%20can%20fix%20it%20by,such%20as%20a%20simple%20space. */
+    /* overflow: auto; https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element#:~:text=If%20the%20first%20child%20of,It's%20just%20like%20that.&text=You%20can%20fix%20it%20by,such%20as%20a%20simple%20space. */
 }
 #not-auth {
     background-color: darkgrey;
@@ -108,6 +108,27 @@
     z-index: 1;
 }
 
+.err-info-icon {
+    left: 100%;
+    color: var(--err-color);
+}
+.err-info {
+    overflow: visible;
+    color: white;
+    background-color: var(--box-color);
+
+    padding: var(--short-padding);
+    border-radius: var(--short-radius);
+
+    position: absolute;
+
+    /* width: 100px; */
+    height: fit-content;
+    pointer-events: none;
+}
+.err-info p {
+    white-space: nowrap;
+}
 .auth-options {
     width: auto;
     display: flex;
