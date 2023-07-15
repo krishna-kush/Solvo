@@ -4,12 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../../state/index'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faEnvelope } from '@fortawesome/fontawesome-svg-core'
-import { faEnvelope, faKey, faUser, faCircleInfo, faL } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faEye, faEyeSlash, faUser, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 
 
 export default (params) => {
-  console.log('render');
   const dispatch = useDispatch();
 
   const contRef = useRef(null);
@@ -18,23 +16,36 @@ export default (params) => {
   const errInfoIconRef = useRef(null);
   const errInfoRef = useRef(null);
 
+  const [inputType, setInputType] = useState('password')
+  const [inputTypeIcon, setInputTypeIcon] = useState(faEye)
+
   const [showErrInfo, setShowErrInfo] = useState(false)
 
   let data = useSelector((state) => state.authI);
 
   let name = params.name
 
-  let changeData = (what0, what1, to) => {
+  const changeData = (what0, what1, to) => {
     dispatch(actionCreators.auth.updateInput([what0, what1, to]))
   }
-  let textChange = (e) => {
+  const textChange = (e) => {
     let name = e.target.name
     let value = e.target.value
 
     changeData(name, 'value', value)
   }
 
-  let moveText = (name, dir) => {
+  const togglePassword = () => {
+    if (inputType==='text') {
+      setInputType('password')
+      setInputTypeIcon(faEye)
+    } else {
+      setInputType('text')
+      setInputTypeIcon(faEyeSlash)
+    }
+  }
+
+  const moveText = (name, dir) => {
     let text = document.getElementById(name)
     if (!dir && data[name].value == '') {
       text.style.transform = 'translateY(0%)'
@@ -42,7 +53,7 @@ export default (params) => {
       text.style.transform = 'translateY(-100%)'
     }
   }
-  let moveTextClass = (name) => {
+  const moveTextClass = (name) => {
     if (data[name].value == '') {
       return {transform: "translateY(0%)"}
     } else {
@@ -50,7 +61,7 @@ export default (params) => {
     }
   }
   
-  let getName = (name) => {
+  const getName = (name) => {
     if (name == 'email') {
       return 'Email'
     } else if (name == 'password') {
@@ -63,18 +74,11 @@ export default (params) => {
       return 'Last Name'
     }
   }
-  let getType = (name) => {
-    if (name == 'email' || name == 'fname' || name == 'lname') {
-      return 'text'
-    } else if (name == 'password' || name == 'confirm_password') {
-      return 'text'
-    }
-  }
-  let getIcon = (name) => {
+  const getIcon = (name) => {
     if (name === 'email') {
       return faEnvelope
     } else if (name === 'password' || name === 'confirm_password') {
-      return faKey
+      return inputTypeIcon
     } else if (name === 'fname' || name === 'lname') {
       return faUser
     }
@@ -189,7 +193,7 @@ export default (params) => {
         {/* <div ref={inputContRef} className='auth-input out-light'> */}
         <div ref={inputContRef} className='auth-input transition'>
           <input
-          type={getType(name)}
+          type={name==='password'||name==='confirm_password'? inputType : 'text'}
           name={`${name}`}
           className='input-margin-left'
 
@@ -206,7 +210,9 @@ export default (params) => {
           ></input>
           <div id={`${name}-icon-cont`} className='auth-icon-cont'>
           {/* <div id={`${name}-icon-cont`} className='auth-icon-cont shift-down-in-input'> */}
-            <FontAwesomeIcon icon={getIcon(name)} />
+            <FontAwesomeIcon icon={getIcon(name)}
+            onClick={name==='password' || name==='confirm_password'? togglePassword : ()=>{}}
+            />
           </div>
         </div>
 
