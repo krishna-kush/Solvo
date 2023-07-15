@@ -1,67 +1,30 @@
-import { React, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-
+import { React, useState, useEffect, useRef } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators } from '../../state/index'
+import { useNavigate } from 'react-router-dom';
 
 import { GoogleLogin } from '@react-oauth/google'; // useGoogleLogin is for custom button just use onClick and call it's signIn function, Ref: https://www.npmjs.com/package/@react-oauth/google
 
+import { actionCreators } from '../../state/index'
+
 import AuthInput from './AuthInput'
+import AuthLogInButton from './AuthButtons/AuthLogInButton';
+import AuthSignUpButton from './AuthButtons/AuthSignUpButton';
+
 
 export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // console.log('auth'); // log two times??
 
-  let data = useSelector((state) => state.authI);
+  const loginBtnRef = useRef(null);
+
+  const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
-  
-  let logIn = async () => {
-    let datatosend = {
-      email: data.email.value,
-      password: data.password.value,
-    }
-
-    if (datatosend.email === "" || datatosend.password === "") {
-      alert("Please fill all the fields")
-      return 0
-    }
-    
-    let temp = await actionCreators.auth.logIn(datatosend)
-
-    if (temp.status) {
-      alert(temp.message)
-      return 0
-    }
-
-    temp(dispatch);
-    
-    actionCreators.auth.resetInput()(dispatch); // this is another way to dispatch in one line, but it'll not work for async functions... like below
-    
-    // dispatch(actionCreators.auth.resetInput()); // OR
-    // let reset = actionCreators.auth.resetInput()
-    // dispatch(reset); // this will clear the input fields, for when we reLogin
-
-
-    navigate('/')
-  }
-  let signUp = async () => {
-    let datatosend = {
-      email: data.email.value,
-      password: data.password.value,
-      firstName: data.fname.value,
-      lastName: data.lname.value,
-    }
-
-    actionCreators.auth.resetInput()(dispatch)
-
-    let temp = await actionCreators.auth.signUp(datatosend)
-    temp(dispatch);
-
-    navigate('/')
-  }
 
   let googleSuccess = async (res) => {
     const data = {
@@ -79,12 +42,19 @@ export default () => {
     console.log(error)
     console.log("failed google auth")
   }
-
+  
+  // to fix gAuth btn width as Login btn width
   useEffect(() => {
-    set_auth_width(document.getElementById('login-btn').offsetWidth) // for gAuth style // not working for very large width, have limits...
-    // set_auth_width(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent'))
-  }, [])
+    // for gAuth style // not working for very large width, have limits...
 
+    if (loginBtnRef.current) {
+      set_auth_width(loginBtnRef.current.getWidth) // using useImperativeHandle hook
+      
+      // set_auth_width(loginBtnRef.current.offsetWidth) // using parentRef.current = childRef.current;
+
+      // set_auth_width(getComputedStyle(document.querySelector(':root')).getPropertyValue('--auth-btn-width-percent')) // why this not work?
+    }
+  }, [loginBtnRef])
   
   return (
     <div id='auth-container'>
@@ -95,8 +65,8 @@ export default () => {
 
         {log_in? <>
         <div className='inputs'>
-          <AuthInput name='email' type='full'/>
-          <AuthInput name='password' type='full'/>
+          <AuthInput name='email' regex={EMAIL_REGEX} type='full'/>
+          <AuthInput name='password' regex={PWD_REGEX} type='full'/>
         </div>
 
         <div className='auth-options'>
@@ -110,12 +80,10 @@ export default () => {
         </div>
 
         <div id='login-button-cont'>
-          <div id='login-btn' className='login-btn small-box'
-          onClick={logIn}
-          >LogIn</div>
+          <AuthLogInButton ref={loginBtnRef}/>
         </div>
 
-        <div className='more'>
+        <div className='login-more'>
           <p className=''> OR</p>
           <div
           style={{width: auth_width, margin: "auto",}}
@@ -147,17 +115,17 @@ export default () => {
         </> : <>
 
         <div className='inputs'>
-          <AuthInput name='fname' type='half'/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
-          <AuthInput name='lname' type='half'/>
-
-          <AuthInput name='email' type='full' mnot={true}/>
-          <AuthInput name='password' type='full'/>
+          <div className='short-i-cont'> {/* To have both Inputs move up, when one do. */}
+            <AuthInput name='fname' regex={USER_REGEX} type='short' length={2}/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
+            <AuthInput name='lname' regex={USER_REGEX} type='short' length={2}/>
+          </div>
+          <AuthInput name='email' regex={EMAIL_REGEX} type='full' mnot={true}/>
+          <AuthInput name='password' regex={PWD_REGEX} type='full'/>
+          <AuthInput name='confirm_password' type='full'/>
         </div>
 
         <div id='login-button-cont'>
-          <div className='login-btn small-box'
-            onClick={signUp}
-          >SignUp</div>
+          <AuthSignUpButton/>
         </div>
 
         <div className='not-acc'>

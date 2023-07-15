@@ -10,6 +10,7 @@ export const updateInput = (data) => {
         })
     }
 }
+
 export const resetInput = () => {
     return (dispatch) => {
         dispatch({

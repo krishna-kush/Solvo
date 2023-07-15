@@ -41,7 +41,7 @@ export default (params) => {
     
     <div
     id={getId(params.parent, params.id)}
-    className={getClass(params.isSelected)}
+    className={`${getClass(params.isSelected)} transition`}
     onClick={() => {
     handleClick(getId(params.parent, params.id))
     }}

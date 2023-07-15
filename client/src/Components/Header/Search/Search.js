@@ -58,13 +58,12 @@ const Search = () => {
 
   return (
     <div id="header-search">
-      <div id='search-container'>
+      <div id='search-container' className='out-light'>
         <div className='search-icon'>
           <FontAwesomeIcon className='icon-inside-search' icon={faSearch} />
         </div>
 
         <SearchInput/>
-
 
         {input? (
         <div className='search-cancle'

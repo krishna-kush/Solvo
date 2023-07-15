@@ -49,32 +49,46 @@
     left: var(--auth-input-cont-left);
     
     margin: var(--auth-input-cont-margin-y) 0 var(--auth-input-cont-margin-y) 0;
-
-    border-bottom: 2px solid white;    
 }
-.half-i-cont {
-    display: inline-block;
-    width: calc((var(--auth-input-cont-width) - var(--auth-input-cont-half-gap)) / 2); /* For Ex: 60, 60-4 / 2 = 28, then 28 is width for cont and 2, 2 (total 4) is right and left cont-margin respectivily*/
+.short-i-cont {
+    display: flex; /* why not below?? */
+    /* width: var(--auth-input-cont-width); */
+    /* justify-content: space-between; */
 }
-#fname-i {
+#fname-i { /* Find a way to remove this and add as many as I like blocks in short input*/
     margin-right: calc(var(--auth-input-cont-half-gap) / 2);
 }
 #lname-i {
     margin-left: calc(var(--auth-input-cont-half-gap) / 2);
 }
 
-.input-cont input {
+.input-margin-left {
+    margin-left: var(--auth-input-radius);
+}
+.auth-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     height: var(--auth-input-height);
-    width: var(--auth-input-width);
+    width: 100%;
+
+    border-radius: var(--auth-input-radius);
+    box-shadow: 0 0 0 1px white;
+}
+
+.auth-input input {
+    height: 100%;
+    width: 1px; /* Otherwise it'll take more space if width is not specified */
+    flex-grow: 1;
 
     /* margin: auto; */
     margin-bottom: var(--auth-input-margin-y);
     margin-top: var(--auth-input-margin-y);
 
-    /* position: relative;
-    left: 20%; */
-    
-    /* background: transparent; */
+    position: relative;
+
+    background: transparent;
     border: none;
 }
 
@@ -85,16 +99,13 @@
 
     z-index: 1;
 }
-#icon-cont{
-    width: var(--auth-input-icon-width);
-    left: var(--auth-input-icon-left);
+.auth-icon-cont{
+    width: fit-content;
+    margin-right: var(--auth-input-radius);
     
     line-height: var(--auth-input-height);
 
     z-index: 1;
-}
-.input-text {
-    transition: all var(--transition-midium) var(--transition-style);
 }
 
 .auth-options {
@@ -130,12 +141,12 @@
     line-height: 3vh; /* 3vh = height of the button */
 }
 
-.more {
+.login-more {
     text-align: center;
 
     margin-top: 1vh;
 }
-.more p {
+.login-more p {
     margin-bottom: 1vh;
 }
 

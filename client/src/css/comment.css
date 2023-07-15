@@ -5,9 +5,6 @@
 .comment-content {
     padding-left: var(--comment-padding);
 }
-.more {
-    padding-left: var(--comment-padding);
-}
 
 .comment p {
     text-align: justify;

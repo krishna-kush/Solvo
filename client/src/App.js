@@ -51,7 +51,7 @@ const App = () => {
   const auth = useSelector(state => state.auth.authData);
   const [profile, userProfile] = useState(JSON.parse(localStorage.getItem('profile')));
   const ifLogedIn = auth || profile;
-  const showAlert = auth && window.location.pathname === '/auth';
+  const showAlert = profile && window.location.pathname === '/auth';
 
   return (
     <div className="App">
@@ -98,6 +98,7 @@ const App = () => {
             </div>
             <Auth/>
           </>}/>
+          
 
         </Routes>
       </Router>

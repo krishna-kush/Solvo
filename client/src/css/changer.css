@@ -42,7 +42,6 @@
     padding: var(--changer-blocks-padding-x) var(--changer-blocks-padding-y);
 
     overflow: hidden;
-    transition: all 0.3s ease-out;
 }
 .changer-block:hover {
     background-color: var(--in-box-color-selected);
