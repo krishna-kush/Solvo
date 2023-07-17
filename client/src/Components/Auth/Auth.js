@@ -19,22 +19,23 @@ export default () => {
 
   const loginBtnRef = useRef(null);
 
-  const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+  const USER_REGEX = /^[A-z][A-z0-9-_]{1,23}$/;
+  // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+  const PWD_REGEX = /.{1,24}$/;
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const regex_err_conditions = {
+    user: [
+      'Username must be 2-24 characters long',
+      'Username must start with a letter',
+      'Username can only contain letters, numbers, dashes, and underscores',
+    ],
     password: [
       'Password must be 8-24 characters long',
       'Password must contain at least one lowercase letter',
       'Password must contain at least one uppercase letter',
       'Password must contain at least one number',
       'Password must contain at least one special character',
-    ],
-    user: [
-      'Username must be 4-24 characters long',
-      'Username must start with a letter',
-      'Username can only contain letters, numbers, dashes, and underscores',
     ]
   }
 

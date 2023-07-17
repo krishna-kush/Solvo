@@ -1,6 +1,6 @@
 import { React, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { actionCreators } from '../../state'
 
@@ -11,7 +11,7 @@ const AddQuestion = () => {
 
   let [data, setData] = useState('')
 
-  let profile = JSON.parse(localStorage.getItem('profile'))
+  let profile = useSelector((state) => state.auth.authData)
 
   let post = async () => {
     const temp = await actionCreators.post.create({

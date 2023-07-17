@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Search from './Search/Search'
 
 
@@ -11,16 +11,18 @@ export default () => {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const user = useSelector((state) => state.auth.authData)
+
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('profile')))
+    // setUser(JSON.parse(localStorage.getItem('profile')))
   }, [location]) // because after auth getting to home page does not change info in header...
 
-  let [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  // let [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
   let logOutHandler = () => { 
     dispatch({ type: 'LOGOUT' })
     
-    setUser(null)
+    // setUser(null)
     
     navigate('/auth')
   }

@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from './AxiosInstance.js'
 
 let basic = async (url, parameters={}, source) => {
     let mdata = await Axios.post(url, parameters)
@@ -16,14 +16,14 @@ let basic = async (url, parameters={}, source) => {
 }
 
 export const getComment = async (_id) => {
-    return await basic('http://localhost:5000/posts/comment', {_id}, 'getComment')
+    return await basic('/posts/comment', {_id}, 'getComment')
 }
 
 export const upCommentBasic = async (comment_text, parent_comment_id, user_id, user_source) => {
-    return await basic('http://localhost:5000/posts/upComment', {comment_text, parent_comment_id, user_id, user_source}, 'upComment')
+    return await basic('/posts/upComment', {comment_text, parent_comment_id, user_id, user_source}, 'upComment')
 }
 
 export const incrementComment = async (what, comment_id, user_id, user_source) => {
-    return await basic('http://localhost:5000/posts/increment', {what, comment_id, user_id, user_source}, 'increment')
+    return await basic('/posts/increment', {what, comment_id, user_id, user_source}, 'increment')
 }
  

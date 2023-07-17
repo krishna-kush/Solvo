@@ -1,6 +1,6 @@
 import { LOG, UPDATE_AUTH_INPUT, RESET_AUTH_INPUT, ADD_ID } from '../../constants/actionTypes'
 
-import { whoMin, gAuth, createUser, checkUser } from '../../API/auth'
+import { whoMin, gAuth, createUser, loginUser, ifLoginUser } from '../../API/auth'
 
 export const updateInput = (data) => {
     return (dispatch) => {
@@ -31,12 +31,33 @@ export const whoAdd = async (_id, source) => {
 }
 
 export const logIn = async (data) => {
-    const ans = await checkUser(data);
+    console.log('action');
+    const ans = await loginUser(data);
+    console.log('action: ', ans);
 
     if (ans.data.status != 200) { // for status 200 as it's not error, format should be ans.status
         return {
             status: ans.data.status,
             message: ans.data.data.message,
+        }
+    }
+
+    return (dispatch) => {
+        dispatch({
+            type: LOG,
+            payload: ans
+        })
+    }
+}
+export const ifLogIn = async () => {
+    const ans = await ifLoginUser();
+    console.log(ans);
+
+    if (ans.data.status != 200) { // for status 200 as it's not error, format should be ans.status
+        return {
+            status: ans.data.status,
+            message: ans.data.data.message,
+            error: ans.data.data.error,
         }
     }
 

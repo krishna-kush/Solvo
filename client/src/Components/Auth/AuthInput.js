@@ -163,7 +163,7 @@ export default (params) => {
 
   // to position the errInfo div
   useEffect(() => { // cann't place if condition outside the hook, means cann't conditionally render hook, because react keep count of hook and if that mismatch it'll throw an error
-      if (params?.err_conditions) {
+    if (params?.err_conditions) {
       errInfoRef.current.style.top = `calc(-${errInfoRef.current.offsetHeight}px - var(--short-margin))`
       errInfoRef.current.style.left = `calc(100% - (${errInfoRef.current.offsetWidth}px/2))`
     }

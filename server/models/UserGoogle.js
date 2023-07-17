@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
+    googleId: String, // name for unique id google provides to every google user
     name: String,
     email: String,
     photo: {

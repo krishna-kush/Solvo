@@ -61,11 +61,38 @@ export const logIn = async (req, res) => {
         if(!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
 
         const token = jwt.sign({
-            email: existingUser.email,
-            id: existingUser._id
+            _id: existingUser._id,
+            // email: existingUser.email,
+            // name: existingUser.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ result: existingUser, token });
+        console.log('tokrn');
+
+        res.status(200).json({ token, result: { email: existingUser.email, name: existingUser.name }});
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+export const ifLogIn = async (req, res) => {
+    try {
+        console.log('ifLogIn', req.userId, req.source);
+        const _id = req.userId;
+        const source = req.source;
+        let existingUser;
+
+        if (source=='google') {
+            existingUser = await UserGoogle.findOne({ googleId: _id });
+        } else if (source=='own') {
+            existingUser = await User.findOne({ _id });
+        }
+            
+        if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
+
+        console.log('sending');
+
+        res.status(200).json({ result: { email: existingUser.email, name: existingUser.name }});
         
     } catch (error) {
         console.log(error);
@@ -84,11 +111,12 @@ export const signUp = async (req, res) => {
         const result = await User.create({ email, password, name: `${firstName} ${lastName}` });
 
         const token = jwt.sign({
+            _id: result._id,
             email: result.email,
-            id: result._id
+            name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ result, token });
+        res.status(200).json({ token });
         
     } catch (error) {
         console.log(error);
@@ -107,7 +135,7 @@ export const google = async (req, res) => {
             idToken: token,
             // audience: clientId
         });
-        const { name, email, picture } = ticket.getPayload();
+        const { sub, name, email, picture } = ticket.getPayload();
         // console.log(ticket.getPayload());
 
         let user = await UserGoogle.findOneAndUpdate(
@@ -118,8 +146,9 @@ export const google = async (req, res) => {
 
 
         if (user==null) {
-            console.log("not found");
+            console.log("not found google user");
             const data = {
+                googleId: sub,
                 name: name,
                 email: email,
                 photo: picture,
@@ -129,8 +158,7 @@ export const google = async (req, res) => {
             // }
             UserGoogle.create(data)
             
-            user = await UserGoogle.findOne({ email: email });
-            
+            user = await UserGoogle.findOne({ googleId: sub });            
         }else {
             console.log("found");
             // console.log(user);
@@ -139,7 +167,7 @@ export const google = async (req, res) => {
 
         // console.log(user);
 
-        res.status(200).json(user);
+        res.status(200).json({token, result: user});
 
 
         // Fetch token for perticuler IP, Multiple token can exist for multiple divices
