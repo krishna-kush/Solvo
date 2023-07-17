@@ -13,7 +13,7 @@ const Comments = (params) => {
   const dispatch = useDispatch();
 
   let indent = useSelector((state) => state.indent);
-  let profile = JSON.parse(localStorage.getItem('profile'))
+  let profile = useSelector((state) => state.auth.authData);
 
   let [reply, setReply] = useState('')
   let [showReplyInputBox, setShowReplyInputBox] = useState(false)

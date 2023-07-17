@@ -64,7 +64,7 @@ export const logIn = async (req, res) => {
             _id: existingUser._id,
             // email: existingUser.email,
             // name: existingUser.name,
-        }, 'secret', { expiresIn: "1h" });
+        }, 'secret', { expiresIn: "2d" });
 
         console.log('tokrn');
 
@@ -87,12 +87,13 @@ export const ifLogIn = async (req, res) => {
         } else if (source=='own') {
             existingUser = await User.findOne({ _id });
         }
+        existingUser = { ...existingUser._doc, source: source };
             
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
         console.log('sending');
 
-        res.status(200).json({ result: { email: existingUser.email, name: existingUser.name }});
+        res.status(200).json({ result: existingUser});
         
     } catch (error) {
         console.log(error);

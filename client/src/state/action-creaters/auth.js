@@ -51,7 +51,7 @@ export const logIn = async (data) => {
 }
 export const ifLogIn = async () => {
     const ans = await ifLoginUser();
-    console.log(ans);
+    // console.log(ans);
 
     if (ans.data.status != 200) { // for status 200 as it's not error, format should be ans.status
         return {

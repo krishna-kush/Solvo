@@ -8,19 +8,19 @@ const reducer = (state = { authData: null }, action) => {
                 
             //     return { ...state, authData: null }
             // }
-            if (action.payload.source=='gAuth') {
-                let data = {
-                    data: { ...action.payload.data, source: 'google', }, // how to spread everything but token
-                    token: action.payload.data.token,
+            // if (action.payload.source=='gAuth') {
+            //     let data = {
+            //         data: { ...action.payload.data }, // how to spread everything but token
+            //         token: action.payload.data.token,
                     
-                }
-                // console.log('check', data, action.payload);
-                localStorage.setItem('session', data.token)
-                return { ...state, authData: data.data, token: data.token, source: 'google' }
-            } else if (action.payload.source=='loginUser' || action.payload.source=='ifLogin') {
+            //     }
+            //     // console.log('check', data, action.payload);
+            //     localStorage.setItem('session', data.token)
+            //     return { ...state, authData: data.data, token: data.token }
+            // } else if (action.payload.source=='loginUser' || action.payload.source=='ifLogin') {
                 console.log('LOG');
                 let data = {
-                    data: { ...action.payload.data.result, source: 'own', }, // how to spread everything but token
+                    data: { ...action.payload.data.result }, // how to spread everything but token
                     token: action.payload.data?.token,
                     
                 }
@@ -29,13 +29,13 @@ const reducer = (state = { authData: null }, action) => {
                 
                 if (data.token!==undefined) {
                     localStorage.setItem('session', data.token)
-                    return { ...state, authData: data.data, token: data.token, source: 'own' }
+                    return { ...state, authData: data.data, token: data.token }
                 } else {
                     console.log('authData', data.data);
-                    return { ...state, authData: data.data, source: 'own' }
+                    return { ...state, authData: data.data }
                 }
 
-            }
+            // }
         case LOGOUT:
             localStorage.clear()
 

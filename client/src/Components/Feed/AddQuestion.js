@@ -12,6 +12,7 @@ const AddQuestion = () => {
   let [data, setData] = useState('')
 
   let profile = useSelector((state) => state.auth.authData)
+  // console.log('profile', profile?._id);
 
   let post = async () => {
     const temp = await actionCreators.post.create({

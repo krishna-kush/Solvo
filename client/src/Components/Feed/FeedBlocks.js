@@ -15,7 +15,7 @@ export default (params) => {
   // }, [])
 
   let data = useSelector((state) => state.post[params.id]);
-  let profile = JSON.parse(localStorage.getItem('profile'))
+  let profile = useSelector((state) => state.auth.authData);
 
   let [ans, setAns] = useState('')
   let [showComments, setShowComments] = useState(false)
