@@ -3,11 +3,11 @@ import { React, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
+import { actionCreators } from '../../state'
+import { useQuery } from '../../Utils/Universal'
+
 import FeedBlocks from './FeedBlocks'
 import AddQuestion from './AddQuestion'
-import { actionCreators } from '../../state'
-
-import { useQuery } from '../../Utils/Universal'
 
 export default () => {
   const dispatch = useDispatch();
@@ -45,7 +45,6 @@ export default () => {
     
   return (
     <div id="feed">
-
       <div className="ad-ques-cont">
         <AddQuestion/>
       </div>

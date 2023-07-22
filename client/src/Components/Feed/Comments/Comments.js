@@ -9,6 +9,7 @@ const Comments = (params) => {
   let iter = 0
 
   let data = useSelector((state) => state.post[params.id].answers);
+  // console.log(data);
 
   let renderComments = (data, iter) => {
     const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share}/></>}

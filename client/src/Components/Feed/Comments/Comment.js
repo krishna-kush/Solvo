@@ -1,26 +1,32 @@
-import { React, useState} from 'react'
+import { React, useState, useRef } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as share } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as faShare } from '@fortawesome/free-solid-svg-icons'
 
 import { actionCreators } from '../../../state/index'
 
+import TextEditor from '../../TextEditor/TextEditor'
+
 import Id from '../Id'
+import IconAndCount from '../IconAndCount'
 
 const Comments = (params) => {
   const dispatch = useDispatch();
 
+  const textContainerRef = useRef(null);
+  const textContainerControlRef = useRef(null);
+
   let indent = useSelector((state) => state.indent);
   let profile = useSelector((state) => state.auth.authData);
 
-  let [reply, setReply] = useState('')
+  let [inputData, setInputData] = useState('')
   let [showReplyInputBox, setShowReplyInputBox] = useState(false)
   
   let handle = {
     upComment : async () => {
-      let temp = await actionCreators.comment.upComment(reply, params._id, profile._id, profile.source, params.post_id)
+      let temp = await actionCreators.comment.upComment(inputData, params._id, profile._id, profile.source, params.post_id)
       dispatch(temp)
     },
     showReplies : async (_id, child_ids, post_id) => {
@@ -77,43 +83,23 @@ const Comments = (params) => {
         <div className='interact-comment'>
           <div
           onClick={() => {handle.increment('like')}}
-          className='interact-comment-child upvote'>
-            <left className='icon'>
-              <FontAwesomeIcon icon={faArrowUp} />
-            </left>
-            <div>
-              {params.like.count}
-            </div>
+          className='interact-comment-child box upvote'>
+            <IconAndCount icon={faArrowUp} count={params.like.count} />
           </div>
           <div
           onClick={() => {handle.increment('dislike')}} 
-          className='interact-comment-child downvote'>
-            <left className='icon'>
-              <FontAwesomeIcon icon={faArrowDown} />
-            </left>
-            <div>
-              {params.dislike.count}
-            </div>
+          className='interact-comment-child box downvote'>
+            <IconAndCount icon={faArrowDown} count={params.dislike.count} />
           </div>
           <div
           onClick={() => {handle.showReplies(params._id, params.childComments, params.post_id)}}
-          className='interact-comment-child comment-count'>
-            <left className='icon'>
-              <FontAwesomeIcon icon={faComment} />
-            </left>
-            <div>
-              {params.childComments.length}
-            </div>
+          className='interact-comment-child box comment-count'>
+            <IconAndCount icon={faComment} count={params.childComments.length} text={'Comment'} if0Text={'Not Commented'} />
           </div>
           <div
           onClick={() => {handle.increment('share')}} 
-          className='interact-comment-child share'>
-            <left className='icon'>
-              <FontAwesomeIcon icon={share} />
-            </left>
-            <div>
-              {params.share.count}
-            </div>
+          className='interact-comment-child box share'>
+            <IconAndCount icon={faShare} count={params.share.count} text={'Share'} />
           </div>
         </div>
 
@@ -122,14 +108,30 @@ const Comments = (params) => {
             Show Replies
           </button>
         ) : (<></>)} */}
-        <button onClick={() => {toggle(showReplyInputBox, setShowReplyInputBox)}}>
-          Replie
-        </button>
+        <div className='btn transition' onClick={() => {toggle(showReplyInputBox, setShowReplyInputBox)}}>
+          Reply
+        </div>
+
         {showReplyInputBox? (
-          <>
-          <input onChange={(e) => {setReply(e.target.value)}}/>
-          <button onClick={handle.upComment}>Send</button>
-          </>
+          <div ref={textContainerRef} className='text-and-btn-wrapper' style={{marginRight:'10px'}}>
+            <TextEditor
+            ref={textContainerControlRef}
+            parentRef={textContainerRef}
+
+            placeholder={"Comment..."}
+            change={(data) => {setInputData(data)}}
+            />
+            
+            <div
+            onClick={() => {
+              handle.upComment()
+              textContainerControlRef.current.setContents('');
+              textContainerControlRef.current.offToolbar();
+            }}
+            className='feed-more'>
+              <p>SEND</p>
+            </div>
+          </div>
         ) : (<></>)}
       </div>
     </div>
