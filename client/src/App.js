@@ -34,7 +34,7 @@ import './css/auth.css';
 
 
 const root_theme = document.querySelector(':root')
-let theme = 'dark';
+let theme = 'white';
 // if (theme==='dark') {
 //   root_theme.style.setProperty('--base-color', '#351920')
 //   root_theme.style.setProperty('--bar-color', '#762034')
@@ -53,11 +53,9 @@ const App = () => {
   const dispatch = useDispatch();
   console.log('App');
 
-  const [theme, setTheme] = useState('dark');
+  // const [theme, setTheme] = useState('dark');
   const [ifLogedIn, setIfLogedIn] = useState(false);
   
-  // const auth = useSelector(state => state.auth.authData);
-  // const ifLogedIn = auth;
   const showAlert = ifLogedIn && window.location.pathname === '/auth'; // and if session is active
 
 
@@ -69,7 +67,7 @@ const App = () => {
       console.log("You are not logged in")
     }
     else {
-      console.log("dispatching")
+      // console.log("dispatching")
       setIfLogedIn(true)
       temp(dispatch)
     }
