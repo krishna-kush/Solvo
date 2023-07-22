@@ -1,0 +1,17 @@
+FROM: https://reactscript.com/best-rich-text-editor/
+
+
+1. Sun Editor { (BEST)
+    link: https://github.com/mkhstar/suneditor-react,
+    $ npm install suneditor suneditor-react
+}
+
+2. Froala Editor {
+    link: https://froala.com/wysiwyg-editor/docs/framework-plugins/react/, https://github.com/froala/react-froala-wysiwyg/tree/master
+    npm install react-froala-wysiwyg
+}
+
+3. mui-rte {
+    link: https://www.npmjs.com/package/mui-rte, https://github.com/niuware/mui-rte/tree/master
+    npm install mui-rte, but have a lot of peer dependencies
+}
