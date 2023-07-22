@@ -32,6 +32,8 @@ import './css/content.css';
 import './css/changer.css';
 import './css/auth.css';
 
+import './css/edit-sun-editor.css';
+
 
 const root_theme = document.querySelector(':root')
 let theme = 'white';
