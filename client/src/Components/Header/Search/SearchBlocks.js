@@ -48,8 +48,8 @@ const SearchBlocks = (params) => {
           searchHandler(element, navigate)
           document.getElementById('search-input').value = element
           setSearched(true)
-        }}>
-          {element}
+        }}
+        dangerouslySetInnerHTML={{ __html: element }}>
         </div>
         )
       })}

@@ -76,9 +76,7 @@ const Comments = (params) => {
       <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
 
       <div className='comment-content'>
-        <div className="comment">
-          {params.comment}
-        </div>
+        <div className="comment" dangerouslySetInnerHTML={{ __html: params.comment }}></div>
 
         <div className='interact-comment'>
           <div
