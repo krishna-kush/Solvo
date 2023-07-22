@@ -58,7 +58,7 @@ const Search = () => {
 
   return (
     <div id="header-search">
-      <div id='search-container' className='out-light'>
+      <div id='search-container' className='out-light transition'>
         <div className='search-icon'>
           <FontAwesomeIcon className='icon-inside-search' icon={faSearch} />
         </div>
@@ -78,11 +78,13 @@ const Search = () => {
       </div>
       
       {(input && !searched)? (  // Same condition as in SearchInput.js when updating search container style
-      <div ref={containerRef} id='searchblocks-container'>
+      <div ref={containerRef} id='searchblocks-container' className='shadow'>
         {searchBlocks_elements.map((element, index) => {
           return <SearchBlocks element={element} input={input}/>
         })}
-        <div className='searchblock dark-hover'
+        <div
+        // style={{padding:"var(--short-padding)"}} 
+        className='searchblock searchblock-child box'
         onClick={() => {triggerEnterKeyEvent('search-input')}}>Search For "{input}"</div>
       </div>
       ) : (<></>)}

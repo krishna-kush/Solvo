@@ -23,6 +23,18 @@
 
     /* PINK */
 
+    --title-color: #FF4D6D;
+    --err-color: #fb133a;
+    --base-color: #f0f2f5;
+    --light-base-color: #f0f2f5af;
+    --bar-color: #fff; /* Transparent */
+    --in-bar-color: #FFCCD5;
+    --box-color: #ff4d6eb7; /* Transparent */
+    --in-box-color: #FF4D6D;
+    --in-box-color-selected: #C9184A;
+
+    --fa-icon-color: var(--box-color);
+
 
 
     /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -31,6 +43,7 @@
     --short-margin: 5px;
     --long-margin: calc(var(--short-margin)*2);
     --short-padding: 5px;
+    --long-padding: 10px;
     --short-radius: 5px;
     --long-panel-radius: 10px;
     --scroll-width: 5px;
@@ -41,8 +54,10 @@
     --large-font: 1.2rem;
     --x-large-font: 2rem;
 
+    --out-light-height: 1px;
 
     --transition-time: 300ms;
+    --transition-time-fast: 100ms;
     --transition-style: ease-out;
 
 
@@ -96,7 +111,7 @@
     
     /* Feed */
     --feed-margin: 1vh;
-    --feed-padding: 10px;
+    --feed-padding: var(--long-padding);
     --feed-radius: 10px;
 
     --feed-block-right-margin: 0.3vw;

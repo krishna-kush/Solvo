@@ -21,11 +21,12 @@ const reducer = (state = {
                 }}
         case RESET_AUTH_INPUT:
             return {
-                email: {value: '', focus: false},
-                password: {value: '', focus: false},
-            
-                fname: {value: '', focus: false},
-                lname: {value: '', focus: false},
+                email: {value: '', focus: false, err: false},
+                password: {value: '', focus: false, err: false},
+                confirm_password: {value: '', focus: false, err: false},
+
+                fname: {value: '', focus: false, err: false},
+                lname: {value: '', focus: false, err: false},
             }
         default:
             return state

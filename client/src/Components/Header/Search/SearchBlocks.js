@@ -43,12 +43,12 @@ const SearchBlocks = (params) => {
 
       {data[params.element].map((element, index) => {
         return (
-        <div className='searchblock-child dark-hover'
+        <div className='searchblock-child box'
         onClick={() => {
           searchHandler(element, navigate)
           document.getElementById('search-input').value = element
           setSearched(true)
-          }}>
+        }}>
           {element}
         </div>
         )

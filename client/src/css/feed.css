@@ -34,8 +34,8 @@
     margin: 0 var(--feed-block-right-margin) 0 0;
 }
 
-.feed-top {
-    padding: var(--feed-padding);
+.feed-head-options-child {
+    margin-left: var(--long-margin);
 }
 
 .question-bar {
@@ -65,6 +65,38 @@
     overflow: auto; /* contribute to scroll in y feature when overflooded by comments */
     width: auto;
 
+}
+
+.icon-and-count {
+    display: flex;
+    align-items: center;
+
+    margin: var(--short-margin);
+}
+.icon-and-count-text {
+    margin-left: var(--short-margin);
+}
+
+.interact-answers-cont {
+}
+.interact-answers-hr {
+    margin: var(--short-margin) 0;
+    /* height: 1px; */
+
+    background-color: var(--box-color);
+}
+.interact-answers {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+    width: 100%;
+}
+.interact-answers-child {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
 }
 
 .comment-cont {

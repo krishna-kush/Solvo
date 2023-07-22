@@ -23,9 +23,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+       
     margin-right: calc(var(--short-margin)*5);
 }
+
 .interact-comment-child left {
     margin-right: var(--short-margin);
 }

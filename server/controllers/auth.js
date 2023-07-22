@@ -68,7 +68,7 @@ export const logIn = async (req, res) => {
 
         console.log('tokrn');
 
-        res.status(200).json({ token, result: { email: existingUser.email, name: existingUser.name }});
+        res.status(200).json({ token, result: { _id: existingUser._id, email: existingUser.email, name: existingUser.name, source: 'own' }});
         
     } catch (error) {
         console.log(error);
@@ -77,21 +77,25 @@ export const logIn = async (req, res) => {
 }
 export const ifLogIn = async (req, res) => {
     try {
-        console.log('ifLogIn', req.userId, req.source);
+        // console.log('ifLogIn', req.userId, req.source);
         const _id = req.userId;
         const source = req.source;
         let existingUser;
 
+        const desiredFields = ['_id', 'name', 'email', 'photo']
+
         if (source=='google') {
-            existingUser = await UserGoogle.findOne({ googleId: _id });
+            existingUser = await UserGoogle.findOne({ googleId: _id })
+            .select(desiredFields.join(' '));
         } else if (source=='own') {
-            existingUser = await User.findOne({ _id });
+            existingUser = await User.findOne({ _id })
+            .select(desiredFields.join(' '));
         }
-        existingUser = { ...existingUser._doc, source: source };
+        existingUser = { ...existingUser._doc, source: source }; // ...existingUser._doc is because if I don't spread it and only send it, mongoose will automatically send the _doc object but if spread it'll send the whole mongoose object containing _doc and other stuff like functions and inicializations
             
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
-        console.log('sending');
+        // console.log('sending');
 
         res.status(200).json({ result: existingUser});
         
@@ -117,7 +121,7 @@ export const signUp = async (req, res) => {
             name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ token });
+        res.status(200).json({ token, result: { _id: result._id, email: result.email, name: result.name, source: 'own' } });
         
     } catch (error) {
         console.log(error);
@@ -157,7 +161,7 @@ export const google = async (req, res) => {
             // const data = {
             //     id: ticket.getUserId(),
             // }
-            UserGoogle.create(data)
+            await UserGoogle.create(data)
             
             user = await UserGoogle.findOne({ googleId: sub });            
         }else {
@@ -168,7 +172,7 @@ export const google = async (req, res) => {
 
         // console.log(user);
 
-        res.status(200).json({token, result: user});
+        res.status(200).json({token, result: { ...user._doc, source: 'google'}});
 
 
         // Fetch token for perticuler IP, Multiple token can exist for multiple divices
