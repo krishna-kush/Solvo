@@ -3,6 +3,8 @@ import { UPDATE_AUTH_INPUT, RESET_AUTH_INPUT } from '../../../constants/actionTy
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = {
+    photo: {value: '', focus: false, err: false},
+
     email: {value: '', focus: false, err: false},
     password: {value: '', focus: false, err: false},
     confirm_password: {value: '', focus: false, err: false},
@@ -21,6 +23,8 @@ const reducer = (state = {
                 }}
         case RESET_AUTH_INPUT:
             return {
+                photo: {value: '', focus: false, err: false},
+
                 email: {value: '', focus: false, err: false},
                 password: {value: '', focus: false, err: false},
                 confirm_password: {value: '', focus: false, err: false},

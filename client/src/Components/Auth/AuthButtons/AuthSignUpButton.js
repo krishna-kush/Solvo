@@ -26,12 +26,13 @@ const AuthSignUpButton = (params) => {
     let datatosend = {
       email: data.email.value,
       password: data.password.value,
+      photo: data.photo.value,
       firstName: data.fname.value,
       lastName: data.lname.value,
       confirmPassword: data.confirm_password.value
     }
 
-    if (datatosend.email === "" || datatosend.password === "" || datatosend.firstName === "" || datatosend.lastName === "" || datatosend.confirmPassword === "") {
+    if (datatosend.email === "" || datatosend.password === "" || datatosend.photo==="" || datatosend.firstName === "" || datatosend.lastName === "" || datatosend.confirmPassword === "") {
       alert("Please fill all the fields")
       return 0
     }

@@ -49,6 +49,10 @@ export default () => {
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
 
+  const changeData = (what0, what1, to) => {
+    dispatch(actionCreators.auth.updateInput([what0, what1, to]))
+  }
+
   const googleSuccess = async (res) => {
     const data = {
       clientId: res?.clientId, // ?. is optional chaining(will not show error if profileObj is undefined, but return undefined)
@@ -69,6 +73,7 @@ export default () => {
   const handleInputChange = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
     setImg(base64);
+    changeData('photo', 'value', base64)
   }
   
   // to fix gAuth btn width as Login btn width

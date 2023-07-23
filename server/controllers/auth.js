@@ -107,13 +107,13 @@ export const ifLogIn = async (req, res) => {
 
 export const signUp = async (req, res) => {
     try {
-        const { email, password, firstName, lastName } = req.body;
+        const { email, password, photo, firstName, lastName } = req.body;
         
         const existingUser = await User.findOne({ email });
 
         if(existingUser) return res.status(400).json({ message: "User already exists" });
 
-        const result = await User.create({ email, password, name: `${firstName} ${lastName}` });
+        const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}` });
 
         const token = jwt.sign({
             _id: result._id,
@@ -121,7 +121,7 @@ export const signUp = async (req, res) => {
             name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ token, result: { _id: result._id, email: result.email, name: result.name, source: 'own' } });
+        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, source: 'own' } });
         
     } catch (error) {
         console.log(error);
