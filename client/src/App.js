@@ -120,7 +120,7 @@ const App = () => {
             </>)
            : (
           <>
-            <div className='blur'>
+            {/* <div className='blur'>
               <Header/>
               <div id="content">
                 <FilterPanel/>
@@ -128,7 +128,7 @@ const App = () => {
                 <TopShow/>
               </div>
               <Changer/>
-            </div>
+            </div> */}
             <Auth/>
           </>)}/>
           

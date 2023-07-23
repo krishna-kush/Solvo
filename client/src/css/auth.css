@@ -1,7 +1,7 @@
 #auth-container {
 }
 #auth {
-    background-color: darkgrey;
+    background-color: var(--base-color);
 
     width: var(--auth-width);
     height: fit-content;
@@ -11,7 +11,7 @@
     /* overflow: auto; https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element#:~:text=If%20the%20first%20child%20of,It's%20just%20like%20that.&text=You%20can%20fix%20it%20by,such%20as%20a%20simple%20space. */
 }
 #not-auth {
-    background-color: darkgrey;
+    background-color: var(--bar-color);
     height: 500px;
 
 }
@@ -50,6 +50,23 @@
     
     margin: var(--auth-input-cont-margin-y) 0 var(--auth-input-cont-margin-y) 0;
 }
+#signup-photo-container { /* Extra container because adding margin top while to center horizontally with margin: auto is not possible */
+    width: 100%;
+    height: 70px;
+    margin-top: var(--auth-input-cont-margin-y);
+}
+#signup-photo {
+    height: 100%;
+    margin: auto;
+}
+#signup-photo-input {
+    position: relative;
+    bottom: 105%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
 .short-i-cont {
     display: flex; /* why not below?? */
     /* width: var(--auth-input-cont-width); */
@@ -73,8 +90,10 @@
     height: var(--auth-input-height);
     width: 100%;
 
+    background-color: var(--bar-color);
+
     border-radius: var(--auth-input-radius);
-    box-shadow: 0 0 0 1px white;
+    box-shadow: 0 0 0 1px black;
 }
 
 .auth-input input {

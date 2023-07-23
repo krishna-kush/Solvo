@@ -87,7 +87,7 @@ const AuthLogInButton = forwardRef((params, ref) => {
   // }, []);
 
   return (
-    <div ref={divRef} id={`${params.id}-btn`} className={`login-btn small-box transition ${getClass(ifErr)}`}
+    <div ref={divRef} id={`${params.id}-btn`} className={`login-btn small-box box transition ${getClass(ifErr)}`}
     onClick={ifErr? ()=>{} : logIn}
     >LogIn</div>
   )

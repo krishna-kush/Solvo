@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { GoogleLogin } from '@react-oauth/google'; // useGoogleLogin is for custom button just use onClick and call it's signIn function, Ref: https://www.npmjs.com/package/@react-oauth/google
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+
+import { convertToBase64 } from '../../Utils/convertImgs.js'
+
 import { actionCreators } from '../../state/index'
 
 import AuthInput from './AuthInput'
@@ -18,6 +23,8 @@ export default () => {
   // console.log('auth'); // log two times??
 
   const loginBtnRef = useRef(null);
+
+  let [img, setImg] = useState(null)
 
   const USER_REGEX = /^[A-z][A-z0-9-_]{1,23}$/;
   // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -42,7 +49,7 @@ export default () => {
   let [log_in, set_log_in] = useState(true)
   let [auth_width, set_auth_width] = useState(100) // for gAuth style, 100 is lower than the lower limit of gAuth Cont Width
 
-  let googleSuccess = async (res) => {
+  const googleSuccess = async (res) => {
     const data = {
       clientId: res?.clientId, // ?. is optional chaining(will not show error if profileObj is undefined, but return undefined)
       credential: res?.credential,
@@ -54,9 +61,14 @@ export default () => {
 
     navigate('/')
   }
-  let googleFailure = (error) => {
+  const googleFailure = (error) => {
     console.log(error)
     console.log("failed google auth")
+  }
+
+  const handleInputChange = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setImg(base64);
   }
   
   // to fix gAuth btn width as Login btn width
@@ -131,6 +143,18 @@ export default () => {
         </> : <>
 
         <div className='inputs'>
+
+          <div id='signup-photo-container'>
+            <div id='signup-photo' className='circle'>
+              { // add load when upload
+              img? <img className="id-img circle" src={img} /> :
+              <FontAwesomeIcon style={{width:'100%', height:'100%'}} icon={faUserCircle}/>
+              }
+
+              <input onChange={handleInputChange} type="file" id='signup-photo-input'/>
+            </div>
+          </div>
+
           <div className='short-i-cont'> {/* To have both Inputs move up, when one do. */}
             <AuthInput name='fname' regex={USER_REGEX} err_conditions={regex_err_conditions.user} type='short' length={2}/> {/* FIXED: while changing to Register, if the email text if translated/shifed up and stays there for ex, then fname input text will also display shifted when changes to that, why? because when shifting to Register, React is not removing the previous component, it is just applying changes to it's class as both are of same component with diff. data... */}
             <AuthInput name='lname' regex={USER_REGEX} err_conditions={regex_err_conditions.user} type='short' length={2}/>

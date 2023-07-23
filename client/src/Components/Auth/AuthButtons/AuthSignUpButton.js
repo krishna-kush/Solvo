@@ -57,7 +57,7 @@ const AuthSignUpButton = (params) => {
   }, [email_err, password_err, confirm_password_err, fname_err, lname_err])
 
   return (
-    <div id={`signup-btn`} className={`login-btn small-box transition ${getClass(ifErr)}`}
+    <div id={`signup-btn`} className={`login-btn small-box box transition ${getClass(ifErr)}`}
     onClick={ifErr? ()=>{} : signUp}
     >SignUp</div>
   )
