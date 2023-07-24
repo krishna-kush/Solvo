@@ -176,7 +176,7 @@ export default () => {
         <div className='not-acc'>
           <a onClick={() => {
             set_log_in(true)
-            }} href='#'>LogIn</a>
+            }} href='#'>Already have an account? LogIn</a>
         </div>
 
         </>}

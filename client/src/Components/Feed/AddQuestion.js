@@ -2,6 +2,9 @@ import { React, useState, useEffect, useRef } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpand, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+
 import { actionCreators } from '../../state'
 
 import TextEditor from '../TextEditor/TextEditor'
@@ -35,7 +38,23 @@ const AddQuestion = () => {
 
   return (
     <div className='feed-block'>
-      <Id _id={profile._id} source={profile.source} full={true}/>
+      <div className="feed-head flex">
+        <div className="feed-head-id">
+          <Id _id={profile._id} source={profile.source} full={true}/>
+        </div>
+        <div className='feed-head-options flex'>
+          <div className='feed-head-options-child'>
+            <div className="full-screen">
+              <FontAwesomeIcon className='fa-icon' icon={faExpand} />
+            </div>
+          </div>
+          <div className='feed-head-options-child'>
+            <div className="more">
+              <FontAwesomeIcon className='fa-icon' icon={faEllipsis} />
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* <input
       onChange={textChange}

@@ -202,11 +202,12 @@
     --auth-input-cont-left: calc( (100% - var(--auth-input-cont-width)) / 2 );
     --auth-input-cont-margin-y: 3.5vh;
 
-    --auth-input-height: 3vh;
+    --auth-input-height: 3.5vh;
     --auth-input-width: calc(100% - (var(--auth-input-radius)*2));
     --auth-input-margin-y: 0vh;
 
-    --auth-input-radius: calc(var(--auth-input-height) / 2);
+    /* --auth-input-radius: calc(var(--auth-input-height) / 2); */
+    --auth-input-radius: var(--short-radius);
 
     /* --auth-input-icon-left: calc( var(--auth-input-width) - 1rem ); */
 
