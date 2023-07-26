@@ -14,7 +14,7 @@ import Comments from './Comments/Comments'
 import IconAndCount from './IconAndCount'
 
 
-export default (params) => {
+export default React.memo((params) => { // React's memo is a Higher-Order Component (HOC) that is used to preventing unnecessary re-renders when params don't change
   const dispatch = useDispatch();
 
   const textContainerRef = useRef(null);
@@ -158,4 +158,4 @@ export default (params) => {
       
     </div>
   )
-}
+})

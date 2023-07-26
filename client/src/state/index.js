@@ -2,7 +2,7 @@
 
 import { updateInput, resetInput, whoAdd, google, logIn, ifLogIn, signUp } from './action-creaters/auth.js'
 import { showComments, upComment, increment, indent } from './action-creaters/comment.js'
-import { create, upAnswer, getAll, getBySearch } from './action-creaters/post.js'
+import { create, upAnswer, getAll, getEnumerated, getBySearch } from './action-creaters/post.js'
 import { updateInput as updateSearchInput, updateSearched, upSearchQuestions, upSearchTopics, upSearchChannels } from './action-creaters/search.js'
 
 const actionCreators = {
@@ -30,6 +30,7 @@ const actionCreators = {
         create,
         upAnswer,
         getAll,
+        getEnumerated,
         getBySearch,
     },
 

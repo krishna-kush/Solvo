@@ -168,9 +168,12 @@ export const increment = async (req, res) => {
 
 
 export const getAll = async (req, res) => {
+    console.log('getAll');
+
     try {
 
         let ascending = -1 // -1 for descending order and 1 for ascending order
+        console.log('getting');
         const posts = await Post.find()
         .sort({_id:ascending}).limit(10)
         .populate({
@@ -180,6 +183,7 @@ export const getAll = async (req, res) => {
                 strictPopulate: false, // why this is needed?
             }
         })
+        console.log('got');
         // .populate({
         //     path: 'creator',
         //     model: (doc) => {
@@ -198,6 +202,42 @@ export const getAll = async (req, res) => {
         //     post.populate('creator').populate('answers').execPopulate();
         // }
 
+        console.log('sending');
+        res.status(200).json({result: posts})
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+export const getEnumerated = async (req, res) => {
+    console.log('getEnumerated');
+
+    try {
+
+        let ascending = -1 // -1 for descending order and 1 for ascending order
+
+        const { skip, limit } = req.body;
+
+        // const pipeline = [
+        //     { $sort: { _id: ascending } },
+        //     { $skip: 1 },
+        //     { $limit: 1 },
+        // ]; // for aggregation pipeline
+        
+        const posts = await Post.find()
+        .sort({_id:ascending})
+        .skip(skip)
+        .limit(limit)
+        .populate({
+            path: 'creator answers', 
+            populate: {
+                path: 'creator',
+                strictPopulate: false,
+            }
+        })
+
+        console.log('sending');
         res.status(200).json({result: posts})
     }
     catch (error) {
@@ -208,7 +248,7 @@ export const getAll = async (req, res) => {
 export const getBySearch = async (req, res) => {
     try {
         const {search} = req.body;
-        const pattern = ((search) => {return search.split(" ").join("|")})(search);
+        const pattern = search.split(" ").join("|");
         const regexPattern = new RegExp(pattern, 'i');
 
         let ascending = -1 // -1 for descending order and 1 for ascending order

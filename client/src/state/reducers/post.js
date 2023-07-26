@@ -1,5 +1,5 @@
 // import { createUser } from '../../API/auth'
-import { SET_POST, ADD_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
+import { SET_POST, ADD_POST, APPEND_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = [], action) => {
@@ -8,14 +8,22 @@ const reducer = (state = [], action) => {
         case SET_POST:
             let data = action.payload.data.data.result
 
-            if (data.length) {
+            if (data?.length) {
                 data[data.length-1].last = true
-            }
+            } else { return [] } // if data is empty or undefined to not cuz err
+
+            console.log(data);
 
             return data
 
         case ADD_POST: { // This creats a new block, so we can name updatedState or some other variable again and again and limit it's scope, which was earlier without it not possible. Scope creation do happen in if blocks, maybe case representation of if does not do that...
-            let updatedState = [action.payload.data, ...state]
+            const updatedState = [action.payload.data, ...state]
+
+            return updatedState
+        }
+        case APPEND_POST: {
+
+            const updatedState = [...state, action.payload]
 
             return updatedState
         }

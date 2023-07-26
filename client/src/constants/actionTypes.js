@@ -30,6 +30,7 @@ export const UPDATE_SEARCH_INPUT = 'UPDATE_SEARCH_INPUT';
 // POSTS
 export const SET_POST = 'SET_POST';
 export const ADD_POST = 'ADD_POST';
+export const APPEND_POST = 'APPEND_POST';
 export const ADD_ANSWER = 'ADD_ANSWER';
 
 export const ADD_CHILD_COMMENTS = 'ADD_CHILD_COMMENTS';

@@ -1,6 +1,6 @@
-import { SET_POST, ADD_POST, ADD_ANSWER } from "../../constants/actionTypes"
+import { SET_POST, ADD_POST, APPEND_POST, ADD_ANSWER } from "../../constants/actionTypes"
 
-import { createPost, getAllPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, getAllPost, getEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -30,6 +30,19 @@ export const getAll = async () => {
         dispatch({
             type: SET_POST,
             payload: res
+        })
+    }    
+}
+export const getEnumerated = async (skip, limit, if_last) => {
+    let res = await getEnumeratedPost(skip, limit)
+    // console.log(res);
+    let data = res.data.data.result[0]
+    data.last = if_last
+
+    return (dispatch) => {
+        dispatch({
+            type: APPEND_POST,
+            payload: data
         })
     }    
 }
