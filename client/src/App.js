@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -52,17 +52,17 @@ if (theme==='dark') {
 }
 
 const App = () => {
+  console.log('APP');
   const dispatch = useDispatch();
-  console.log('App');
 
   // const [theme, setTheme] = useState('dark');
   const [ifLogedIn, setIfLogedIn] = useState(false);
-  
+  const [loginChecked, setLoginChecked] = useState(false);
+
   const showAlert = ifLogedIn && window.location.pathname === '/auth'; // and if session is active
 
-
   const checkLogin = async () => {
-    let temp = await actionCreators.auth.ifLogIn()
+    const temp = await actionCreators.auth.ifLogIn()
     // console.log(temp?.status)
     if (temp?.status!==undefined) {
       // alert("You are not logged in")
@@ -73,9 +73,18 @@ const App = () => {
       setIfLogedIn(true)
       temp(dispatch)
     }
+    setLoginChecked(true)
   }
   checkLogin()
 
+  // useEffect(() => {
+  //   console.log('loginChecked');
+  // }, [loginChecked])
+
+  if (!loginChecked) {
+    // have a loading screen
+    return null
+  }
 
   return (
     <div className="App">

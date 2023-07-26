@@ -4,20 +4,20 @@ import { LOG, LOGOUT } from '../../../constants/actionTypes'
 const reducer = (state = { authData: null }, action) => {
     switch (action.type) {
         case LOG:
-            console.log('LOG');
+            // console.log('LOG');
             let data = {
                 data: { ...action.payload.data.result }, // how to spread everything but token
                 token: action.payload.data?.token,
                 
             }
             
-            console.log('Log', data);
+            // console.log('Log', data);
             
             if (data.token!==undefined) {
                 localStorage.setItem('session', data.token)
                 return { ...state, authData: data.data, token: data.token }
             } else {
-                console.log('authData', data.data);
+                // console.log('authData', data.data);
                 return { ...state, authData: data.data }
             }
 
