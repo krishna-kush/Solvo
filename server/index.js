@@ -1,4 +1,6 @@
 import express from 'express';
+// import WebSocket from 'ws';
+import expressWs from 'express-ws'
 // import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -28,25 +30,22 @@ import searchRoutes from './routes/search.js';
 
 const server = express();
 const PORT = process.env.PORT || 5000; //env if heroku, it'll populate it automatically...
+expressWs(server) // to enable the server to use websockets
 
 // server.use(express.urlencoded())
 
 server.use(cors())
 
-server.use(express.json({limit: '50mb'}));
-server.use(express.urlencoded({limit: '50mb'}));
-
+server.use(express.json({limit: '550mb'})); // prev 50mb
+server.use(express.urlencoded({limit: '550mb'}));
 
 server.use('/auth', authRoutes);
 server.use('/posts', postRoutes);
 server.use('/search', searchRoutes);
 
-
-server.listen(PORT, () =>{
+server.listen(PORT, () => {
     console.log(`Server running at ${PORT}/`);
 })
-
-
 
 
 // server.get("/", (req, res) => {

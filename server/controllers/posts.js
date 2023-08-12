@@ -211,9 +211,20 @@ export const getAll = async (req, res) => {
     }
 }
 export const getEnumerated = async (req, res) => {
-    console.log('getEnumerated');
 
     try {
+        req.on('close', () => {
+            // clearTimeout(timeout);
+            console.log('Request was canceled by the client.');
+        });
+
+        // Check if the request was aborted from the frontend
+        console.log(req.aborted);
+        if (req.aborted) {
+            // The request was canceled by the client
+            console.log('Request was canceled by the client.');
+            return res.status(499).send('Request canceled by the client.');
+        }
 
         let ascending = -1 // -1 for descending order and 1 for ascending order
 
@@ -225,6 +236,8 @@ export const getEnumerated = async (req, res) => {
         //     { $limit: 1 },
         // ]; // for aggregation pipeline
         
+        console.log('getting');
+
         const posts = await Post.find()
         .sort({_id:ascending})
         .skip(skip)
@@ -237,14 +250,92 @@ export const getEnumerated = async (req, res) => {
             }
         })
 
+        // Check if the request was aborted from the frontend
+        console.log(req.aborted);
+        if (req.aborted) {
+            // The request was canceled by the client
+            console.log('Request was canceled by the client.');
+            return res.status(499).send('Request canceled by the client.');
+        }
+
         console.log('sending');
+        // let delay = (ms) => {
+        //     return new Promise((resolve) => setTimeout(resolve, ms));
+        // }
+
+        // await delay(5000);
+
         res.status(200).json({result: posts})
+        res.on('finish', () => {
+            console.log('sent');
+        });
     }
     catch (error) {
-        console.log(error);
+        // if (axios.isCancel(error)) {
+        //   console.log('Request canceled:', error.message);
+        //   res.status(499).send('Request canceled');
+        // } else {
+          console.log('Error:', error.message);
+          res.status(500).json({ message: "Something went wrong" });
+        // }
+    }
+}
+export const wsGetEnumerated = async (ws, req) => {
+    try {
+        console.log('Client connected.');
+    
+        let isClose = false;
+    
+        ws.on('message', async (data) => {
+            if (isClose) {
+                console.log('Data fetching stopped due to connection closure.');
+                return;
+            }
+    
+            try {
+                let ascending = -1 // -1 for descending order and 1 for ascending order
+    
+                const { skip, limit, if_last } = JSON.parse(data);
+                
+                // console.log('getting', skip, limit);
+                
+                const posts = await Post.find()
+                    .sort({ _id: ascending })
+                    .skip(skip)
+                    .limit(limit)
+                    .populate({
+                        path: 'creator answers',
+                        populate: {
+                            path: 'creator',
+                            strictPopulate: false,
+                        },
+                    })
+    
+                // console.log('sending');
+    
+                if (isClose) {
+                    console.log('Data sending stopped due to connection closure.');
+                    return;
+                }
+    
+                ws.send(JSON.stringify({ status: 200, data: { result: posts, sn: skip, if_last } }));
+                    
+            } catch (error) {
+                console.error('Error during data fetching:', error);
+            }
+        });
+      
+        ws.on('close', () => {
+            console.log('Client disconnected.');
+            
+            isClose = true;
+        });
+        
+    } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
+
 export const getBySearch = async (req, res) => {
     try {
         const {search} = req.body;
@@ -294,6 +385,7 @@ export const getBySearch = async (req, res) => {
         // }
 
         res.status(200).json({result: filteredPosts})
+        
     }
     catch (error) {
         console.log(error);

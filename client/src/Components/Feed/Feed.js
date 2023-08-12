@@ -9,6 +9,9 @@ import { useQuery } from '../../Utils/Universal'
 import FeedBlocks from './FeedBlocks'
 import AddQuestion from './AddQuestion'
 
+import Axios from '../../API/AxiosInstance'
+import useAxios from '../../Hooks/useAxios'
+
 const initializeFeed = async (searchQuery, skip, limit, dispatch) => {
   const search = searchQuery.trim()
   if (search) {
@@ -16,13 +19,61 @@ const initializeFeed = async (searchQuery, skip, limit, dispatch) => {
     temp(dispatch)
     return 
   }
-  // const temp = await actionCreators.post.getAll()
+  // // const temp = await actionCreators.post.getAll()
 
   // let temp;
-  for (let i=0; i<limit; i++) {
-    let temp = await actionCreators.post.getEnumerated(skip+i, 1, i===limit-1?true:false)
+  // for (let i=0; i<limit; i++) {
+    // let temp = await actionCreators.post.getEnumerated(skip+i, 1, i===limit-1?true:false)
+  //   temp(dispatch)
+  // }
+  // --------------------------------------------------------------------
+  // for (let i=0; i<limit; i++) {
+    const [data, error, loading, refetch] = useAxios({
+      axiosInstance: Axios,
+      method: 'POST',
+      url: '/posts/getEnumerated',
+      requestConfig: {
+        headers: {
+          'Content-Language': 'en-US',
+          //'Accept': 'text/html'
+        },
+        data: {
+          skip: skip, 
+          limit: 1
+        }
+      }
+    });
+
+    console.log(data);
+  // }
+}
+
+const wsInitializeFeed = async (searchQuery, skip, limit, socket, dispatch) => {
+  const search = searchQuery.trim()
+  if (search) {
+    const temp = await actionCreators.post.getBySearch(search)
     temp(dispatch)
+    return 
   }
+
+  socket.onopen = () => {
+    console.log('WebSocket connection established.');
+    // The socket.send() method expects a string or a buffer as its parameter, not a JavaScript object. So, we need to convert the object to a string using JSON.stringify().
+    for (let i=0; i<limit; i++) {
+      socket.send(JSON.stringify({ skip: skip+i, limit: 1, if_last: i===limit-1?true:false }));
+    }
+  };
+
+  socket.onmessage = async (event) => {
+    let temp = await actionCreators.post.wsGetEnumerated(JSON.parse(event.data))
+    temp(dispatch)
+  };
+
+  socket.onclose = () => {
+    console.log('WebSocket connection closed. FRONTEND');
+  }
+
+  return socket
 }
 
 export default () => {
@@ -40,7 +91,8 @@ export default () => {
   for (let i = 0; i < feed_blocks_len; i++) {
     feed_blocks.push(i)
   }
-  
+
+  // initializeFeed(searchQuery, 0, 3, dispatch)
   
   // using second render of useEffect to initialize the feed
   useEffect(() => {
@@ -53,14 +105,20 @@ export default () => {
 
     */
 
-    if (useEffectRef.current) {
-      // console.log('initializeFeed');
-      initializeFeed(searchQuery, 0, 3, dispatch)
-    }
+    let socket;
 
+    if (useEffectRef.current) {
+      socket = new WebSocket('ws://localhost:5000/posts/websocket');
+      wsInitializeFeed(searchQuery, 0, 5, socket, dispatch)
+    }
+    
     return () => {
-      // console.log('unmount');
+      console.log('unmount');
       useEffectRef.current = true
+
+      if (socket) {
+        socket.close()
+      }
     }
   }, [])
   

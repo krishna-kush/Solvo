@@ -1,5 +1,5 @@
 // import { createUser } from '../../API/auth'
-import { SET_POST, ADD_POST, APPEND_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
+import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = [], action) => {
@@ -26,6 +26,16 @@ const reducer = (state = [], action) => {
             const updatedState = [...state, action.payload]
 
             return updatedState
+        }
+        case FILL_POST: {
+
+            const currentState = [...state];
+
+            const { index, payload } = action;
+
+            currentState.splice(index, 0, payload);
+
+            return currentState; 
         }
 
         case ADD_ANSWER: {

@@ -1,6 +1,6 @@
-import { SET_POST, ADD_POST, APPEND_POST, ADD_ANSWER } from "../../constants/actionTypes"
+import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER } from "../../constants/actionTypes"
 
-import { createPost, getAllPost, getEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -43,6 +43,21 @@ export const getEnumerated = async (skip, limit, if_last) => {
         dispatch({
             type: APPEND_POST,
             payload: data
+        })
+    }    
+}
+export const wsGetEnumerated = async (data) => {
+    // let res = await getWsEnumeratedPost(skip, limit)
+    // console.log(res);
+    let datatosend = data.data.result[0]
+    datatosend.last = data.data.if_last
+    const sn = data.data.sn
+
+    return (dispatch) => {
+        dispatch({
+            type: FILL_POST,
+            payload: datatosend,
+            index: sn,
         })
     }    
 }

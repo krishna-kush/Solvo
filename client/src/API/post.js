@@ -58,6 +58,22 @@ export const getEnumeratedPost = async (skip, limit) => {
         data: mdata,
     }
 }
+export const getWsEnumeratedPost = async (skip, limit) => {
+    // let mdata = await Axios.post('http://localhost:5000/posts/getEnumerated', {skip, limit})
+    // .then((res) => {
+    //     return res
+    // })
+    // .catch((err) => {
+    //     return err.response
+    // })
+
+    
+
+    return {
+        source: 'getAll',    
+        data: mdata,
+    }
+}
 export const getPostBySearch = async (search) => {
     let mdata = await Axios.post('http://localhost:5000/posts/getBySearch', {search})
     .then((res) => {
