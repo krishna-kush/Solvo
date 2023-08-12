@@ -26,6 +26,8 @@ import './css/search.css';
 import './css/filterPanel.css';
 import './css/id.css';
 import './css/feed.css';
+import './css/addQuestion.css';
+import './css/moneySlider.scss';
 import './css/comment.css';
 import './css/topShow.css';
 import './css/content.css';

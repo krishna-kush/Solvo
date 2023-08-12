@@ -2,8 +2,10 @@
 .id {
     height: var(--id-height);
     margin-bottom: var(--id-margin);
+    margin-right: var(--long-margin);
 
     display: flex;
+
 }
 
 .id-img {

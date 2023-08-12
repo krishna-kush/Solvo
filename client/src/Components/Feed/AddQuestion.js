@@ -7,6 +7,7 @@ import { faExpand, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 import { actionCreators } from '../../state'
 
+import MoneySlider from './MoneySlider'
 import TextEditor from '../TextEditor/TextEditor'
 
 import Id from './Id'
@@ -17,9 +18,12 @@ const AddQuestion = () => {
   const textContainerRef = useRef(null);
   const textContainerControlRef = useRef(null);
 
-  let [inputData, setInputData] = useState('')
+  const [inputData, setInputData] = useState('')
+  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderOpacity, setSliderOpacity] = useState(0);
+  // const [showMoneySlider, setShowMoneySlider] = useState(false)
 
-  let profile = useSelector((state) => state.auth.authData)
+  const profile = useSelector((state) => state.auth.authData)
 
   const post = async () => {
     const temp = await actionCreators.post.create({
@@ -42,7 +46,31 @@ const AddQuestion = () => {
         <div className="feed-head-id">
           <Id _id={profile._id} source={profile.source} full={true}/>
         </div>
+
+        <MoneySlider value={sliderValue} setValue={setSliderValue} opacity={sliderOpacity}/>
+
+        {/* {showMoneySlider? document.getElementById('money-slider').style.opacity = 1 : null} */}
+
         <div className='feed-head-options flex'>
+          <div className='feed-head-options-child'>
+            <div className="full-screen">
+              <div className="small-box question-details-child"
+              onMouseEnter={() => {
+                // setShowMoneySlider(true)
+                document.getElementById('money-slider').style.opacity = 1;
+                setSliderOpacity((prev) => { return prev+1}); // so a change in opacity is detected in useEffect of MoneySlider
+              }}
+              >
+                {(() => {if (sliderValue == 0) {
+                    return <p>Free</p>
+                  } else {
+                    return `₹${sliderValue}`
+                  }})()}
+
+                {/* <input /> // when click have option to change amt */}
+              </div>
+            </div>
+          </div>
           <div className='feed-head-options-child'>
             <div className="full-screen">
               <FontAwesomeIcon className='fa-icon' icon={faExpand} />
