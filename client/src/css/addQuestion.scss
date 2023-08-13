@@ -1,0 +1,32 @@
+.pin-cont {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+}
+
+.overlay-input {
+    position: relative;
+    top: 0px;
+
+    width: fit-content;
+    height: 100%;
+
+    input {
+        // width: 100%;
+        height: 100%;
+
+        box-sizing: border-box;
+        /* 
+        content-box (default):
+            In the content-box model, an element's specified width and height only include the content area, excluding padding and borders. This means that if you add padding or borders to the element, it will increase the overall width and height.
+
+        border-box:
+            In the border-box model, an element's specified width and height include both the content area and any padding and borders applied to the element. This is a more intuitive and practical way of sizing elements, as it simplifies calculations and ensures that the actual visible area remains consistent.
+        */
+    }
+}
+
+
+/* .full-screen {
+    position: relative;
+} */

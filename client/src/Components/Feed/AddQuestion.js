@@ -15,6 +15,8 @@ import MoneySlider from './MoneySlider'
 const AddQuestion = () => {
   const dispatch = useDispatch();
 
+  const skip_till = 9;
+
   const textContainerRef = useRef(null);
   const textContainerControlRef = useRef(null);
 
@@ -35,6 +37,13 @@ const AddQuestion = () => {
     dispatch(temp)
   }
 
+  const toggleSliderInput = () => {
+    let input = document.getElementById('amount-input-!slider')
+    let show = document.getElementById('amount-show')
+    input.classList.toggle('d-none')
+    show.classList.toggle('d-none')
+  }
+
   if (!profile) {
     return (
       <div>Loding...</div>
@@ -48,27 +57,68 @@ const AddQuestion = () => {
           <Id _id={profile._id} source={profile.source} full={true}/>
         </div>
 
-        <MoneySlider value={sliderValue} setValue={setSliderValue} opacity={sliderOpacity}/>
-
-        {/* {showMoneySlider? document.getElementById('money-slider').style.opacity = 1 : null} */}
+        <MoneySlider value={sliderValue} setValue={setSliderValue} skip_till={skip_till} opacity={sliderOpacity}/>
 
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
             <div className="full-screen">
               <div className="small-box question-details-child"
               onMouseEnter={() => {
-                // setShowMoneySlider(true)
                 document.getElementById('money-slider').style.opacity = 1;
                 setSliderOpacity((prev) => { return prev+1}); // so a change in opacity is detected in useEffect of MoneySlider
               }}
               >
-                {(() => {if (sliderValue == 0) {
-                    return <p>Free</p>
-                  } else {
-                    return `₹${sliderValue}`
-                  }})()}
+                <div className='pin-cont'
+                onClick={(e) => {
+                  if (e.target.id !== 'amount-input-!slider-child') {
+                    toggleSliderInput()
+                  }
 
-                {/* <input /> // when click have option to change amt */}
+
+                  // if (!input.classList.contains('d-none')) {
+                  //   console.log('run');
+                  //   input.focus();mckdnlnckknn
+                  // }
+                }}
+                >
+                  <p id='amount-show'>{(() => {
+                    if (sliderValue === 0) {
+                      return 'Free'
+                    } else {
+                      return `₹${sliderValue}`
+                    }
+                  })()}</p>
+                  <div id='amount-input-!slider' className='overlay-input d-none'>
+                    <input
+                    id='amount-input-!slider-child'
+                    placeholder='Enter Amount'
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
+                          alert('Amount was not Valid')
+                          toggleSliderInput()
+                          return
+                        }
+
+                        if (e.target.value === '' || e.target.value === '0') {
+                          setSliderValue(0)
+                          return
+                        }
+
+                        if (e.target.value < skip_till) {
+                          alert(`Minimum amount is ₹${skip_till+1}`)
+                          toggleSliderInput()
+                          setSliderValue(skip_till+1)
+                          return
+                        }
+
+                        toggleSliderInput()
+
+                        setSliderValue(e.target.value)
+                      }
+                    }}/>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -84,10 +134,6 @@ const AddQuestion = () => {
           </div>
         </div>
       </div>
-
-      {/* <input
-      onChange={textChange}
-      className="user-answer" type="text" placeholder="Your Question?"/> */}
 
       <div ref={textContainerRef} className='text-and-btn-wrapper'>
         <TextEditor

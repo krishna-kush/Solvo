@@ -6,7 +6,6 @@ import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons'
 
 const MoneySlider = (params) => {
   const hideTime = 3000;
-  const skipTill = 9;
   const maxSliderValue = 1000;
   const [resetTimeout, setResetTimeout] = useState(null);
 
@@ -26,7 +25,7 @@ const MoneySlider = (params) => {
 
   const handleSliderChange = (event) => {
     // if-else, for not showing values 1-9
-    if (event.target.value > skipTill) {params.setValue(event.target.value)}
+    if (event.target.value > params.skip_till) {params.setValue(event.target.value)}
     else {params.setValue(0)}
 
     reset();

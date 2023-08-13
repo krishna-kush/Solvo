@@ -62,8 +62,14 @@ input:focus {
 .fade {
     opacity: 0.5;
 }
+.visible {
+    opacity: 1;
+}
 .d-none {
     display: none;
+}
+.d-block {
+    display: block;
 }
 .center-absolute {
     position: absolute;
