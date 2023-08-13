@@ -7,7 +7,7 @@ import UserGoogle from '../models/UserGoogle.js';
 
 export const create = async (req, res) => {
     try {
-        let { question, _id, source } = req.body;
+        let { amount, question, _id, source } = req.body;
         // console.log(question, _id);
         // console.log(typeof _id, _id);
         if (source=='google') {
@@ -19,6 +19,7 @@ export const create = async (req, res) => {
         // console.log(source);
 
         const post = await Post.create({
+            amount,
             question: question,
             creator: _id,
             creatorRefModel: source,

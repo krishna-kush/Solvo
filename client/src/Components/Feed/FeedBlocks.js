@@ -94,7 +94,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
           
           <div className="question-details">
             <div className="small-box question-details-child">
-              {data.paid?"Paid":"Free"}
+              {data.amount?`₹${data.amount}`:"Free"}
             </div>
             <div className="small-box question-details-child">
               Closed/Open

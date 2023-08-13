@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
+    amount: Number,
+
     question: {
         type: String,
         index: "text", // to create a index for text for search
     },
-    // answer: [String],
     answers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment', // Case Sensetive

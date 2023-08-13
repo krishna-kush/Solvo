@@ -7,10 +7,10 @@ import { faExpand, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 import { actionCreators } from '../../state'
 
-import MoneySlider from './MoneySlider'
 import TextEditor from '../TextEditor/TextEditor'
 
 import Id from './Id'
+import MoneySlider from './MoneySlider'
 
 const AddQuestion = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const AddQuestion = () => {
   const post = async () => {
     const temp = await actionCreators.post.create({
       question: inputData,
+      amount: sliderValue,
       _id: profile._id,
       source: profile.source,
     })

@@ -5,6 +5,8 @@ import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons'
 
 
 const MoneySlider = (params) => {
+  const hideTime = 3000;
+  const skipTill = 9;
   const maxSliderValue = 1000;
   const [resetTimeout, setResetTimeout] = useState(null);
 
@@ -17,17 +19,20 @@ const MoneySlider = (params) => {
       document.getElementById('money-slider').style.opacity = 0;
   
       setResetTimeout(null);
-    }, 3000);
+    }, hideTime);
   
     setResetTimeout(newTimeout);
   }
 
   const handleSliderChange = (event) => {
-    params.setValue(event.target.value);
+    // if-else, for not showing values 1-9
+    if (event.target.value > skipTill) {params.setValue(event.target.value)}
+    else {params.setValue(0)}
 
     reset();
   };
 
+  // for resetting opacity of slider when opacity changes to visible
   useEffect(() => {
     if (params.opacity !== 0) {
       reset();
