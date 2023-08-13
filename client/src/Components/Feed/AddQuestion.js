@@ -44,8 +44,9 @@ const AddQuestion = () => {
         toggleSliderInput()
         return
       }
-
-      if (e.target.value === '' || e.target.value === '0') {
+      
+      if (e.target.value === '' || parseInt(e.target.value) === 0) {
+        toggleSliderInput()
         setSliderValue(0)
         return
       }
