@@ -37,6 +37,32 @@ const AddQuestion = () => {
     dispatch(temp)
   }
 
+  const sliderInputConditions = (e) => {
+    if (e.key === 'Enter') {
+      if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
+        alert('Amount was not Valid')
+        toggleSliderInput()
+        return
+      }
+
+      if (e.target.value === '' || e.target.value === '0') {
+        setSliderValue(0)
+        return
+      }
+
+      if (e.target.value < skip_till) {
+        alert(`Minimum amount is ₹${skip_till+1}`)
+        toggleSliderInput()
+        setSliderValue(skip_till+1)
+        return
+      }
+
+      toggleSliderInput()
+
+      setSliderValue(e.target.value)
+    }
+  }
+
   const toggleSliderInput = () => {
     let input = document.getElementById('amount-input-!slider')
     let show = document.getElementById('amount-show')
@@ -70,6 +96,7 @@ const AddQuestion = () => {
               >
                 <div className='pin-cont'
                 onClick={(e) => {
+                  // for toggle when enter in input not clicked
                   if (e.target.id !== 'amount-input-!slider-child') {
                     toggleSliderInput()
                   }
@@ -92,31 +119,7 @@ const AddQuestion = () => {
                     <input
                     id='amount-input-!slider-child'
                     placeholder='Enter Amount'
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
-                          alert('Amount was not Valid')
-                          toggleSliderInput()
-                          return
-                        }
-
-                        if (e.target.value === '' || e.target.value === '0') {
-                          setSliderValue(0)
-                          return
-                        }
-
-                        if (e.target.value < skip_till) {
-                          alert(`Minimum amount is ₹${skip_till+1}`)
-                          toggleSliderInput()
-                          setSliderValue(skip_till+1)
-                          return
-                        }
-
-                        toggleSliderInput()
-
-                        setSliderValue(e.target.value)
-                      }
-                    }}/>
+                    onKeyDown={sliderInputConditions}/>
                   </div>
                 </div>
               </div>
