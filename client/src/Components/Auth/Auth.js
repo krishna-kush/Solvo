@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google'; // useGoogleLogin is for cust
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { convertToBase64 } from '../../Utils/convertImgs.js'
+import { convertToBase64, resizeAndConvertToBase64 } from '../../Utils/convertImgs.js'
 
 import { actionCreators } from '../../state/index'
 
@@ -71,8 +71,14 @@ export default () => {
   }
 
   const handleInputChange = async (e) => {
-    const base64 = await convertToBase64(e.target.files[0]);
-    setImg(base64);
+    const imageFile = e.target.files[0];
+    const [max_height, max_width] = [ 50, 50 ]
+    
+    const base64 = await convertToBase64(imageFile);
+
+    const resizedBase64 = await resizeAndConvertToBase64(imageFile, max_height, max_width); // Resize to desired dimensions
+
+    setImg(resizedBase64);
     changeData('photo', 'value', base64)
   }
   
