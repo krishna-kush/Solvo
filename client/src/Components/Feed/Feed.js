@@ -7,7 +7,9 @@ import { actionCreators } from '../../state'
 import { useQuery } from '../../Utils/Universal'
 
 import FeedBlocks from './FeedBlocks'
-import AddQuestion from './AddQuestion'
+import AddQuestion from './AddQuestion/AddQuestion'
+
+import './feed.css'
 
 import Axios from '../../API/AxiosInstance'
 import useAxios from '../../Hooks/useAxios'

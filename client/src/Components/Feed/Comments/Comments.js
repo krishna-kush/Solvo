@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 
 import Comment from './Comment'
 
+import './comment.css'
+
 const Comments = (params) => {
 
   let iter = 0

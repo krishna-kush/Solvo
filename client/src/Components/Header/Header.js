@@ -4,6 +4,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Search from './Search/Search'
 
+import './header.css'
+
 
 export default () => {
   const dispatch = useDispatch()

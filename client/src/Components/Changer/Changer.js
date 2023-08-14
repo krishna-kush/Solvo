@@ -2,6 +2,8 @@ import React from 'react'
 
 import ChangerBlocks from './ChangerBlocks'
 
+import './changer.css'
+
 export default () => {
   let name="changer"
 

@@ -2,7 +2,9 @@ import React from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { actionCreators } from '../../state/index'
+import { actionCreators } from '../../../state/index'
+
+import './id.css'
 
 const Id = (params) => {
   const dispatch = useDispatch()

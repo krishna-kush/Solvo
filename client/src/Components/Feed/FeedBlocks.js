@@ -7,11 +7,11 @@ import { faComment, faArrowUpFromBracket as faShare, faExpand, faEllipsis } from
 
 import { actionCreators } from '../../state'
 
-import TextEditor from '../TextEditor/TextEditor'
+import TextEditor from '../TextEditor/SunEditor/TextEditor'
 
-import Id from './Id'
+import Id from './Id/Id'
 import Comments from './Comments/Comments'
-import IconAndCount from './IconAndCount'
+import IconAndCount from './IconAndCount/IconAndCount'
 
 
 export default React.memo((params) => { // React's memo is a Higher-Order Component (HOC) that is used to preventing unnecessary re-renders when params don't change
@@ -28,6 +28,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   
   let data = useSelector((state) => state.post[params.id]);
   let profile = useSelector((state) => state.auth.authData);
+  // console.log(data, profile);
   
   let [inputData, setInputData] = useState('')
   let [showComments, setShowComments] = useState(false)
@@ -83,6 +84,9 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
           <div className='feed-head-options-child'>
             <div className="more">
               <FontAwesomeIcon className='fa-icon' icon={faEllipsis} />
+            </div>
+            <div className="more-options-dropdown">
+
             </div>
           </div>
         </div>

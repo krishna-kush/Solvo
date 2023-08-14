@@ -9,6 +9,8 @@ import { actionCreators } from '../../../state'
 import SearchBlocks from './SearchBlocks'
 import SearchInput from './SearchInput'
 
+import './search.css'
+
 
 const Search = () => {
   const dispatch = useDispatch()

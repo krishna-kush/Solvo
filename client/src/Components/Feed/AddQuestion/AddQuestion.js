@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpand, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
-import { actionCreators } from '../../state'
+import { actionCreators } from '../../../state'
 
-import TextEditor from '../TextEditor/TextEditor'
+import TextEditor from '../../TextEditor/SunEditor/TextEditor'
 
-import Id from './Id'
-import MoneySlider from './MoneySlider'
+import Id from '../Id/Id'
+import MoneySlider from './MoneySlider/MoneySlider'
+
+import './addQuestion.scss'
 
 const AddQuestion = () => {
   const dispatch = useDispatch();

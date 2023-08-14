@@ -16,6 +16,8 @@ import AuthInput from './AuthInput'
 import AuthLogInButton from './AuthButtons/AuthLogInButton';
 import AuthSignUpButton from './AuthButtons/AuthSignUpButton';
 
+import './auth.css'
+
 
 export default () => {
   const dispatch = useDispatch();

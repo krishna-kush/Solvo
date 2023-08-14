@@ -7,10 +7,10 @@ import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as faShare } fr
 
 import { actionCreators } from '../../../state/index'
 
-import TextEditor from '../../TextEditor/TextEditor'
+import TextEditor from '../../TextEditor/SunEditor/TextEditor'
 
-import Id from '../Id'
-import IconAndCount from '../IconAndCount'
+import Id from '../Id/Id'
+import IconAndCount from '../IconAndCount/IconAndCount'
 
 const Comments = (params) => {
   const dispatch = useDispatch();

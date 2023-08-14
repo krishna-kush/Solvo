@@ -21,20 +21,7 @@ import Auth from './Components/Auth/Auth';
 import './css/var.css';
 import './css/universal.css';
 
-import './css/header.css';
-import './css/search.css';
-import './css/filterPanel.css';
-import './css/id.css';
-import './css/feed.css';
-import './css/addQuestion.scss';
-import './css/moneySlider.scss';
-import './css/comment.css';
-import './css/topShow.css';
-import './css/content.css';
-import './css/changer.css';
-import './css/auth.css';
-
-import './css/edit-sun-editor.css';
+import './css/content.css'; // need in app.js
 
 
 const root_theme = document.querySelector(':root')

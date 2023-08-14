@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons'
 
+import './moneySlider.scss'
+
 
 const MoneySlider = (params) => {
   const hideTime = 3000;

@@ -8,6 +8,8 @@ import SunEditor, { buttonList } from "suneditor-react";
 */
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
+import './edit-sun-editor.css'
+
 
 const TextEditor = forwardRef((params, ref) => { // forwardRef is necessary for useImperativeHandle to work, so to access or edit child components from parent we need to use useImperativeHandle and for that forwardRef but to use parent component's div in child we can just pass ref in params...
 
