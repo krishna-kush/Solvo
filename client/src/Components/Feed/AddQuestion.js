@@ -17,6 +17,7 @@ const AddQuestion = () => {
 
   const skip_till = 9;
 
+  const amountContainerRef = useRef(null);
   const textContainerRef = useRef(null);
   const textContainerControlRef = useRef(null);
 
@@ -39,18 +40,18 @@ const AddQuestion = () => {
 
   const sliderInputConditions = (e) => {
     if (e.key === 'Enter') {
-      if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
-        alert('Amount was not Valid')
-        toggleSliderInput()
-        return
-      }
-      
       if (e.target.value === '' || parseInt(e.target.value) === 0) {
         toggleSliderInput()
         setSliderValue(0)
         return
       }
 
+      if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
+        alert('Amount was not Valid')
+        toggleSliderInput()
+        return
+      }
+      
       if (e.target.value < skip_till) {
         alert(`Minimum amount is ₹${skip_till+1}`)
         toggleSliderInput()
@@ -64,12 +65,37 @@ const AddQuestion = () => {
     }
   }
 
-  const toggleSliderInput = () => {
+  const toggleSliderInput = (to_show=false, to_input=false) => {
     let input = document.getElementById('amount-input-!slider')
     let show = document.getElementById('amount-show')
-    input.classList.toggle('d-none')
-    show.classList.toggle('d-none')
+    
+    if (!(to_show || to_input)) { // default condition for toggle in both direction
+      input.classList.toggle('d-none')
+      show.classList.toggle('d-none')
+    } else if (to_show) {
+      input.classList.add('d-none')
+      show.classList.remove('d-none')
+    } else {
+      input.classList.remove('d-none')
+      show.classList.add('d-none')
+    }
   }
+
+  // to toggle slider input when clicked outside of it (from Search.js, go there for more info)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if ((amountContainerRef.current) && 
+        (!amountContainerRef.current.contains(event.target))) {
+        toggleSliderInput(true, false)
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   if (!profile) {
     return (
@@ -96,6 +122,7 @@ const AddQuestion = () => {
               }}
               >
                 <div className='pin-cont'
+                ref={amountContainerRef}
                 onClick={(e) => {
                   // for toggle when enter in input not clicked
                   if (e.target.id !== 'amount-input-!slider-child') {

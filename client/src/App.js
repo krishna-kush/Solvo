@@ -57,6 +57,8 @@ const App = () => {
   console.log('APP');
   const dispatch = useDispatch();
 
+  const production = 1; // 0 for development, 1 for production
+
   // const [theme, setTheme] = useState('dark');
   const [ifLogedIn, setIfLogedIn] = useState(false);
   const [loginChecked, setLoginChecked] = useState(false);
@@ -97,7 +99,7 @@ const App = () => {
             <Header/>
               <div id="content">
                 <FilterPanel/>
-                <Feed/>
+                <Feed production={production}/>
                 <TopShow/>
               </div>
             <Changer/>
@@ -116,7 +118,7 @@ const App = () => {
             <Header/>
             <div id="content">
               <FilterPanel/>
-              <Feed/>
+              <Feed devlopment={production}/>
               <TopShow/>
             </div>
             <Changer/>

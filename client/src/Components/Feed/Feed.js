@@ -76,7 +76,7 @@ const wsInitializeFeed = async (searchQuery, skip, limit, socket, dispatch) => {
   return socket
 }
 
-export default () => {
+export default (params) => {
   console.log('FEED');
 
   const dispatch = useDispatch();
@@ -91,6 +91,7 @@ export default () => {
   for (let i = 0; i < feed_blocks_len; i++) {
     feed_blocks.push(i)
   }
+  // console.log(feed_blocks_len);
 
   // initializeFeed(searchQuery, 0, 3, dispatch)
   
@@ -107,7 +108,7 @@ export default () => {
 
     let socket;
 
-    if (useEffectRef.current) {
+    if (params.production || useEffectRef.current) {
       socket = new WebSocket('ws://localhost:5000/posts/websocket');
       wsInitializeFeed(searchQuery, 0, 5, socket, dispatch)
     }
