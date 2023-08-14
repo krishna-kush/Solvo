@@ -26,6 +26,7 @@ const AddQuestion = () => {
   const [inputData, setInputData] = useState('')
   const [sliderValue, setSliderValue] = useState(0);
   const [sliderOpacity, setSliderOpacity] = useState(0);
+  const [showInput, setShowInput] = useState(false);
   // const [showMoneySlider, setShowMoneySlider] = useState(false)
 
   const profile = useSelector((state) => state.auth.authData)
@@ -43,20 +44,20 @@ const AddQuestion = () => {
   const sliderInputConditions = (e) => {
     if (e.key === 'Enter') {
       if (e.target.value === '' || parseInt(e.target.value) === 0) {
-        toggleSliderInput()
+        toggleSliderInput(true, false)
         setSliderValue(0)
         return
       }
 
       if (/^(?!-?\d+$)[\s\S]*$/.test(e.target.value)) {
         alert('Amount was not Valid')
-        toggleSliderInput()
+        toggleSliderInput(true, false)
         return
       }
       
       if (e.target.value < skip_till) {
         alert(`Minimum amount is ₹${skip_till+1}`)
-        toggleSliderInput()
+        toggleSliderInput(true, false)
         setSliderValue(skip_till+1)
         return
       }
@@ -77,9 +78,15 @@ const AddQuestion = () => {
     } else if (to_show) {
       input.classList.add('d-none')
       show.classList.remove('d-none')
+
+      setShowInput(false) // to know when input is hidden for useEffect with dependency of sliderOpacity
     } else {
       input.classList.remove('d-none')
       show.classList.add('d-none')
+
+      setShowInput(true)
+
+      setSliderOpacity(0) // to hide slider when input is shown
     }
   }
 
@@ -99,6 +106,15 @@ const AddQuestion = () => {
     };
   }, []);
 
+  // for updating slider opacity
+  useEffect(() => {
+    if (!showInput) {
+      document.getElementById('money-slider').style.opacity = sliderOpacity;
+    } else {
+      document.getElementById('money-slider').style.opacity = 0;
+    }
+  }, [sliderOpacity])
+
   if (!profile) {
     return (
       <div>Loding...</div>
@@ -112,14 +128,14 @@ const AddQuestion = () => {
           <Id _id={profile._id} source={profile.source} full={true}/>
         </div>
 
-        <MoneySlider value={sliderValue} setValue={setSliderValue} skip_till={skip_till} opacity={sliderOpacity}/>
+        <MoneySlider value={sliderValue} setValue={setSliderValue} skip_till={skip_till} opacity={sliderOpacity} setOpacity={setSliderOpacity}/>
 
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
             <div className="full-screen">
               <div className="small-box question-details-child"
               onMouseEnter={() => {
-                document.getElementById('money-slider').style.opacity = 1;
+                // document.getElementById('money-slider').style.opacity = 1;
                 setSliderOpacity((prev) => { return prev+1}); // so a change in opacity is detected in useEffect of MoneySlider
               }}
               >
@@ -128,7 +144,7 @@ const AddQuestion = () => {
                 onClick={(e) => {
                   // for toggle when enter in input not clicked
                   if (e.target.id !== 'amount-input-!slider-child') {
-                    toggleSliderInput()
+                    toggleSliderInput(false, true)
                   }
 
 

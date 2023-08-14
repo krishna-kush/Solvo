@@ -17,7 +17,8 @@ const MoneySlider = (params) => {
     }
   
     const newTimeout = setTimeout(() => {
-      document.getElementById('money-slider').style.opacity = 0;
+      // document.getElementById('money-slider').style.opacity = 0;
+      params.setOpacity(0);
   
       setResetTimeout(null);
     }, hideTime);
@@ -33,6 +34,14 @@ const MoneySlider = (params) => {
     reset();
   };
 
+  const getClass = (opacity) => {
+    if (params.opacity) {
+      return 'transition-fast'
+    } else {
+      return 'transition-fast mouse-none'
+    }
+  }
+
   // for resetting opacity of slider when opacity changes to visible
   useEffect(() => {
     if (params.opacity !== 0) {
@@ -41,7 +50,7 @@ const MoneySlider = (params) => {
   }, [params.opacity]);
 
   return (
-    <div id='money-slider' className='transition-fast'>
+    <div id='money-slider' className={`${getClass(params.opacity)}`}>
       <FontAwesomeIcon style={{marginRight: "var(--short-margin)"}} className='fa-icon' icon={faIndianRupeeSign} />
       <div className="range-slider">
         <input
