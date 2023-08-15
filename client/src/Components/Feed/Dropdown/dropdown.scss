@@ -1,0 +1,32 @@
+// after making the parent container relative we can move it around with absolute in respect to the parent container but it will make it be inside feed overflow hidden limitations
+// BUUUUUUT, if I don't do it relativily whole app will treat it on make page not inside a container and get a scroll bar...
+
+.dropdown {
+    width: fit-content;
+    height: fit-content;
+
+    background-color: var(--box-color-t0);
+
+    display: block;
+    position: absolute;
+
+    border-radius: var(--short-radius);
+
+    z-index: 2;
+
+    transform: translateX(-100%); // default transform
+    overflow: hidden;
+
+
+    // ul {}
+
+    li {
+        list-style: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--in-box-color);
+        }
+    }
+}

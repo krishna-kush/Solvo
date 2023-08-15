@@ -71,6 +71,9 @@ input:focus {
 .d-block {
     display: block;
 }
+.mouse-none {
+    pointer-events: none;
+}
 .center-absolute {
     position: absolute;
     top: 50%;

@@ -11,6 +11,7 @@ import TextEditor from '../TextEditor/SunEditor/TextEditor'
 
 import Id from './Id/Id'
 import Comments from './Comments/Comments'
+import Dropdown from './Dropdown/Dropdown'
 import IconAndCount from './IconAndCount/IconAndCount'
 
 
@@ -21,26 +22,29 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   const textContainerControlRef = useRef(null);
 
   // useEffect(() => {
-  //   let a = document.getElementsByClassName(`dot-inner`)[0].style.height 
+  //   const a = document.getElementsByClassName(`dot-inner`)[0].style.height 
   //   console.log(a);
   // }, [])
 
   
-  let data = useSelector((state) => state.post[params.id]);
-  let profile = useSelector((state) => state.auth.authData);
+  const data = useSelector((state) => state.post[params.id]);
+  const profile = useSelector((state) => state.auth.authData);
   // console.log(data, profile);
   
-  let [inputData, setInputData] = useState('')
-  let [showComments, setShowComments] = useState(false)
+  const optionsBtnRef = useRef(null);
+
+  const [inputData, setInputData] = useState('')
+  const [showComments, setShowComments] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
   
-  let upAnswer = async (firstToAns) => {
+  const upAnswer = async (firstToAns) => {
     const temp = await actionCreators.post.upAnswer(inputData, data._id, profile._id, profile.source, params.id)
     dispatch(temp)
 
     if (firstToAns) {setShowComments(true)}
   }
 
-  let toggle = (value, setValue) => {
+  const toggle = (value, setValue) => {
     if (value===false) {
       setValue(true)
     } else {
@@ -48,7 +52,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
     }
   }
 
-  let setClass = (if_last) => {
+  const setClass = (if_last) => {
     if (if_last) {
       return "feed-block last-feed"
     } else {
@@ -56,7 +60,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
     }
   }
 
-  let firstToAns = () => {
+  const firstToAns = () => {
     if (data?.answers.length) return `Write your answer...`
     return `Be the first to answer...`
   }
@@ -81,13 +85,12 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
               <FontAwesomeIcon className='fa-icon' icon={faExpand} />
             </div>
           </div>
-          <div className='feed-head-options-child'>
-            <div className="more">
-              <FontAwesomeIcon className='fa-icon' icon={faEllipsis} />
+          <div style={{position:'relative'}} className='feed-head-options-child'>
+            <div className="more" onClick={() => {toggle(showDropdown, setShowDropdown)}}>
+              <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
-            <div className="more-options-dropdown">
 
-            </div>
+            {showDropdown?<Dropdown post_id={params.id} show={showDropdown} btnRef={optionsBtnRef}/>:null}
           </div>
         </div>
       </div>

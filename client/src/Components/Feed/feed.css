@@ -52,7 +52,7 @@
     align-items: center;
 }
 .question-details-child {
-    background-color: var(--box-color);
+    background-color: var(--box-color) !important;
 }
 .answers-count {
     font-size: var(--x-small-font);
