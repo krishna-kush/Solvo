@@ -10,6 +10,13 @@ import {
 
 import { actionCreators } from './state';
 
+// css is imported before componets because those comoponents have their own css and when they import it, I want their css if any contradict with universal css to have priority
+import './css/var.css';
+import './css/universal.css';
+
+import './css/content.css'; // need in app.js
+
+
 import Header from './Components/Header/Header';
 import FilterPanel from './Components/FilterPanel/FilterPanel';
 import Feed from './Components/Feed/Feed';
@@ -18,10 +25,6 @@ import Changer from './Components/Changer/Changer';
 import Auth from './Components/Auth/Auth';
 
 
-import './css/var.css';
-import './css/universal.css';
-
-import './css/content.css'; // need in app.js
 
 
 const root_theme = document.querySelector(':root')
