@@ -1,13 +1,14 @@
 import express from 'express';
 import expressWs from 'express-ws'
 
-import { create, upAnswer, getAll, getEnumerated, getBySearch, getComment, upComment, increment } from '../controllers/posts.js';
+import { create, deletePost, upAnswer, getAll, getEnumerated, getBySearch, getComment, upComment, increment } from '../controllers/posts.js';
 import { wsGetEnumerated } from '../controllers/posts.js';
 
 const router = express.Router();
 expressWs(router);
 
 router.post('/create', create);
+router.post('/delete', deletePost);
 router.post('/upAnswer', upAnswer);
 router.post('/getAll', getAll);
 router.post('/getEnumerated', getEnumerated);

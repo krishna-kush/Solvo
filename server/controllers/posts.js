@@ -38,6 +38,21 @@ export const create = async (req, res) => {
 
     }
 }
+export const deletePost = async (req, res) => {
+    try {
+        let { _id } = req.body;
+        
+        await Post.deleteOne({_id})
+        .catch((err) => {
+            console.log(err);
+        })
+        
+        res.status(200);
+    }
+    catch (error) {
+
+    }
+}
 
 export const upAnswer = async (req, res) => {
     try {
