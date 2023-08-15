@@ -39,6 +39,23 @@ const Dropdown = (params) => {
     // Left of the button
     ref.current.style.transform = `translateX(-100%) translateX(${referenceWidth}px)`; // 50% of the dropdown width and 50% of the button width
   }, [])
+
+  // to toggle dropdown when clicked outside of it (from Search.js, go there for more info)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if ((ref.current) && 
+        (!ref.current.contains(event.target)) &&
+        (event.target.closest(`#dropdown${params.post_id}`) === null)) {
+        params.setShow(false)
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   
   return (
     <div ref={ref} className={getClass()}>

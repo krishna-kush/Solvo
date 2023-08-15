@@ -85,12 +85,12 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
               <FontAwesomeIcon className='fa-icon' icon={faExpand} />
             </div>
           </div>
-          <div style={{position:'relative'}} className='feed-head-options-child'>
+          <div id={`dropdown${params.id}`} style={{position:'relative'}} className='feed-head-options-child'>
             <div className="more box" onClick={() => {toggle(showDropdown, setShowDropdown)}}>
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            {showDropdown?<Dropdown post_id={params.id} show={showDropdown} btnRef={optionsBtnRef}/>:null}
+            {showDropdown?<Dropdown post_id={params.id} show={showDropdown}setShow={setShowDropdown} btnRef={optionsBtnRef}/>:null}
           </div>
         </div>
       </div>
