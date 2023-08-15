@@ -177,7 +177,7 @@ const AddQuestion = () => {
             </div>
           </div>
           <div className='feed-head-options-child'>
-            <div className="more">
+            <div className="more box">
               <FontAwesomeIcon className='fa-icon' icon={faEllipsis} />
             </div>
           </div>
