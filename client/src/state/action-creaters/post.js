@@ -1,6 +1,6 @@
-import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER } from "../../constants/actionTypes"
+import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, DELETE } from "../../constants/actionTypes"
 
-import { createPost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, deletePostApi, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -9,6 +9,17 @@ export const create = async (data) => {
         dispatch({
             type: ADD_POST,
             payload: res
+        })
+    }
+}
+export const deletePost = (index, _id) => { // delete cann't be used as it's a keyword
+
+    deletePostApi(_id)
+
+    return (dispatch) => {
+        dispatch({
+            type: 'DELETE_POST',
+            index: index
         })
     }
 }

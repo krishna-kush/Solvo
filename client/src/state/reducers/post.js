@@ -1,6 +1,8 @@
 // import { createUser } from '../../API/auth'
 import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
 
+import { binarySearchIndex } from '../../Utils/algo'
+
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = [], action) => {
     
@@ -16,7 +18,7 @@ const reducer = (state = [], action) => {
 
             return data
 
-        case ADD_POST: { // This creats a new block, so we can name updatedState or some other variable again and again and limit it's scope, which was earlier without it not possible. Scope creation do happen in if blocks, maybe case representation of if does not do that...
+        case ADD_POST: { // This extra curly braces creats a new block, so we can name updatedState or some other variable again and again and limit it's scope, which was earlier without it not possible. Scope creation do happen in if blocks, maybe case representation of if does not do that...
             const updatedState = [action.payload.data, ...state]
 
             return updatedState
@@ -28,14 +30,26 @@ const reducer = (state = [], action) => {
             return updatedState
         }
         case FILL_POST: {
-
+            
             const currentState = [...state];
-
+            
             const { index, payload } = action;
 
-            currentState.splice(index, 0, payload);
+            // to find the right index to put post, because we are doing all insertion async, doing splice right away will miss sort the array, so we need to find the right index to put the post
+            const insertIndex = binarySearchIndex(currentState, index);
+            
+            currentState.splice(insertIndex, 0, {...payload, index});
 
             return currentState; 
+        }
+        case 'DELETE_POST': {
+            
+            // const currentState = [...state];
+            // currentState.splice(index, 1)
+            
+            const { index } = action;
+
+            return state.slice(0, index).concat(state.slice(index + 1)); // slice return new arr, so no problem to redux policies
         }
 
         case ADD_ANSWER: {
@@ -124,7 +138,6 @@ const reducer = (state = [], action) => {
 
             return updatedState;
         }
-              
 
         default:
             return state
