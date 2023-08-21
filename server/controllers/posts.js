@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Comment from '../models/Comment.js';
 import Post from '../models/Post.js';
+import Following from '../models/Following.js';
 import User from '../models/User.js';
 import UserGoogle from '../models/UserGoogle.js';
 
@@ -184,7 +185,7 @@ export const increment = async (req, res) => {
 
 
 export const getAll = async (req, res) => {
-    console.log('getAll');
+    // console.log('getAll');
 
     try {
 
@@ -311,23 +312,45 @@ export const wsGetEnumerated = async (ws, req) => {
             try {
                 let ascending = -1 // -1 for descending order and 1 for ascending order
     
-                const { skip, limit, if_last } = JSON.parse(data);
+                const { is_following, following_id, skip, limit, if_last } = JSON.parse(data);
                 
-                // console.log('getting', skip, limit);
-                
-                const posts = await Post.find()
-                    .sort({ _id: ascending })
-                    .skip(skip)
-                    .limit(limit)
-                    .populate({
-                        path: 'creator answers',
-                        populate: {
-                            path: 'creator',
-                            strictPopulate: false,
-                        },
-                    })
-    
-                // console.log('sending');
+                console.log('getting', is_following, following_id, skip, limit);
+
+                let following;
+                let following_ids_list;
+
+                if (is_following) {
+                    following = await Following.findOne({ _id: following_id });
+                    if (following) {
+                        following_ids_list = following.ids.map(id => id.toString());
+                    }
+                }
+
+                const posts = await Post.find(
+                    (() => {
+                        if (is_following === null) {
+                            return {}
+                        } else if (is_following === false) {
+                            // return { creator: following_id } // also working
+                            return { creator: { _id: following_id } }
+                        } else if (is_following === true) {
+                            // return { creator: { _id: { "$in": following_ids_list } } }; // not working, Why?
+                            return { creator: { "$in": following_ids_list } };   
+                        }
+                    })()
+                )
+                .sort({ _id: ascending })
+                .skip(skip)
+                .limit(limit)
+                .populate({
+                    path: 'creator answers',
+                    populate: {
+                        path: 'creator',
+                        strictPopulate: false,
+                    },
+                })
+
+                console.log('sending');
     
                 if (isClose) {
                     console.log('Data sending stopped due to connection closure.');

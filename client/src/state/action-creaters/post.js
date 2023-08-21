@@ -40,7 +40,7 @@ export const getAll = async () => {
     return (dispatch) => {
         dispatch({
             type: SET_POST,
-            payload: res
+            payload: res.data.data.result
         })
     }    
 }
@@ -60,17 +60,21 @@ export const getEnumerated = async (skip, limit, if_last) => {
 export const wsGetEnumerated = async (data) => {
     // let res = await getWsEnumeratedPost(skip, limit)
     // console.log(res);
-    let datatosend = data.data.result[0]
-    datatosend.last = data.data.if_last
-    const sn = data.data.sn
+    if (data.data.result.length) {
+        let datatosend = data.data.result[0]
+        datatosend.last = data.data.if_last
+        const sn = data.data.sn
+    
+        return (dispatch) => {
+            dispatch({
+                type: FILL_POST,
+                payload: datatosend,
+                index: sn,
+            })
+        }    
+    }
 
-    return (dispatch) => {
-        dispatch({
-            type: FILL_POST,
-            payload: datatosend,
-            index: sn,
-        })
-    }    
+    return (dispatch) => {}
 }
 export const getBySearch = async (search) => {
     let res = await getPostBySearch(search)

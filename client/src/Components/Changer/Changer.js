@@ -1,17 +1,15 @@
 import React from 'react'
 
+import { useSelector } from 'react-redux'
+
 import ChangerBlocks from './ChangerBlocks'
 
 import './changer.css'
 
 export default () => {
-  let name="changer"
+  const name="changer"
 
-  let elements = [
-    ["Feed", true],
-    ["My Questions", false],
-    ["Circle", false]
-  ]
+  const elements = useSelector((state) => state.changer);
 
   return (
     <div id="changer-container">
