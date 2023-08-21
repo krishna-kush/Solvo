@@ -8,6 +8,7 @@ import { useQuery } from '../../Utils/Universal'
 
 import FeedBlocks from './FeedBlocks'
 import AddQuestion from './AddQuestion/AddQuestion'
+import Changer from './Changer/Changer'
 
 import './feed.css'
 
@@ -159,16 +160,22 @@ export default (params) => {
   // }
     
   return (
-    <div id="feed">
-      <div className="ad-ques-cont">
-        <AddQuestion/>
+    <div id="feed-changer">
+      <div id="feed">
+        <div className="ad-ques-cont">
+          <AddQuestion/>
+        </div>
+
+        <div className="feed-blocks-cont">
+          {feed_blocks.map((id) => {
+            return <FeedBlocks id={id}/>
+          })}
+        </div>
+
       </div>
 
-      <div className="feed-blocks-cont">
-        {feed_blocks.map((id) => {
-          return <FeedBlocks id={id}/>
-        })}
-      </div>
+      <Changer/>
+    
     </div>
   )
 }

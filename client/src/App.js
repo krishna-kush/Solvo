@@ -18,12 +18,9 @@ import './css/content.css'; // need in app.js
 
 
 import Header from './Components/Header/Header';
-import FilterPanel from './Components/FilterPanel/FilterPanel';
 import Feed from './Components/Feed/Feed';
 import TopShow from './Components/TopShow/TopShow';
-import Changer from './Components/Changer/Changer';
 import Auth from './Components/Auth/Auth';
-
 
 
 
@@ -88,30 +85,24 @@ const App = () => {
           <Route exact path="/" element={<>
             <Header/>
               <div id="content">
-                <FilterPanel/>
                 <Feed production={production}/>
                 <TopShow/>
               </div>
-            <Changer/>
           </>} />
           {/* // ifLogedIn ? <>
           //   <Header/>
           //   <div id="content">
-          //     <FilterPanel/>
           //     <Feed/>
           //     <TopShow/>
           //   </div>
-          //   <Changer/>
           // </> : <Navigate to="/auth"/>}/> */}
 
           <Route exact path="/feed" element={<>
             <Header/>
             <div id="content">
-              <FilterPanel/>
               <Feed devlopment={production}/>
               <TopShow/>
             </div>
-            <Changer/>
           </>}/>
           
           <Route exact path="/auth" element={
@@ -126,11 +117,9 @@ const App = () => {
             {/* <div className='blur'>
               <Header/>
               <div id="content">
-                <FilterPanel/>
                 <Feed/>
                 <TopShow/>
               </div>
-              <Changer/>
             </div> */}
             <Auth/>
           </>)}/>

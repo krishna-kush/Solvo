@@ -1,8 +1,17 @@
+#feed-changer {
+    /* for changer positining */
+    position: relative;
+
+    flex-grow: 2;
+    margin-left: 2vw;
+}
+
 #feed {
     display: inline;
     float: left;
 
-    width: var(--feed-width);
+    /* width: var(--feed-width); */
+    width: 100%;
     height: var(--feed-height);
 
     overflow-y: auto;

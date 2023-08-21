@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import { actionCreators } from '../../state'
+import { actionCreators } from '../../../state'
 
 export default (params) => {
   const dispatch = useDispatch()

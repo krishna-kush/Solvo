@@ -1,3 +1,8 @@
 #top-show {
-    width: var(--side-panel-width);
+    /* width: var(--side-panel-width); */
+
+    flex-grow: 1;
+
+    margin-left: 1vw;
+    margin-right: 2vw;
 }

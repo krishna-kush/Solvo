@@ -1,10 +1,14 @@
 #changer-container {
-    width: var(--changer-container-width);
-    
+    /* width: var(--changer-container-width); */
     position: absolute;
+    width: 100%;
+    
+    pointer-events: none;
 
-    bottom: var(--changer-bottom-gap);
-    left: var(--changer-left-gap);
+    /* bottom: var(--changer-bottom-gap); */
+    /* left: var(--changer-left-gap); */
+
+    bottom: var(--long-margin);
 
     /* display: flex;
     align-items: center; */
@@ -12,6 +16,8 @@
 }
 
 #changer {
+    pointer-events: all; /* bcz parent have set it none for itself */
+
     margin: auto;
     background-color: var(--box-color);
 

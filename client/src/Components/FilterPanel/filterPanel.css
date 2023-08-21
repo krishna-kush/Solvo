@@ -1,3 +1,5 @@
 #filter-panel {
-    width: var(--side-panel-width);
+    /* width: var(--side-panel-width); */
+
+    flex-grow: 1;
 }
