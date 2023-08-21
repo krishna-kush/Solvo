@@ -12,7 +12,7 @@ import { actionCreators } from './state';
 
 // css is imported before componets because those comoponents have their own css and when they import it, I want their css if any contradict with universal css to have priority
 import './css/var.css';
-import './css/universal.css';
+import './css/universal.scss';
 
 import './css/content.css'; // need in app.js
 
@@ -47,7 +47,7 @@ const App = () => {
   console.log('APP');
   const dispatch = useDispatch();
 
-  const production = 1; // 0 for development, 1 for production
+  const production = 0; // 0 for development, 1 for production
 
   // const [theme, setTheme] = useState('dark');
   const [ifLogedIn, setIfLogedIn] = useState(false);
@@ -57,7 +57,7 @@ const App = () => {
 
   const checkLogin = async () => {
     const temp = await actionCreators.auth.ifLogIn()
-    // console.log(temp?.status)
+    console.log(temp?.status)
     if (temp?.status!==undefined) {
       // alert("You are not logged in")
       console.log("You are not logged in")

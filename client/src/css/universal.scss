@@ -47,6 +47,11 @@ input:focus {
 .btn:hover {
     background-color: var(--in-box-color);
 }
+.hover-text:hover{
+    @extend .transition-fast; // extends the styles of transition to hover-text when hover offcourse
+
+    color: var(--box-color)
+}
 .blur {
     filter: blur(5px);
 }
