@@ -5,6 +5,13 @@ const userSchema = mongoose.Schema({
     // age: String,
     email: String,
     password: String,
+
+    following: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Following', // Case Sensetive
+        required: true,
+    },
+
     photo: {
         type: String,
         default: 0

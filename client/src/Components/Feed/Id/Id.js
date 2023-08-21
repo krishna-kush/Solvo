@@ -9,16 +9,31 @@ import './id.css'
 const Id = (params) => {
   const dispatch = useDispatch()
 
-  let creator = useSelector((state) => {return state.ids[params._id]})
-  // console.log(creator);
+  const profile = useSelector((state) => state.auth.authData);
+  const creator = useSelector((state) => {return state.ids[params._id]})
+  // console.log(profile);
 
-  let upId = async () => {
+  const upId = async () => {
     if (!creator) {
       let temp = await actionCreators.auth.whoAdd(params._id, params.source);
       temp(dispatch)
     }
   }
   upId()
+
+  const handleFollow = async (follow) => {
+    let temp;
+
+    if (follow) {
+      temp = await actionCreators.follow.follow(profile.following._id, creator._id)
+    } else {
+      temp = await actionCreators.follow.unFollow(profile.following._id, creator._id)
+    }
+
+    if (typeof temp !== 'number') {
+      temp(dispatch)
+    } else {console.log(temp)}    
+  }
 
   if (!creator) {
     return (
@@ -35,17 +50,38 @@ const Id = (params) => {
       <div className="id-details">
         <div className="id-details-top">
           <div className="name">{creator.name}</div>
-          <div className="dot">
-            <div className="dot-inner">·</div>
-          </div>
+
+          {(params.full && (profile._id === creator._id))? ( // To match the current way, which is Also show dot in half mode even if it is the same user
+            <></>
+          ) : (
+            <div className="dot">
+              <div className="dot-inner">·</div>
+            </div>
+          )}
+
+          
           {params.full?(
-            <div className="follow">Follow</div>
+            profile._id !== creator._id?(
+            <>
+
+              {profile.following.ids.includes(creator._id)? (
+                <div className="follow hover-text"
+                onClick={() => {
+                  handleFollow(false)
+                }}>Following</div>
+              ) : (
+                <div className="follow hover-text"
+                onClick={() => {
+                  handleFollow(true)
+                }}>Follow</div>
+              )}
+            </>
+            ):(<></>)
           ):(
             <div className="id-date">
             5 may 2019
             </div>
-          )
-          }
+          )}
         </div>
         {params.full?(
           <div className="id-bottom">

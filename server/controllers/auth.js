@@ -4,6 +4,7 @@ import { OAuth2Client } from 'google-auth-library'
 // import User from '../models/user.js';
 import UserGoogle from '../models/UserGoogle.js';
 import User from '../models/User.js';
+import Following from '../models/Following.js';
 
 // export const getUser = async (req, res) => { 
 //     try {
@@ -52,7 +53,8 @@ export const logIn = async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email })
+        .populate({path: 'following'})
 
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
@@ -66,9 +68,9 @@ export const logIn = async (req, res) => {
             // name: existingUser.name,
         }, 'secret', { expiresIn: "2d" });
 
-        console.log('tokrn');
+        console.log('token');
 
-        res.status(200).json({ token, result: { _id: existingUser._id, email: existingUser.email, name: existingUser.name, source: 'own' }});
+        res.status(200).json({ token, result: { _id: existingUser._id, email: existingUser.email, name: existingUser.name, following: existingUser.following, source: 'own' }});
         
     } catch (error) {
         console.log(error);
@@ -82,17 +84,19 @@ export const ifLogIn = async (req, res) => {
         const source = req.source;
         let existingUser;
 
-        const desiredFields = ['_id', 'name', 'email', 'photo']
+        const desiredFields = ['_id', 'name', 'email', 'photo', 'following']
 
         if (source=='google') {
             existingUser = await UserGoogle.findOne({ googleId: _id })
-            .select(desiredFields.join(' '));
+            .select(desiredFields.join(' '))
+            .populate({path: 'following'})
         } else if (source=='own') {
             existingUser = await User.findOne({ _id })
-            .select(desiredFields.join(' '));
+            .select(desiredFields.join(' '))
+            .populate({path: 'following'})
         }
         existingUser = { ...existingUser._doc, source: source }; // ...existingUser._doc is because if I don't spread it and only send it, mongoose will automatically send the _doc object but if spread it'll send the whole mongoose object containing _doc and other stuff like functions and inicializations
-            
+        // console.log(existingUser.following);
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
         // console.log('sending');
@@ -113,7 +117,9 @@ export const signUp = async (req, res) => {
 
         if(existingUser) return res.status(400).json({ message: "User already exists" });
 
-        const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}` });
+        const NewFollowing = await Following.create({});
+
+        const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}`, following: NewFollowing._id });
 
         const token = jwt.sign({
             _id: result._id,
@@ -121,7 +127,7 @@ export const signUp = async (req, res) => {
             name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, source: 'own' } });
+        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, following: NewFollowing, source: 'own' } });
         
     } catch (error) {
         console.log(error);
@@ -152,11 +158,15 @@ export const google = async (req, res) => {
 
         if (user==null) {
             console.log("not found google user");
+
+            const NewFollowing = await Following.create({});
+
             const data = {
                 googleId: sub,
                 name: name,
                 email: email,
                 photo: picture,
+                following: NewFollowing,
             }
             // const data = {
             //     id: ticket.getUserId(),

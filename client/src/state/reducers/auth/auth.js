@@ -25,6 +25,23 @@ const reducer = (state = { authData: null }, action) => {
             localStorage.clear()
 
             return { ...state, authData: null }
+
+        case 'ADD_FOLLOWING': {
+            return { ...state, authData: { ...state.authData, following: { ...state.authData.following, ids: [...state.authData.following.ids, action.payload] } } };
+        }
+        case 'REMOVE_FOLLOWING': {
+            return {
+                ...state,
+                authData: {
+                  ...state.authData,
+                  following: {
+                    ...state.authData.following,
+                    ids: state.authData.following.ids.filter(id => id !== action.payload) // to only have id in new list that is not action.payload which is also a id
+                  }
+                }
+            }
+        }
+
         default:
             return state
     }
