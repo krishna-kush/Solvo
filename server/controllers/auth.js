@@ -149,11 +149,13 @@ export const google = async (req, res) => {
         const { sub, name, email, picture } = ticket.getPayload();
         // console.log(ticket.getPayload());
 
-        let user = await UserGoogle.findOneAndUpdate(
-            { email: email },
-            // { token: token },
-            {returnOriginal: false}, // without it you will get the original document means before updated value...
-        );
+        // let user = await UserGoogle.findOneAndUpdate(
+        //     { email: email },
+        //     // { token: token },
+        //     {returnOriginal: false}, // without it you will get the original document means before updated value...
+        // );
+        let user = await UserGoogle.findOne({ googleId: sub })
+        .populate({path: 'following'});
 
 
         if (user==null) {
@@ -173,7 +175,8 @@ export const google = async (req, res) => {
             // }
             await UserGoogle.create(data)
             
-            user = await UserGoogle.findOne({ googleId: sub });            
+            user = await UserGoogle.findOne({ googleId: sub })
+            .populate({path: 'following'});            
         }else {
             console.log("found");
             // console.log(user);

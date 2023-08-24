@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 
 import { GoogleLogin } from '@react-oauth/google'; // useGoogleLogin is for custom button just use onClick and call it's signIn function, Ref: https://www.npmjs.com/package/@react-oauth/google
 
@@ -19,9 +19,12 @@ import AuthSignUpButton from './AuthButtons/AuthSignUpButton';
 import './auth.css'
 
 
-export default () => {
+export default (params) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const loc = location.state
   // console.log('auth'); // log two times??
 
   const loginBtnRef = useRef(null);
@@ -55,6 +58,9 @@ export default () => {
     dispatch(actionCreators.auth.updateInput([what0, what1, to]))
   }
 
+  const from = location.state?.from?.pathname || "/";
+  console.log('loc', location.state, location.state?.from?.pathname);
+
   const googleSuccess = async (res) => {
     const data = {
       clientId: res?.clientId, // ?. is optional chaining(will not show error if profileObj is undefined, but return undefined)
@@ -65,7 +71,10 @@ export default () => {
     temp(dispatch);
     // console.log(authData) // this will not work because authData is not updated yet it'll show previous state, but it'll be updated on next rendering of the signIn component...
 
-    navigate('/')
+    // navigate(to="/" state={{ from: location }} replace)
+    // <Navigate to="/else" state={{ from: location }} replace />
+    // loc.set(true)
+    navigate(from, { replace: true })
   }
   const googleFailure = (error) => {
     console.log(error)

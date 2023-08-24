@@ -20,13 +20,15 @@ export default () => {
   }, [location]) // because after auth getting to home page does not change info in header...
 
   // let [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const from = location.state?.from?.pathname || "/";
 
   let logOutHandler = () => { 
     dispatch({ type: 'LOGOUT' })
     
     // setUser(null)
     
-    navigate('/auth')
+    // navigate('/auth')
+    navigate(from, { replace: true })
   }
 
   return (

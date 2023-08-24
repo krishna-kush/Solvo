@@ -6,6 +6,13 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+
 import { Provider } from 'react-redux';
 import { store } from './state/state.js';
 
@@ -16,10 +23,14 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
   <Provider store={store}>
-      <GoogleOAuthProvider clientId='298447624013-hoh0qifah56cvqh6r10v811i0svmtlp7.apps.googleusercontent.com'>
-        <App />
-      </GoogleOAuthProvider>
-    </Provider>
+  <Router>
+    <GoogleOAuthProvider clientId='298447624013-hoh0qifah56cvqh6r10v811i0svmtlp7.apps.googleusercontent.com'>
+      <Routes>
+        <Route path='/*' element={<App />} />
+      </Routes>
+    </GoogleOAuthProvider>
+  </Router>
+  </Provider>
   </StrictMode>
 );
 
