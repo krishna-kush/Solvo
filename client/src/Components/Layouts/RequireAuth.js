@@ -33,6 +33,8 @@ const RequireAuth = () => {
     checkLogin()
   }, [])
 
+  // console.log('from provider', auth, ifLogedIn);
+
   if (!loginChecked) {
     // have a loading screen
     console.log('loading');

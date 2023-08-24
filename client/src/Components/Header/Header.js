@@ -28,7 +28,7 @@ export default () => {
     // setUser(null)
     
     // navigate('/auth')
-    navigate(from, { replace: true })
+    navigate('/auth', { replace: true })
   }
 
   return (
