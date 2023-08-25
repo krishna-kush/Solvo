@@ -51,6 +51,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<AppBase/>}>
         {/* Public Routes */}
+        <Route path="/hi" element={<Auth/>}/>
         {/* Public Routes */}
 
         {/* Non-Login Routes */}

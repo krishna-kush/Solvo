@@ -3,13 +3,16 @@ import { React, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as faShare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as faShare, faExpand, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 import { actionCreators } from '../../../state/index'
+
+import { toggle } from '../../../Utils/Basic'
 
 import TextEditor from '../../TextEditor/SunEditor/TextEditor'
 
 import Id from '../Id/Id'
+import Dropdown from '../Dropdown/Dropdown'
 import IconAndCount from '../IconAndCount/IconAndCount'
 
 const Comments = (params) => {
@@ -17,6 +20,9 @@ const Comments = (params) => {
 
   const textContainerRef = useRef(null);
   const textContainerControlRef = useRef(null);
+
+  const optionsBtnRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   let indent = useSelector((state) => state.indent);
   let profile = useSelector((state) => state.auth.authData);
@@ -55,15 +61,6 @@ const Comments = (params) => {
     }
   }
   
-  let toggle = (value, setValue) => {
-    if (value===false) {
-      setValue(true)
-    } else {
-      setValue(false)
-    }
-  }
-  
-  
   // if (!data) {
   //   return (
   //     <div>Loding...</div>
@@ -73,7 +70,27 @@ const Comments = (params) => {
   return (
     <div className="comment-cont"
     style={paddingLeft()}>
-      <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
+      {/* <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/> */}
+
+      <div className="feed-head flex">
+        <div className="feed-head-id">
+          <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
+        </div>
+        <div className='feed-head-options flex'>
+          <div className='feed-head-options-child'>
+            <div className="full-screen">
+              <FontAwesomeIcon className='fa-icon' icon={faExpand} />
+            </div>
+          </div>
+          <div id={`dropdown${params.id}`} style={{position:'relative'}} className='feed-head-options-child'>
+            <div className="more box" onClick={() => {toggle(dropdownRef.current.show, dropdownRef.current.setShow)}}> {/* This dropdown is getting populating from within Dropdown Component, see Dropdown for more info. */}
+              <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
+            </div>
+
+            {/* <Dropdown ref={dropdownRef} id={params.id} btnRef={optionsBtnRef}/> */}
+          </div>
+        </div>
+      </div>
 
       <div className='comment-content'>
         <div className="comment" dangerouslySetInnerHTML={{ __html: params.comment }}></div>

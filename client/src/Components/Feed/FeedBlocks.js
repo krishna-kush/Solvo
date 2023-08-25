@@ -7,6 +7,8 @@ import { faComment, faArrowUpFromBracket as faShare, faExpand, faEllipsis } from
 
 import { actionCreators } from '../../state'
 
+import { toggle } from '../../Utils/Basic'
+
 import TextEditor from '../TextEditor/SunEditor/TextEditor'
 
 import Id from './Id/Id'
@@ -32,24 +34,16 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   // console.log(data, profile);
   
   const optionsBtnRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const [inputData, setInputData] = useState('')
   const [showComments, setShowComments] = useState(false)
-  const [showDropdown, setShowDropdown] = useState(false)
   
   const upAnswer = async (firstToAns) => {
     const temp = await actionCreators.post.upAnswer(inputData, data._id, profile._id, profile.source, params.id)
     dispatch(temp)
 
     if (firstToAns) {setShowComments(true)}
-  }
-
-  const toggle = (value, setValue) => {
-    if (value===false) {
-      setValue(true)
-    } else {
-      setValue(false)
-    }
   }
 
   const setClass = (if_last) => {
@@ -86,11 +80,11 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
             </div>
           </div>
           <div id={`dropdown${params.id}`} style={{position:'relative'}} className='feed-head-options-child'>
-            <div className="more box" onClick={() => {toggle(showDropdown, setShowDropdown)}}>
+            <div className="more box" onClick={() => {toggle(dropdownRef.current.show, dropdownRef.current.setShow)}}> {/* This dropdown is getting populating from within Dropdown Component, see Dropdown for more info. */}
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            {showDropdown?<Dropdown post_id={params.id} show={showDropdown}setShow={setShowDropdown} btnRef={optionsBtnRef}/>:null}
+            <Dropdown ref={dropdownRef} id={params.id} btnRef={optionsBtnRef}/>
           </div>
         </div>
       </div>
