@@ -53,7 +53,7 @@ const reducer = (state = [], action) => {
         }
 
         case ADD_ANSWER: {
-            let updatedState = state.map((post, index) => {
+            const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_no) {
                     return {
                         ...post,
@@ -67,12 +67,42 @@ const reducer = (state = [], action) => {
             return updatedState
         }
 
+        case 'DELETE_COMMENT': { // via _id 
+            const search = (list, key, value, new_value) => {
+                return list.map((item) => {
+                    console.log('item', item);
+                    if (item[key] === value) {
+                        console.log('found', item[key], item);
+                        return null;
+                    } else if (item.childComments && Array.isArray(item.childComments) && item.childComments.length) {
+                        return { ...item, childComments: search(item.childComments, key, value, new_value) };
+                    } else {
+                        return item;
+                    }
+                }).filter(item => item !== null);
+            };
+
+            const updatedState = state.map((post, index) => {
+                if (index === action.payload.post_id) {
+                    console.log('inif');
+                    return {
+                        ...post,
+                        answers: search(post.answers, '_id', action.payload._id, action.payload.comment),
+                    };
+                } else {
+                    return post;
+                }
+            });
+
+            return updatedState;
+        }
+
         case ADD_CHILD_COMMENTS: {
-            let search = (list, key, value, new_value) => {
+            const search = (list, key, value, new_value) => {
                 return list.map((item) => {
                     if (item[key] === value) {
                         if (action.source === 'upComment') {
-                            let new_childComments = [...item.childComments, new_value]
+                            const new_childComments = [...item.childComments, new_value]
                             return { ...item, childComments: new_childComments };
                         }
                         return { ...item, childComments: new_value };
@@ -84,7 +114,7 @@ const reducer = (state = [], action) => {
                 });
             };
         
-            let updatedState = state.map((post, index) => {
+            const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
                     if (action.source === 'upComment') {
                         return {
@@ -104,7 +134,7 @@ const reducer = (state = [], action) => {
         }
 
         case 'INCREMENT': {
-            let search = (list, key, value, what, inc) => {
+            const search = (list, key, value, what, inc) => {
                 return list.map((item) => {
                     if (item[key] === value) {
                         return { ...item, [what]: { ...item[what], count: item[what].count + inc } };
@@ -124,7 +154,7 @@ const reducer = (state = [], action) => {
             };
             // console.log(state);
             
-            let updatedState = state.map((post, index) => {
+            const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
                 return {
                     ...post,

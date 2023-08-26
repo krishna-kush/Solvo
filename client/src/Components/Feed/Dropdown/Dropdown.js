@@ -29,7 +29,8 @@ const Dropdown = forwardRef((params, ref) => {
   const is_same = postCreatorId === userId;
 
   const handle = {
-    delete: () => {actionCreators.post.deletePost(params.id, postId)(dispatch)}
+    delete: () => {actionCreators.post.deletePost(params.id, postId)(dispatch)},
+    deleteComment: () => {actionCreators.post.deleteComment(params.id, params._id, params.parentId)(dispatch)},
   }
 
   // to position dropdown
@@ -69,7 +70,13 @@ const Dropdown = forwardRef((params, ref) => {
     <div ref={componentRef} className='dropdown transition'>
       <ul>
         {/* <li className='transition'>{}</li> */}
-        {is_same && <li className='transition' onClick={handle.delete}>Delete</li>} {/* Same like is_same? but it don't need a else (Why: Because it's the way and works first check if a condition is true then check or render another condition only) */}
+        {is_same && <li className='transition' onClick={() => {
+          if (params.type === 'post') handle.delete()
+          else if (params.type === 'comment') {
+            console.log('comment id', params._id);
+            handle.deleteComment()}
+        }
+          }>Delete</li>} {/* Same like is_same? but it don't need a else (Why: Because it's the way and works first check if a condition is true then check or render another condition only) */}
         {!is_same && <li className='transition'>Report</li>}
       </ul>
     </div>

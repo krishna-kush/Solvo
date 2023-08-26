@@ -13,8 +13,12 @@ const Comments = (params) => {
   let data = useSelector((state) => state.post[params.id].answers);
   // console.log(data);
 
+  let parent_comment_id = null; // to store parent comment id, why? to pass it to the child comment, it'll help in deleting the comment
+
   let renderComments = (data, iter) => {
-    const comment = (iter) => {return <><Comment _id={data._id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share}/></>}
+    const comment = <><Comment _id={data._id} parentId={parent_comment_id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share}/></>
+
+    parent_comment_id = data._id;
 
     let removeStringsFromArray = (arr) => {
       return arr.filter(item => typeof item !== 'string');
@@ -27,7 +31,7 @@ const Comments = (params) => {
       // setCount((prevCount) => prevCount + 1) // Incrementing Count, inside a func. otherwise it'll also print value of iter in html. The increment in iter is comming after render of parent comment. */}
       return (
         <>
-        {comment(iter)}
+        {comment}
         {(() => {iter++})()}
         {childComments.map((data, i) => {
           return (
@@ -39,7 +43,7 @@ const Comments = (params) => {
         </>
       )
     }
-    return comment(iter)
+    return comment
   }
 
 

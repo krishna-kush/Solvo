@@ -14,8 +14,8 @@ export const createPost = async (data) => {
         data: mdata.data.result,
     }
 }
-export const deletePostApi = async (_id) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/delete', {_id})
+export const deleteAny = async (what, _id, parentId) => {
+    let mdata = await Axios.post('http://localhost:5000/posts/delete', {what, _id, parentId})
     .then((res) => {
         return res
     })

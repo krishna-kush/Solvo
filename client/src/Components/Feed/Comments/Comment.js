@@ -87,7 +87,7 @@ const Comments = (params) => {
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            {/* <Dropdown ref={dropdownRef} id={params.id} btnRef={optionsBtnRef}/> */}
+            <Dropdown ref={dropdownRef} _id={params._id} id={params.post_id} parentId={params.parentId} btnRef={optionsBtnRef} type='comment'/>
           </div>
         </div>
       </div>

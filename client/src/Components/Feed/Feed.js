@@ -103,7 +103,7 @@ export default (params) => {
   useSelector((state) => {
     profile = state.auth.authData
   }); // This way the component won't re-render even when authData changes from any other component or this component, with this method the profile variable will not be add to dependency of this component because this is not the right way to use useSelector...
-  console.log(profile);
+  // console.log(profile);
 
   const feed_blocks_len = useSelector((state) => state.post.length);
   let feed_blocks = []

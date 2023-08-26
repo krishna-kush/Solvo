@@ -39,11 +39,25 @@ export const create = async (req, res) => {
 
     }
 }
-export const deletePost = async (req, res) => {
+export const deleteAny = async (req, res) => {
     try {
-        let { _id } = req.body;
+        const { what, _id, parentId } = req.body;
         
-        await Post.deleteOne({_id})
+        let Collection;
+
+        if (what === 'post') Collection = Post;
+        else {
+            Collection = Comment
+
+            // before deleting the comment itself, removing it from it's parent's childComments array, so there won't be any problem while fetching and showing comments from frontend
+            await Collection.findOneAndUpdate({ _id: parentId }, { // await is nessesery, Why? Maybe because if not await it'll delete the comment the run res.send, which will maybe cancle the ongoing operation
+                $pull: {
+                    childComments: _id,
+                }
+            });
+        }
+
+        await Collection.deleteOne({_id})
         .catch((err) => {
             console.log(err);
         })
@@ -434,7 +448,11 @@ export const getBySearch = async (req, res) => {
 
 export const getComment = async (req, res) => {
     try {
-        const comment = await Comment.find({_id: req.body._id}).populate('creator')
+        const comment = await Comment.find({_id: req.body._id})
+        .populate({
+            path: 'creator',
+            strictPopulate: false,
+        })
 
         res.status(200).json({result: comment})
     }
