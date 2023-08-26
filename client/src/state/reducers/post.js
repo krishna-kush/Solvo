@@ -2,6 +2,8 @@
 import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, ADD_CHILD_COMMENTS } from '../../constants/actionTypes'
 
 import { binarySearchIndex } from '../../Utils/algo'
+import { searchPost } from '../../Utils/Search'
+
 
 // in authReducer state I can return action.payload which is already is object or I can derefference everything which enables me to overload the data in future use...
 const reducer = (state = [], action) => {
@@ -68,26 +70,18 @@ const reducer = (state = [], action) => {
         }
 
         case 'DELETE_COMMENT': { // via _id 
-            const search = (list, key, value, new_value) => {
-                return list.map((item) => {
-                    console.log('item', item);
-                    if (item[key] === value) {
-                        console.log('found', item[key], item);
-                        return null;
-                    } else if (item.childComments && Array.isArray(item.childComments) && item.childComments.length) {
-                        return { ...item, childComments: search(item.childComments, key, value, new_value) };
-                    } else {
-                        return item;
-                    }
-                }).filter(item => item !== null);
-            };
-
+            
             const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
-                    console.log('inif');
                     return {
                         ...post,
-                        answers: search(post.answers, '_id', action.payload._id, action.payload.comment),
+                        answers: searchPost({
+                            list: post.answers,
+                            key: '_id',
+                            value: action.payload._id,
+                            new_value: action.payload.comment,
+                            source: action.source
+                        }),
                     };
                 } else {
                     return post;
@@ -97,34 +91,31 @@ const reducer = (state = [], action) => {
             return updatedState;
         }
 
-        case ADD_CHILD_COMMENTS: {
-            const search = (list, key, value, new_value) => {
-                return list.map((item) => {
-                    if (item[key] === value) {
-                        if (action.source === 'upComment') {
-                            const new_childComments = [...item.childComments, new_value]
-                            return { ...item, childComments: new_childComments };
-                        }
-                        return { ...item, childComments: new_value };
-                    } else if (item.childComments && Array.isArray(item.childComments) && item.childComments.length) {
-                        return { ...item, childComments: search(item.childComments, key, value, new_value) };
-                    } else {
-                        return item;
-                    }
-                });
-            };
-        
+        case ADD_CHILD_COMMENTS: {        
+            // this'll run for two source: upComment and showComments
             const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
                     if (action.source === 'upComment') {
                         return {
                             ...post,
-                            answers: search(post.answers, '_id', action.payload._id, action.payload.comment),
+                            answers: searchPost({
+                                list: post.answers,
+                                key: '_id',
+                                value: action.payload._id,
+                                new_value: action.payload.comment,
+                                source: action.source
+                            }),
                         };
                     }
                     return {
-                      ...post,
-                      answers: search(post.answers, '_id', action.payload._id, action.payload.childComments),
+                        ...post,
+                        answers: searchPost({
+                            list: post.answers,
+                            key: '_id',
+                            value: action.payload._id,
+                            new_value: action.payload.childComments,
+                            source: action.source
+                        }),
                     };
                 } else {
                     return post;
@@ -134,37 +125,24 @@ const reducer = (state = [], action) => {
         }
 
         case 'INCREMENT': {
-            const search = (list, key, value, what, inc) => {
-                return list.map((item) => {
-                    if (item[key] === value) {
-                        return { ...item, [what]: { ...item[what], count: item[what].count + inc } };
-                    } else if (
-                        item.childComments &&
-                        Array.isArray(item.childComments) &&
-                        item.childComments.length
-                        ) {
-                        return {
-                        ...item,
-                        childComments: search(item.childComments, key, value, what, inc),
-                        };
-                    } else {
-                        return item;
-                    }
-                });
-            };
-            // console.log(state);
-            
+
             const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_id) {
                 return {
                     ...post,
-                    answers: search(post.answers, '_id', action.payload.comment_id, action.payload.what, action.payload.inc),
+                    answers: searchPost({
+                        list: post.answers,
+                        key: '_id',
+                        value: action.payload.comment_id,
+                        what: action.payload.what,
+                        inc: action.payload.inc,
+                        source: action.source
+                    }),
                 };
                 } else {
                 return post;
                 }
             });
-            // console.log(updatedState);
 
             return updatedState;
         }
