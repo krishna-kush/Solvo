@@ -62,7 +62,6 @@ const Id = (params) => {
             </div>
           }
 
-          
           {
           params.full
           ?

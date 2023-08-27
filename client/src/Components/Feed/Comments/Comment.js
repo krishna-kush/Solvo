@@ -61,11 +61,23 @@ const Comments = (params) => {
     }
   }
   
+  const renderID = () => { // this func. wants to not show Full mode(Showing Following), when the comment is of user or any body user follow
+    let full = true
+
+    if ( (profile._id === params.creator._id) || profile.following.ids.includes(params.creator._id)) {
+      full = false
+    }
+
+    return <Id _id={params.creator._id} source={params.creatorRefModel} createdAt={params.createdAt} full={full}/>
+  }
+
+  
   // if (!data) {
   //   return (
   //     <div>Loding...</div>
   //   )
   // }
+
 
   return (
     <div className="comment-cont"
@@ -74,7 +86,7 @@ const Comments = (params) => {
 
       <div className="feed-head flex">
         <div className="feed-head-id">
-          <Id _id={params.creator._id} source={params.creatorRefModel} createdAt={params.createdAt} full={false}/>
+          {renderID()}
         </div>
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
