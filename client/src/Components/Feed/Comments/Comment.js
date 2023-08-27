@@ -74,7 +74,7 @@ const Comments = (params) => {
 
       <div className="feed-head flex">
         <div className="feed-head-id">
-          <Id _id={params.creator._id} source={params.creatorRefModel} full={false}/>
+          <Id _id={params.creator._id} source={params.creatorRefModel} createdAt={params.createdAt} full={false}/>
         </div>
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
@@ -87,7 +87,7 @@ const Comments = (params) => {
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            <Dropdown ref={dropdownRef} _id={params._id} id={params.post_id} parentId={params.parentId} btnRef={optionsBtnRef} type='comment'/>
+            <Dropdown ref={dropdownRef} _id={params._id} id={params.post_id} creatorId={params.creator._id} parentId={params.parentId} btnRef={optionsBtnRef} type='comment'/>
           </div>
         </div>
       </div>

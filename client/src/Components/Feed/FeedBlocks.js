@@ -71,7 +71,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
     className={data?.last?setClass(1):setClass(0)}>
       <div className="feed-head flex">
         <div className="feed-head-id">
-          <Id _id={data.creator._id} source={data.creatorRefModel} full={true}/>
+          <Id _id={data.creator._id} source={data.creatorRefModel} createdAt={data.createdAt} full={true}/>
         </div>
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
@@ -84,7 +84,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            <Dropdown ref={dropdownRef} id={params.id} btnRef={optionsBtnRef} type='post'/>
+            <Dropdown ref={dropdownRef} _id={data._id} id={params.id} creatorId={data.creator._id} btnRef={optionsBtnRef} type='post'/>
           </div>
         </div>
       </div>

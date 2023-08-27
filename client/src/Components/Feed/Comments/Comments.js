@@ -16,7 +16,7 @@ const Comments = (params) => {
   let parent_comment_id = null; // to store parent comment id, why? to pass it to the child comment, it'll help in deleting the comment
 
   let renderComments = (data, iter) => {
-    const comment = <><Comment _id={data._id} parentId={parent_comment_id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share}/></>
+    const comment = <><Comment _id={data._id} parentId={parent_comment_id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share} createdAt={data.createdAt} /></>
 
     parent_comment_id = data._id;
 

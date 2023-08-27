@@ -24,6 +24,7 @@ export const create = async (req, res) => {
             question: question,
             creator: _id,
             creatorRefModel: source,
+            createdAt: Date(),
         })
         .catch((err) => {
             console.log(err);
@@ -84,7 +85,8 @@ export const upAnswer = async (req, res) => {
             _id: new mongoose.Types.ObjectId(),
             comment: ans,
             creator: user_id,
-            creatorRefModel: user_source
+            creatorRefModel: user_source,
+            createdAt: Date(),
         })
         const populatedComment = await comment.populate('creator')
         console.log(comment);
@@ -124,7 +126,8 @@ export const upComment = async (req, res) => {
             _id: new mongoose.Types.ObjectId(),
             comment: comment_text,
             creator: user_id,
-            creatorRefModel: user_source
+            creatorRefModel: user_source,
+            createdAt: Date(),
         })
         const populatedComment = await comment.populate('creator')
         console.log(comment);

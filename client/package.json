@@ -12,6 +12,7 @@
     "@mui/icons-material": "^5.14.1",
     "@react-oauth/google": "^0.11.0",
     "axios": "^1.4.0",
+    "moment-timezone": "^0.5.43",
     "node-sass": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { actionCreators } from '../../../state/index'
 
+import TimeDifference from '../../TimeDifference'
+
 import './id.css'
 
 const Id = (params) => {
@@ -51,45 +53,49 @@ const Id = (params) => {
         <div className="id-details-top">
           <div className="name">{creator.name}</div>
 
-          {(params.full && (profile._id === creator._id))? ( // To match the current way, which is Also show dot in half mode even if it is the same user
+          { // for adding · to every Id exept condition
+          params.full && profile._id === creator._id
+          ?
             <></>
-          ) : (
-            <div className="dot">
+          : <div className="dot">
               <div className="dot-inner">·</div>
             </div>
-          )}
+          }
 
           
-          {params.full?(
-            profile._id !== creator._id?(
-            <>
-
-              {profile.following.ids.includes(creator._id)? (
+          {
+          params.full
+          ?
+            profile._id !== creator._id
+            ? profile.following.ids.includes(creator._id)
+              ?
                 <div className="follow hover-text"
                 onClick={() => {
                   handleFollow(false)
                 }}>Following</div>
-              ) : (
+              :
                 <div className="follow hover-text"
                 onClick={() => {
                   handleFollow(true)
                 }}>Follow</div>
-              )}
-            </>
-            ):(<></>)
-          ):(
-            <div className="id-date">
-            5 may 2019
-            </div>
-          )}
+            : <></>
+          :
+            params.createdAt
+            ? 
+              <div className="id-date">
+              <TimeDifference savedTime={params.createdAt} />
+              </div>
+            : <></>
+          }
         </div>
-        {params.full?(
+
+        {params.full && params.createdAt ? (
           <div className="id-bottom">
             <div className="id-date">
-            5 may 2019
+            <TimeDifference savedTime={params.createdAt} />
             </div>
           </div>
-        ):(
+        ): (
           <></>
         )}
       </div>
