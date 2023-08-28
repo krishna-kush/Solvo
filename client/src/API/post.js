@@ -28,6 +28,20 @@ export const deleteAny = async (what, _id, parentId) => {
     }
 }
 
+export const closePost = async (_id) => {
+    let mdata = await Axios.post('http://localhost:5000/posts/close', {_id})
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err.response
+    })
+
+    return {
+        status: mdata.data.result,
+    }
+}
+
 export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
     let mdata = await Axios.post('http://localhost:5000/posts/upAnswer', { ans, post_id, user_id, user_source})
     .then((res) => {

@@ -9,6 +9,19 @@ import './dropdown.scss'
 const Dropdown = forwardRef((params, ref) => {
   /* 
   This Dropdown Component will take a ref, that'll be to store the state of the dropdown, so that it can be accessed and changed from outside of this component.
+
+  Other Attributes:
+  _id: real id,
+  id: numerical id of post,
+  creatorId: id of the creator,
+  parentId: id of the parent of the comment (if it's a comment),
+  btnRef: ref of the button that'll be clicked to open the dropdown
+  type: post or comment,
+
+  Rules:
+  if _id, then: it's real id,
+  if var_id, then: it's numerical id,
+  if varId, then: it's real id,
   */
 
   const dispatch = useDispatch()
@@ -22,15 +35,48 @@ const Dropdown = forwardRef((params, ref) => {
 
   const componentRef = useRef(null);
 
+  const userId = useSelector((state) => state.auth.authData._id);
   const postId = useSelector((state) => state.post[params.id]._id);
   const postCreatorId = useSelector((state) => state.post[params.id].creator._id);
-  const userId = useSelector((state) => state.auth.authData._id);
 
-  const is_same = postCreatorId === userId;
+  // IDENTIFIERS
+  const is_comment = params.type === 'comment';
+  const is_same = params.creatorId === userId;
+  const is_my_post = postCreatorId === userId;
 
   const handle = {
-    delete: () => {actionCreators.post.deletePost(params.id, postId)(dispatch)},
+    delete: () => {actionCreators.post.deletePost(params.id, params._id)(dispatch)},
     deleteComment: () => {actionCreators.post.deleteComment(params.id, params._id, params.parentId)(dispatch)},
+
+    select: () => {
+      const userConfirmed = window.confirm("Do you want to perform this action?");
+
+      if (userConfirmed) {
+        /*
+        Transfer Money if there
+        Change state from open to Close
+
+        Ask for what to do with Post {
+          Hide whole post from everybody,
+          Hide only selected answer,
+          Hide every answer except selected answer,
+          Hide Every Answer,
+        }
+        */
+
+        // Money Transfer {}
+
+        // Change state from open to Close
+        actionCreators.post.close(params.id, postId)(dispatch)
+
+        // Ask for what to do with Post
+        // Another Compoent Like Auth to select what to do with post 
+
+        console.log("User clicked 'Yes'. Performing the action...");
+      } else {
+        console.log("User clicked 'No'. Canceling the action...");
+      }
+    },
   }
 
   // to position dropdown
@@ -53,7 +99,6 @@ const Dropdown = forwardRef((params, ref) => {
         (!componentRef.current.contains(event.target)) &&
         (event.target.closest(`#dropdown${params.id}`) === null)) {
         setShow(false)
-        console.log('clicked outside');
       }
     };
 
@@ -70,14 +115,18 @@ const Dropdown = forwardRef((params, ref) => {
     <div ref={componentRef} className='dropdown transition'>
       <ul>
         {/* <li className='transition'>{}</li> */}
-        {is_same && <li className='transition' onClick={() => {
+        {is_same && (!is_comment || is_same) && <li className='transition' onClick={() => {
           if (params.type === 'post') handle.delete()
           else if (params.type === 'comment') {
-            console.log('comment id', params._id);
             handle.deleteComment()}
         }
           }>Delete</li>} {/* Same like is_same? but it don't need a else (Why: Because it's the way and works first check if a condition is true then check or render another condition only) */}
         {!is_same && <li className='transition'>Report</li>}
+
+        {/* For Comments */}
+        {is_my_post && !is_same && <li className='transition'
+        onClick={handle.select}>Select</li>}
+        {/* For Comments */}
       </ul>
     </div>
   )

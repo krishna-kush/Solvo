@@ -1,6 +1,6 @@
 import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, DELETE } from "../../constants/actionTypes"
 
-import { createPost, deleteAny, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, deleteAny, closePost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -32,6 +32,17 @@ export const deleteComment = (post_index, _id, parentId) => {
             type: 'DELETE_COMMENT',
             payload: {post_id: post_index, _id: _id},
             source: 'deleteComment'
+        })
+    }
+}
+
+export const close = (id, _id) => {
+    closePost(_id)
+
+    return (dispatch) => {
+        dispatch({
+            type: 'CLOSE_POST',
+            index: id,
         })
     }
 }

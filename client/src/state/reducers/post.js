@@ -54,6 +54,19 @@ const reducer = (state = [], action) => {
             return state.slice(0, index).concat(state.slice(index + 1)); // slice return new arr, so no problem to redux policies
         }
 
+        case 'CLOSE_POST': {
+            const updatedState = state.map((post, index) => {
+                if (index === action.index) {
+                    return {
+                        ...post,
+                        closed: true
+                    }
+                } else return post
+            })
+
+            return updatedState
+        }
+
         case ADD_ANSWER: {
             const updatedState = state.map((post, index) => {
                 if (index === action.payload.post_no) {

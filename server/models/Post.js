@@ -22,6 +22,11 @@ const postSchema = mongoose.Schema({
         enum: ['UserGoogle', 'User'],
         // required: true,
     },
+
+    closed: {
+        type: Boolean,
+        default: false,
+    },
     
     // tags: [String],
     // selectedFile: String,

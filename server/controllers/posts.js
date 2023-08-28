@@ -70,6 +70,19 @@ export const deleteAny = async (req, res) => {
     }
 }
 
+export const close = async (req, res) => {
+    try {
+        const { _id } = req.body;
+
+        await Post.findOneAndUpdate({ _id: _id }, { closed: true });
+        
+        res.status(200);
+    }
+    catch (error) {
+
+    }
+}
+
 export const upAnswer = async (req, res) => {
     try {
         let { ans, post_id, user_id, user_source } = req.body;
