@@ -243,11 +243,9 @@ export const hide = async (req, res) => {
                 break;
             case 3:
                 await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'exceptSelected', selected: selectedId });
-                console.log('c3');
                 break;
             case 4:
                 await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'all', selected: selectedId });
-                console.log('c4');
                 break;
             default:
                 break;
@@ -379,6 +377,7 @@ export const getEnumerated = async (req, res) => {
 export const wsGetEnumerated = async (ws, req) => {
     try {
         console.log('Client connected.');
+        // console.log(req.headers);
     
         let isClose = false;
     
@@ -391,9 +390,9 @@ export const wsGetEnumerated = async (ws, req) => {
             try {
                 let ascending = -1 // -1 for descending order and 1 for ascending order
     
-                const { is_following, following_id, skip, limit, if_last } = JSON.parse(data);
+                const { _id, is_following, following_id, skip, limit, if_last } = JSON.parse(data);
                 
-                console.log('getting', is_following, following_id, skip, limit);
+                console.log('getting', _id, is_following, following_id, skip, limit);
 
                 let following;
                 let following_ids_list;
@@ -405,16 +404,24 @@ export const wsGetEnumerated = async (ws, req) => {
                     }
                 }
 
+                // to don't find and send post which is private, but do send if the private post is of user himself
+                const hide = {
+                    $or: [
+                        { hide: { $ne: 'private' } },
+                        { creator: { _id: _id} }
+                    ]
+                }
+
                 const posts = await Post.find(
                     (() => {
                         if (is_following === null) {
-                            return {}
+                            return { ...hide }
                         } else if (is_following === false) {
                             // return { creator: following_id } // also working
-                            return { creator: { _id: following_id } }
+                            return { creator: { _id: following_id }, ...hide }
                         } else if (is_following === true) {
                             // return { creator: { _id: { "$in": following_ids_list } } }; // not working, Why?
-                            return { creator: { "$in": following_ids_list } };   
+                            return { creator: { "$in": following_ids_list }, ...hide };   
                         }
                     })()
                 )
@@ -428,6 +435,15 @@ export const wsGetEnumerated = async (ws, req) => {
                         strictPopulate: false,
                     },
                 })
+
+                //  Changing Answers as needed
+                if (posts[0].hide === 'all') {
+                    posts[0].answers = [];
+                } else if (posts[0].hide === 'selected') {
+                    posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() !== posts[0].selected.toString());
+                } else if (posts[0].hide === 'exceptSelected') {
+                    posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() === posts[0].selected.toString());
+                }
 
                 console.log('sending');
     

@@ -76,11 +76,11 @@ const Dropdown = forwardRef((params, ref) => {
         // Another Compoent Like Auth to select what to do with post 
         actionCreators.select.changeShow(true)(dispatch)
         actionCreators.select.changeOptions([
-          'Don\'t Hide',
-          'Hide whole post from everybody',
-          'Hide only selected answer',
-          'Hide every answer except selected answer',
-          'Hide Every Answer',
+          'Don\'t Hide', // none
+          'Hide whole post from everybody', // all
+          'Hide only selected answer', // selected
+          'Hide every answer except selected answer', // exceptSelected
+          'Hide Every Answer', // private
         ])(dispatch)
         actionCreators.select.updateSelectorId(postId)(dispatch)
         actionCreators.select.updateSelectedId(params._id)(dispatch)

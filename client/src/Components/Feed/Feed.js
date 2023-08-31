@@ -51,7 +51,7 @@ const initializeFeed = async ([is_following, following_id], searchQuery, skip, l
   // }
 }
 
-const wsInitializeFeed = async ([is_following, following_id], searchQuery, skip, limit, socket, dispatch) => {
+const wsInitializeFeed = async ([is_following, following_id], _id, searchQuery, skip, limit, socket, dispatch) => {
   const search = searchQuery.trim()
   if (search) {
     const temp = await actionCreators.post.getBySearch(search)
@@ -63,7 +63,7 @@ const wsInitializeFeed = async ([is_following, following_id], searchQuery, skip,
     console.log('WebSocket connection established.');
     // The socket.send() method expects a string or a buffer as its parameter, not a JavaScript object. So, we need to convert the object to a string using JSON.stringify().
     for (let i=0; i<limit; i++) {
-      socket.send(JSON.stringify({ is_following: is_following, following_id: following_id, skip: skip+i, limit: 1, if_last: i===limit-1?true:false }));
+      socket.send(JSON.stringify({ _id: _id, is_following: is_following, following_id: following_id, skip: skip+i, limit: 1, if_last: i===limit-1?true:false }));
     }
     // socket.send(JSON.stringify({ is_following: is_following, following_id: following_id, skip: skip, limit: 5, if_last: false }));
   };
@@ -134,7 +134,7 @@ export default (params) => {
         else if (changer_true==='Feed') return [true, profile.following._id]
         else if (changer_true==='My Activity') return [false, profile._id]
         else return []
-      })() , searchQuery, 0, 5, socket, dispatch)
+      })() , profile._id, searchQuery, 0, 5, socket, dispatch)
     }
     
     return () => {
