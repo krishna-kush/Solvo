@@ -94,6 +94,11 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
           <div className="question" dangerouslySetInnerHTML={{ __html: data.question }}></div>
           
           <div className="question-details">
+            {data.hide==='selected'?
+            <div className="small-box question-details-child">
+              Selected Answer Hidden
+            </div>
+            :<></>}
             <div className="small-box question-details-child">
               {data.amount?`₹${data.amount}`:"Free"}
             </div>
@@ -113,7 +118,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
           <div className='interact-answers-child box'
           onClick={() => {toggle(showComments, setShowComments)}}
           >
-            <IconAndCount icon={faComment} count={data.answers.length} text={'Answer'} if0Text={'Not Answered'} />
+            <IconAndCount icon={faComment} count={data.answers.length} text={'Answer'} if0Text={data.closed? 'Closed' : 'Not Answered'} />
           </div>
 
           <div className='interact-answers-child box'>
@@ -135,7 +140,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
 
       ) : (<></>)}
 
-      {(!data.answers.length || showComments) ? (
+      {(!data.closed && (!data.answers.length || showComments)) ? (
         <div ref={textContainerRef} className='text-and-btn-wrapper'>
           <TextEditor
           ref={textContainerControlRef}

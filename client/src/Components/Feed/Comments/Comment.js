@@ -88,6 +88,9 @@ const Comments = (params) => {
         <div className="feed-head-id">
           {renderID()}
         </div>
+        <div className='is-selected-comment'>
+          {params.selected? 'Selected' : null}
+        </div>
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>
             <div className="full-screen">

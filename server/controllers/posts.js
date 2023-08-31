@@ -234,6 +234,7 @@ export const hide = async (req, res) => {
 
         switch (option) {
             case 0:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'none', selected: selectedId });
                 break;
             case 1:
                 await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'private', selected: selectedId });

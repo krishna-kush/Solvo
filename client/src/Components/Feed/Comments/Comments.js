@@ -10,13 +10,14 @@ const Comments = (params) => {
 
   let iter = 0
 
-  let data = useSelector((state) => state.post[params.id].answers);
+  const data = useSelector((state) => state.post[params.id].answers);
+  const selected = useSelector((state) => state.post[params.id].selected);
   // console.log(data);
 
   let parent_comment_id = null; // to store parent comment id, why? to pass it to the child comment, it'll help in deleting the comment
 
-  let renderComments = (data, iter) => {
-    const comment = <><Comment _id={data._id} parentId={parent_comment_id} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share} createdAt={data.createdAt} /></>
+  let renderComments = (data, iter, selected) => {
+    const comment = <><Comment _id={data._id} parentId={parent_comment_id} selected={selected} iter={iter} post_id={params.id} comment={data.comment} childComments={data.childComments} creator={data.creator} creatorRefModel={data.creatorRefModel} like={data.like} dislike={data.dislike} share={data.share} createdAt={data.createdAt} /></>
 
     parent_comment_id = data._id;
 
@@ -36,7 +37,7 @@ const Comments = (params) => {
         {childComments.map((data, i) => {
           return (
             <React.Fragment key={i}>
-            {renderComments(data, iter)}
+            {renderComments(data, iter, false)}
             </React.Fragment>
           )
         })}
@@ -53,13 +54,14 @@ const Comments = (params) => {
     )
   }
 
+  
   return (
     <>
-    {data.map((data, i) => {
+    {data.map((data, i) => {      
       return (
       <React.Fragment key={i}>
       {/* // to compile html without div */}
-      {renderComments(data, iter)}
+      {renderComments(data, iter, data._id === selected? true: false)}
       </React.Fragment>
       )
     })}
