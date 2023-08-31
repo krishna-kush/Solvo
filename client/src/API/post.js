@@ -57,6 +57,21 @@ export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
     }
 }
 
+export const hidePost = async (option, selectorId, selectedId) => {
+    let mdata = await Axios.post('http://localhost:5000/posts/hide', { option, selectorId, selectedId})
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err.response
+    })
+
+    return {
+        source: 'hide',    
+        data: mdata.data.result,
+    }
+}
+
 export const getAllPost = async () => {
     let mdata = await Axios.post('http://localhost:5000/posts/getAll')
     .then((res) => {

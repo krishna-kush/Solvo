@@ -1,0 +1,43 @@
+#select-cont {
+    background-color: var(--bar-color);
+    width: fit-content;
+    height: fit-content;
+    max-width: 50vw;
+    position: absolute;
+
+    border-radius: var(--long-panel-radius);
+    
+    z-index: 3;
+}
+
+#select-head {
+    width: 100%;
+    
+    div {
+        margin: auto;
+    }
+}
+
+#select-options {
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+.select-children {
+    border-radius: var(--short-radius);
+
+    width: calc( 100% - 2*(var(--long-margin)) - 2*(var(--short-padding)) );
+
+    margin: var(--long-margin);
+    padding: var(--short-padding);
+
+    p {
+        word-wrap: break-word; /* Handle long words */
+        // white-space: normal; /* Allow text to wrap */
+    }
+
+    &:hover {
+        background-color: var(--box-color);
+    }
+}

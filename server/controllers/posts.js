@@ -213,6 +213,55 @@ export const increment = async (req, res) => {
     }
 }
 
+export const hide = async (req, res) => {
+    try {
+        /*
+        OPTION 0: Don't hide -> 'none'
+
+        Option 1: Hide whole post from everybody -> 'private'
+
+        Option 2: Hide only selected answer -> 'selected'
+
+        Option 3: Hide every answer except selected answer -> 'exceptSelected'
+
+        Option 4: Hide Every Answer -> 'all'
+        */
+
+        // console.log('hide');
+
+        const { option, selectorId, selectedId } = req.body;
+        // console.log(option, selectorId, selectedId);
+
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'private', selected: selectedId });
+                break;
+            case 2:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'selected', selected: selectedId });
+                break;
+            case 3:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'exceptSelected', selected: selectedId });
+                console.log('c3');
+                break;
+            case 4:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'all', selected: selectedId });
+                console.log('c4');
+                break;
+            default:
+                break;
+        }
+        
+        res.status(200).json({ message: "Post hidden successfully" })
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
+
 
 export const getAll = async (req, res) => {
     // console.log('getAll');

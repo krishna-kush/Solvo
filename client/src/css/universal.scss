@@ -132,7 +132,7 @@ input:focus {
     margin: var(--short-margin);
 
     padding: 5px;
-    background-color: rgb(46, 46, 46);
+    background-color: var(--box-color);
     
     border-radius: var(--short-radius);
 }

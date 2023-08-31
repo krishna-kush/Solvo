@@ -8,6 +8,7 @@ import searchInput from "./search/searchInput";
 import searched from "./search/searched";
 import search from "./search/search";
 import post from "./post";
+import select from "./select"
 
 const reducers = combineReducers({
     authI: authInput,
@@ -22,6 +23,8 @@ const reducers = combineReducers({
     searched,
     searchInput,
     post,
+
+    select,
 })
 
 export default reducers

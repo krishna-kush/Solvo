@@ -1,6 +1,6 @@
 import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, DELETE } from "../../constants/actionTypes"
 
-import { createPost, deleteAny, closePost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, deleteAny, closePost, hidePost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -45,6 +45,10 @@ export const close = (id, _id) => {
             index: id,
         })
     }
+}
+
+export const hide = (option, selectorId, selectedId) => {
+    hidePost(option, selectorId, selectedId)
 }
 
 export const upAnswer = async (ans, post_id, user_id, user_source, post_no) => {

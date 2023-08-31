@@ -39,6 +39,9 @@ const Dropdown = forwardRef((params, ref) => {
   const postId = useSelector((state) => state.post[params.id]._id);
   const postCreatorId = useSelector((state) => state.post[params.id].creator._id);
 
+  const selected = useSelector((state) => state.select.selected)
+  console.log(selected);
+
   // IDENTIFIERS
   const is_comment = params.type === 'comment';
   const is_same = params.creatorId === userId;
@@ -48,7 +51,7 @@ const Dropdown = forwardRef((params, ref) => {
     delete: () => {actionCreators.post.deletePost(params.id, params._id)(dispatch)},
     deleteComment: () => {actionCreators.post.deleteComment(params.id, params._id, params.parentId)(dispatch)},
 
-    select: () => {
+    select: async () => {
       const userConfirmed = window.confirm("Do you want to perform this action?");
 
       if (userConfirmed) {
@@ -71,10 +74,21 @@ const Dropdown = forwardRef((params, ref) => {
 
         // Ask for what to do with Post
         // Another Compoent Like Auth to select what to do with post 
+        actionCreators.select.changeShow(true)(dispatch)
+        actionCreators.select.changeOptions([
+          'Don\'t Hide',
+          'Hide whole post from everybody',
+          'Hide only selected answer',
+          'Hide every answer except selected answer',
+          'Hide Every Answer',
+        ])(dispatch)
+        actionCreators.select.updateSelectorId(postId)(dispatch)
+        actionCreators.select.updateSelectedId(params._id)(dispatch)
 
-        console.log("User clicked 'Yes'. Performing the action...");
-      } else {
-        console.log("User clicked 'No'. Canceling the action...");
+        // console.log(selected);
+
+        // How to do another function from here? Like transfer payment or actually handling options
+
       }
     },
   }

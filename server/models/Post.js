@@ -12,6 +12,12 @@ const postSchema = mongoose.Schema({
         ref: 'Comment', // Case Sensetive
     }],
 
+    selected: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null,
+    },
+
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: 'creatorRefModel',
@@ -26,6 +32,12 @@ const postSchema = mongoose.Schema({
     closed: {
         type: Boolean,
         default: false,
+    },
+
+    hide: {
+        type: String,
+        enum: ['none', 'private', 'all', 'selected', 'exceptSelected'],
+        default: 'none',
     },
     
     // tags: [String],
