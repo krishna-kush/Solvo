@@ -15,7 +15,7 @@ export const createPost = async (data) => {
     }
 }
 export const deleteAny = async (what, _id, parentId) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/delete', {what, _id, parentId})
+    const mdata = await Axios.post('http://localhost:5000/posts/delete', {what, _id, parentId})
     .then((res) => {
         return res
     })
@@ -24,7 +24,8 @@ export const deleteAny = async (what, _id, parentId) => {
     })
 
     return {
-        status: mdata.data.result,
+        status: mdata.status,
+        message: mdata.data.message,
     }
 }
 
@@ -54,6 +55,21 @@ export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
     return {
         source: 'upAnswer',    
         data: mdata.data.result,
+    }
+}
+
+export const takePost = async (_id, takerId, direction) => {
+    let mdata = await Axios.post('http://localhost:5000/posts/take', {_id, takerId, direction})
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err.response
+    })
+
+    return {
+        source: 'take',    
+        status: mdata.status,
     }
 }
 

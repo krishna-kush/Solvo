@@ -46,7 +46,18 @@ export const deleteAny = async (req, res) => {
         
         let Collection;
 
-        if (what === 'post') Collection = Post;
+        if (what === 'post') {
+            // Checking if the post is already taken or not
+            const post = await Post.findOne({ _id: _id }).select('taken')
+
+            if (post.taken.length > 0) {
+                console.log('Post is already taken');
+                res.status(400).json({ message: `Post is already taken by ${post.taken.length} ${post.taken.length>1? 'users' : 'user'}` });
+                return;
+            }
+
+            Collection = Post
+        }
         else {
             Collection = Comment
 
@@ -63,7 +74,7 @@ export const deleteAny = async (req, res) => {
             console.log(err);
         })
         
-        res.status(200);
+        res.status(200).json({ message: "Deleted successfully" });
     }
     catch (error) {
 
@@ -80,6 +91,68 @@ export const close = async (req, res) => {
     }
     catch (error) {
 
+    }
+}
+export const take = async (req, res) => {
+    try {
+        const { _id, takerId, direction } = req.body;
+
+        if (direction) {
+            await Post.findOneAndUpdate({ _id: _id }, { $addToSet: { taken: takerId } });
+        } else {
+            await Post.findOneAndUpdate({ _id: _id }, { $pull: { taken: takerId } });
+        }
+        
+        res.status(200).json({ status: 200});
+    }
+    catch (error) {
+        res.status(500).json({ status: 500});
+    }
+}
+export const hide = async (req, res) => {
+    try {
+        /*
+        OPTION 0: Don't hide -> 'none'
+
+        Option 1: Hide whole post from everybody -> 'private'
+
+        Option 2: Hide only selected answer -> 'selected'
+
+        Option 3: Hide every answer except selected answer -> 'exceptSelected'
+
+        Option 4: Hide Every Answer -> 'all'
+        */
+
+        // console.log('hide');
+
+        const { option, selectorId, selectedId } = req.body;
+        // console.log(option, selectorId, selectedId);
+
+        switch (option) {
+            case 0:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'none', selected: selectedId });
+                break;
+            case 1:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'private', selected: selectedId });
+                break;
+            case 2:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'selected', selected: selectedId });
+                break;
+            case 3:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'exceptSelected', selected: selectedId });
+                break;
+            case 4:
+                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'all', selected: selectedId });
+                break;
+            default:
+                break;
+        }
+        
+        res.status(200).json({ message: "Post hidden successfully" })
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
     }
 }
 
@@ -212,55 +285,6 @@ export const increment = async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
-
-export const hide = async (req, res) => {
-    try {
-        /*
-        OPTION 0: Don't hide -> 'none'
-
-        Option 1: Hide whole post from everybody -> 'private'
-
-        Option 2: Hide only selected answer -> 'selected'
-
-        Option 3: Hide every answer except selected answer -> 'exceptSelected'
-
-        Option 4: Hide Every Answer -> 'all'
-        */
-
-        // console.log('hide');
-
-        const { option, selectorId, selectedId } = req.body;
-        // console.log(option, selectorId, selectedId);
-
-        switch (option) {
-            case 0:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'none', selected: selectedId });
-                break;
-            case 1:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'private', selected: selectedId });
-                break;
-            case 2:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'selected', selected: selectedId });
-                break;
-            case 3:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'exceptSelected', selected: selectedId });
-                break;
-            case 4:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'all', selected: selectedId });
-                break;
-            default:
-                break;
-        }
-        
-        res.status(200).json({ message: "Post hidden successfully" })
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
-    }
-}
-
-
 
 export const getAll = async (req, res) => {
     // console.log('getAll');

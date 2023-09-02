@@ -1,6 +1,6 @@
 import { SET_POST, ADD_POST, APPEND_POST, FILL_POST, ADD_ANSWER, DELETE } from "../../constants/actionTypes"
 
-import { createPost, deleteAny, closePost, hidePost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
+import { createPost, deleteAny, closePost, takePost, hidePost, getAllPost, getEnumeratedPost, getWsEnumeratedPost, getPostBySearch, upAnswerPost } from "../../API/post"
 
 export const create = async (data) => {
     let res = await createPost(data)
@@ -12,15 +12,19 @@ export const create = async (data) => {
         })
     }
 }
-export const deletePost = (index, _id) => { // delete cann't be used as it's a keyword
+export const deletePost = async (index, _id) => { // delete cann't be used as it's a keyword
 
-    deleteAny('post', _id)
+    const res = await deleteAny('post', _id)
 
-    return (dispatch) => {
-        dispatch({
-            type: 'DELETE_POST',
-            index: index
-        })
+    if (res.status === 200) {
+        return { ...res, dispatch: (dispatch) => {
+            dispatch({
+                type: 'DELETE_POST',
+                index: index
+            })
+        }}
+    } else {
+        return res
     }
 }
 export const deleteComment = (post_index, _id, parentId) => {
@@ -47,6 +51,9 @@ export const close = (id, _id) => {
     }
 }
 
+export const take = async (_id, takerId, direction) => {
+    return await takePost(_id, takerId, direction)
+}
 export const hide = (option, selectorId, selectedId) => {
     hidePost(option, selectorId, selectedId)
 }

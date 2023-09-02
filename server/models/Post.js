@@ -34,6 +34,15 @@ const postSchema = mongoose.Schema({
         default: false,
     },
 
+    taken: [{
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: 'takenRefModel',
+    }],
+    takenRefModel: [{
+        type: String,
+        enum: ['UserGoogle', 'User'],
+    }],
+
     hide: {
         type: String,
         enum: ['none', 'private', 'all', 'selected', 'exceptSelected'],

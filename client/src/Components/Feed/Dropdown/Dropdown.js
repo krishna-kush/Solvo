@@ -4,6 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { actionCreators } from '../../../state'
 
+import { toggle } from '../../../Utils/Basic'
+
+import TimeDifference from '../../TimeDifference'
+
 import './dropdown.scss'
 
 const Dropdown = forwardRef((params, ref) => {
@@ -27,6 +31,7 @@ const Dropdown = forwardRef((params, ref) => {
   const dispatch = useDispatch()
 
   const [show, setShow] = useState(false)
+  const [take, setTake] = useState(params.taken)
   
   useImperativeHandle(ref, () => ({
     show: show,
@@ -39,8 +44,8 @@ const Dropdown = forwardRef((params, ref) => {
   const postId = useSelector((state) => state.post[params.id]._id);
   const postCreatorId = useSelector((state) => state.post[params.id].creator._id);
 
-  const selected = useSelector((state) => state.select.selected)
-  console.log(selected);
+  // const selected = useSelector((state) => state.select.selected)
+  // console.log(selected);
 
   // IDENTIFIERS
   const is_comment = params.type === 'comment';
@@ -48,8 +53,58 @@ const Dropdown = forwardRef((params, ref) => {
   const is_my_post = postCreatorId === userId;
 
   const handle = {
-    delete: () => {actionCreators.post.deletePost(params.id, params._id)(dispatch)},
+    delete: async () => {
+      const temp = await actionCreators.post.deletePost(params.id, params._id)
+
+      if (temp.status!==200) {
+        alert(`Can\'t Delete Post: ${temp.message}.`)
+      } else {
+        temp.dispatch(dispatch)
+        alert(`${temp.message}.`)
+      }
+
+      setShow(false)
+    },
+
     deleteComment: () => {actionCreators.post.deleteComment(params.id, params._id, params.parentId)(dispatch)},
+
+    take: async (direction) => {
+      // consultaion for take
+      const confirmation = window.confirm("Taking a post means that you are Declaring to Author that you are from now on going to start working on the Question and requesting him to not delete the Post for {this} Period of Time. Do you Agree?");
+
+      if (confirmation) {
+        // check time for take
+        const time_diff = new Date() - new Date(params.createdAt)
+
+        const time_diff_allowed = 2 * 3600000 // millisecondsInOneHour -> 60 * 60 * 1000
+
+        if (time_diff < time_diff_allowed) {
+          alert(`It's not been 2 hours yet till Post Posted, Your still have to wait {this} time, to take the question into your custody.`)
+        } else {
+          // apply for take
+          const temp = await actionCreators.post.take(postId, userId, direction)
+    
+          if (direction) {
+            if (temp.status===200) {
+              alert('Applied for Take')
+            } else {
+              alert('Can\'t Apply for Take, Some Error.')
+            }
+          } else {
+            if (temp.status===200) {
+              alert('Removed Take Successfully')
+            } else {
+              alert('Can\'t Remove Take, Some Error.')
+            }
+          }
+        }
+      }
+
+      setShow(false)
+
+      // toggle take and with it changed the option of what to do with take
+      toggle(take, setTake)
+    },
 
     select: async () => {
       const userConfirmed = window.confirm("Do you want to perform this action?");
@@ -129,13 +184,37 @@ const Dropdown = forwardRef((params, ref) => {
     <div ref={componentRef} className='dropdown transition'>
       <ul>
         {/* <li className='transition'>{}</li> */}
-        {is_same && (!is_comment || is_same) && <li className='transition' onClick={() => {
+
+        {/* For Posts */}
+        {/* Delete for both Post and Comment */}
+        {is_same && (!is_comment || is_same) && 
+        <li className='transition'
+        onClick={() => {
           if (params.type === 'post') handle.delete()
           else if (params.type === 'comment') {
-            handle.deleteComment()}
-        }
-          }>Delete</li>} {/* Same like is_same? but it don't need a else (Why: Because it's the way and works first check if a condition is true then check or render another condition only) */}
+            handle.deleteComment()
+          }
+        }}>
+          Delete
+        </li>
+        } {/* Same like is_same? but it don't need a else (Why: Because it's the way and works first check if a condition is true then check or render another condition only) */}
+
+        {/* Report for both Post and Comment */}
         {!is_same && <li className='transition'>Report</li>}
+
+        {/* Apply For Take for Post */}
+        {!is_comment && !is_same && (
+        take?
+        <li className='transition'
+        onClick={() => {handle.take(false)}}
+        >Remove Take</li>
+        :
+        <li className='transition'
+        onClick={() => {handle.take(true)}}
+        >Apply For Take</li>
+        )}
+
+        {/* For Posts */}
 
         {/* For Comments */}
         {is_my_post && !is_same && <li className='transition'

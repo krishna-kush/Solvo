@@ -84,7 +84,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            <Dropdown ref={dropdownRef} _id={data._id} id={params.id} creatorId={data.creator._id} btnRef={optionsBtnRef} type='post'/>
+            <Dropdown ref={dropdownRef} _id={data._id} id={params.id} creatorId={data.creator._id} btnRef={optionsBtnRef} createdAt={data.createdAt} taken={data.taken.includes(profile._id)} type='post'/>
           </div>
         </div>
       </div>
