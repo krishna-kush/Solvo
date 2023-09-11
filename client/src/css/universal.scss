@@ -119,12 +119,26 @@ input:focus {
 
     height: var(--panel-height);
 
+    // box-sizing: border-box;
     margin: 0 var(--panel-margin) var(--panel-margin) var(--panel-margin);
     padding: var(--panel-padding);
     border-radius: var(--panel-radius);
-/* 
+    /* 
     display: inline;
     float: left; */
+}
+.small-panel {
+    background-color: var(--bar-color);
+        
+    box-sizing: border-box;
+    padding: var(--panel-padding);
+    border-radius: var(--panel-radius);
+}
+.left-panel-cont {
+    position: relative;
+    
+    flex-grow: 2;
+    margin-left: 2vw;
 }
 
 .small-box {

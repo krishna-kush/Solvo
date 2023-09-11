@@ -1,15 +1,16 @@
 
 .id {
-    height: var(--id-height);
+    /* if not defined height in .id-img then need it */
+    /* height: var(--id-height); */
     margin-bottom: var(--id-margin);
     margin-right: var(--long-margin);
-
-    display: flex;
 
 }
 
 .id-img {
     background-color: var(--box-color);
+    width: 5vh;
+    height: 5vh;
 }
 
 .id-details {

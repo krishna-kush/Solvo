@@ -2,7 +2,9 @@ import { React, useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
+
 import Search from './Search/Search'
+import IdOptions from './IdOptions/IdOptions'
 
 import './header.css'
 
@@ -21,15 +23,6 @@ export default () => {
 
   // let [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const from = location.state?.from?.pathname || "/";
-
-  let logOutHandler = () => { 
-    dispatch({ type: 'LOGOUT' })
-    
-    // setUser(null)
-    
-    // navigate('/auth')
-    navigate('/auth', { replace: true })
-  }
 
   return (
     <header id="header">
@@ -51,25 +44,19 @@ export default () => {
       <Search/>
 
       <div id="user-in-header">
-      {user? (
-        <>
-        <div style={{display:"inline-block", marginRight:"10px"}}>
-          {user.name}
+        <div style={{height: "100%"}} className='flex'>
+        {user? (
+          <>
+            <IdOptions/>
+          </>
+        )
+        : (
+          <Link to="auth">
+            LogIn/SignUp
+          </Link>
+        )
+        }
         </div>
-        <button
-          style={{display:"inline-block"}}
-          onClick={logOutHandler}
-        >LogOut</button>
-        </>
-      )
-      : (
-        <>
-        <Link to="auth">
-          LogIn/SignUp
-        </Link>
-        </>
-      )
-      }
       </div>
     </header>
   )

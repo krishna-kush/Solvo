@@ -31,3 +31,7 @@ body {
 
     margin-left: 10px;
 }
+
+#user-in-header {
+    height: 100%;
+}

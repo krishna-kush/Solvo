@@ -37,6 +37,15 @@ const Id = (params) => {
     } else {console.log(temp)}    
   }
 
+  const getSize = () => {
+    if (params.size) {
+      return {
+        width: params.size,
+        height: params.size,
+      }
+    } else return {}
+  }
+
   if (!creator) {
     return (
       <div>Lodddding...</div>
@@ -44,10 +53,10 @@ const Id = (params) => {
   }
 
   return (
-    <div className="id">
+    <div className="id flex">
       {/* <div className="id-img circle"> */}
       <div>
-        <img className="id-img circle" src={creator.photo} />
+        <img style={getSize()} className="id-img circle" src={creator.photo} />
       </div>
       <div className="id-details">
         <div className="id-details-top">

@@ -1,11 +1,3 @@
-#feed-changer {
-    /* for changer positining */
-    position: relative;
-
-    flex-grow: 2;
-    margin-left: 2vw;
-}
-
 #feed {
     display: inline;
     float: left;
@@ -21,7 +13,6 @@
     /* display: none; */
     width: var(--scroll-width);
     background: transparent;
-
 }
 
 .feed-block {

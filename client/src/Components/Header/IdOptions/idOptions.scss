@@ -1,0 +1,47 @@
+.header-id {
+    height: 80%;
+}
+
+.header-id-options-cont {
+    flex-direction: column;
+
+    width: fit-content;
+    position: absolute;
+    top: 100%;
+    right: 10px;
+
+    background-color: var(--bar-color);
+
+    li {
+        list-style: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        box-sizing: border-box;
+        
+        width: 100%;
+
+        &:hover {
+            background-color: var(--in-box-color);
+        }
+    }
+}
+
+#header-id-option-profile {
+    // width: 500px;
+    // height: 500px;
+
+    // border-bottom: solid 1px var(--box-color);
+    
+}
+
+line {
+    display: block;
+
+    background-color: var(--box-color);
+    height: 1px;
+
+    width: 95%;
+
+    margin: auto;
+}

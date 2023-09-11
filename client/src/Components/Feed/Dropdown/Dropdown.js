@@ -181,7 +181,7 @@ const Dropdown = forwardRef((params, ref) => {
   if (!show) return (null); // Why isn't this return null is more above, to prevent unnessesary rendering, because we have to render all the hooks everytime, whether we use it or not, it's as react works, at it's core, if not then component will fall in re-render loop
   
   return (
-    <div ref={componentRef} className='dropdown transition'>
+    <div ref={componentRef} className='dropdown shadow transition'>
       <ul>
         {/* <li className='transition'>{}</li> */}
 

@@ -160,7 +160,7 @@ export default (params) => {
   // }
     
   return (
-    <div id="feed-changer">
+    <div className='left-panel-cont'>
       <div id="feed">
         <div className="ad-ques-cont">
           <AddQuestion/>

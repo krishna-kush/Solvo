@@ -1,0 +1,39 @@
+#profile-cont {
+    // background-color: var(--bar-color);
+
+    // box-sizing: border-box;
+    // padding: var(--long-padding);
+
+    > div { // to access all child elements
+        margin-bottom: var(--short-margin);
+    }
+}
+
+#profile-control {
+    width: 100%;
+    height: fit-content;
+}
+
+.profile-options {
+    background-color: var(--bar-color);
+    padding: var(--short-padding);
+
+}
+
+.profile-goback {
+    background-color: var(--bar-color);
+
+    width: fit-content;
+    height: fit-content;
+
+    padding: var(--short-padding);
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--in-box-color);
+        svg {
+            color: var(--base-color);
+        }
+    }
+}

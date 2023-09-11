@@ -13,6 +13,7 @@ import './css/content.css'; // need in app.js
 
 
 import AppBase from './Components/Layouts/AppBase';
+import LeftPanel from './Components/Layouts/LeftPanel/LeftPanel';
 import RequireAuth from './Components/Layouts/RequireAuth';
 import RequireAuthFalse from './Components/Layouts/RequireAuthFalse';
 
@@ -20,6 +21,8 @@ import Header from './Components/Header/Header';
 import Feed from './Components/Feed/Feed';
 import TopShow from './Components/TopShow/TopShow';
 import Auth from './Components/Auth/Auth';
+import Profile from './Components/Profile/Profile';
+
 
 
 
@@ -51,7 +54,13 @@ const App = () => {
     <Routes>
       <Route path="/" element={<AppBase/>}>
         {/* Public Routes */}
-        <Route path="/hi" element={<Auth/>}/>
+        {/* <Route path="/profile" element={<>
+          <Header/>
+          <div id="content">
+            <Profile production={production}/>
+            <TopShow/>
+          </div>
+        </>}/> */}
         {/* Public Routes */}
 
         {/* Non-Login Routes */}
@@ -66,6 +75,14 @@ const App = () => {
             <Header/>
             <div id="content">
               <Feed production={production}/>
+              <TopShow/>
+            </div>
+          </>}/>
+
+          <Route path="/profile" element={<>
+            <Header/>
+            <div id="content">
+              <Profile production={production}/>
               <TopShow/>
             </div>
           </>}/>
