@@ -7,6 +7,7 @@ import { updateInput as updateSearchInput, updateSearched, upSearchQuestions, up
 import { change } from './action-creaters/changer.js'
 import { changeShow, changeOptions, changeSelected, updateSelectorId, updateSelectedId } from './action-creaters/select.js'
 import { follow, unFollow } from './action-creaters/follow.js'
+import * as profile from './action-creaters/profile.js'
 
 const actionCreators = {
     auth: {
@@ -56,6 +57,8 @@ const actionCreators = {
     select: { changeShow, changeOptions, changeSelected, updateSelectorId, updateSelectedId },
     
     follow: { follow, unFollow },
+
+    profile,
 }
 
 export { actionCreators };

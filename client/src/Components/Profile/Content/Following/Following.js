@@ -14,7 +14,7 @@ const Followers = () => {
     <div id='followers-cont'>
       {following.map((ele, i) => {
         return (
-          <FollowingBlock id={ele}/>
+          <FollowingBlock key={ele} id={ele}/>
         )
       })}
     </div>

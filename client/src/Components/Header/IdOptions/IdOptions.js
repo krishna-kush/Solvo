@@ -31,9 +31,9 @@ const IdOptions = () => {
       // navigate('/auth')
       navigate('/auth', { replace: true })
     },
-
+    
     clickProfile: () => {
-      console.log('clicked profile');
+      navigate('/profile', { replace: true })
     }
   }
 
