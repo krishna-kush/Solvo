@@ -8,29 +8,60 @@ import { faArrowUp, faArrowDown, faComment, faArrowUpFromBracket as faShare, faE
 import { actionCreators } from '../../../state/index'
 
 import { toggle } from '../../../Utils/Basic'
+import { DropdownOptionsReduced } from '../../../Utils/DropdownOptions'
 
 import TextEditor from '../../TextEditor/SunEditor/TextEditor'
 
 import Id from '../Id/Id'
-import Dropdown from '../Dropdown/Dropdown'
+import Dropdown from '../../Dropdown/Dropdown'
 import IconAndCount from '../IconAndCount/IconAndCount'
 
 const Comments = (params) => {
   const dispatch = useDispatch();
 
+  // const dropdownOptionsAll = [delete=is_same, report,  Select=is_my_post && !is_same]
+  
   const textContainerRef = useRef(null);
   const textContainerControlRef = useRef(null);
 
   const optionsBtnRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  let indent = useSelector((state) => state.indent);
-  let profile = useSelector((state) => state.auth.authData);
+  const indent = useSelector((state) => state.indent);
+  const profile = useSelector((state) => state.auth.authData);
 
-  let [inputData, setInputData] = useState('')
-  let [showReplyInputBox, setShowReplyInputBox] = useState(false)
+  // for comment selection
+  // console.log(params.postId);
+  const post = useSelector((state) => state.post[params.post_id]);
+  const is_same = params.creator._id === profile._id;
+  const is_my_post = post.creator._id === profile._id;
+  // ---------------------------------------------------
+
+  const [inputData, setInputData] = useState('')
+  const [showReplyInputBox, setShowReplyInputBox] = useState(false)
+
+  const dropdownOptionsAll = [
+    {
+      optionName: 'Delete',
+      optionCondition: {
+        show: is_same,
+      }
+    },
+    {
+      optionName: 'Report',
+      optionCondition: {
+        show: !is_same,
+      },
+    },
+    {
+      optionName: 'Select',
+      optionCondition: {
+        show: !is_same && is_my_post,
+      }
+    },
+  ]
   
-  let handle = {
+  const handle = {
     upComment : async () => {
       let temp = await actionCreators.comment.upComment(inputData, params._id, profile._id, profile.source, params.post_id)
       dispatch(temp)
@@ -43,9 +74,63 @@ const Comments = (params) => {
       let temp = await actionCreators.comment.increment(what, params._id, profile._id, profile.source, params.post_id)
       dispatch(temp)
     },
+
+    dropdown: {
+      onChange: (to) => {},
+
+      onSelect: [
+        // Delete
+        () => {actionCreators.post.deleteComment(params.post_id, params._id, params.parentId)(dispatch)},
+
+        // Report
+        () => {},
+
+        // Select
+        async () => {
+          const userConfirmed = window.confirm("Do you want to perform this action?");
+    
+          if (userConfirmed) {
+            /*
+            Transfer Money if there
+            Change state from open to Close
+    
+            Ask for what to do with Post {
+              Hide whole post from everybody,
+              Hide only selected answer,
+              Hide every answer except selected answer,
+              Hide Every Answer,
+            }
+            */
+    
+            // Money Transfer {}
+    
+            // Change state from open to Close
+            actionCreators.post.close(params.post_id, post._id)(dispatch)
+    
+            // Ask for what to do with Post
+            // Another Compoent Like Auth to select what to do with post 
+            actionCreators.select.changeShow(true)(dispatch)
+            actionCreators.select.changeOptions([
+              'Don\'t Hide', // none
+              'Hide whole post from everybody', // all
+              'Hide only selected answer', // selected
+              'Hide every answer except selected answer', // exceptSelected
+              'Hide Every Answer', // private
+            ])(dispatch)
+            actionCreators.select.updateSelectorId(post._id)(dispatch)
+            actionCreators.select.updateSelectedId(params._id)(dispatch)
+    
+            // console.log(selected);
+    
+            // How to do another function from here? Like transfer payment or actually handling options
+    
+          }
+        },
+      ]
+    }
   }
   
-  let paddingLeft = () => {
+  const paddingLeft = () => {
     if (params.iter===0) {
       return {}
     }
@@ -102,7 +187,7 @@ const Comments = (params) => {
               <FontAwesomeIcon ref={optionsBtnRef} className='fa-icon' icon={faEllipsis}/>
             </div>
 
-            <Dropdown ref={dropdownRef} _id={params._id} id={params.post_id} creatorId={params.creator._id} parentId={params.parentId} btnRef={optionsBtnRef} type='comment'/>
+            <Dropdown ref={dropdownRef} options={DropdownOptionsReduced(dropdownOptionsAll, handle)} btnRef={optionsBtnRef} position={'left'} onChange={handle.dropdown.onChange} onSelect={handle.dropdown.onSelect} />
           </div>
         </div>
       </div>
