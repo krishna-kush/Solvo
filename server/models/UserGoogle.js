@@ -5,6 +5,15 @@ const userSchema = mongoose.Schema({
     name: String,
     email: String,
 
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+    }],
+    postsCount: {
+      type: Number,
+      default: 0,  
+    },
+
     following: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Following', // Case Sensetive

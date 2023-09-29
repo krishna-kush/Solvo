@@ -42,6 +42,10 @@ const reducer = (state = { authData: null }, action) => {
             }
         }
 
+        case 'UPDATE_POSTS_COUNT': {
+            return { ...state, authData: { ...state.authData, postsCount: state.authData.postsCount + action.payload } };
+        }
+
         default:
             return state
     }

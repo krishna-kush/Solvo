@@ -2,9 +2,11 @@
 .id {
     /* if not defined height in .id-img then need it */
     /* height: var(--id-height); */
-    margin-bottom: var(--id-margin);
-    margin-right: var(--long-margin);
+    
+    /* margin-bottom: var(--id-margin); */
+    /* margin-right: var(--long-margin); */
 
+    justify-content: flex-start;
 }
 
 .id-img {

@@ -84,7 +84,7 @@ export const ifLogIn = async (req, res) => {
         const source = req.source;
         let existingUser;
 
-        const desiredFields = ['_id', 'name', 'email', 'photo', 'following']
+        const desiredFields = ['_id', 'name', 'email', 'photo', 'following', 'postsCount']
 
         if (source=='google') {
             existingUser = await UserGoogle.findOne({ googleId: _id })

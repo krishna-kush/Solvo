@@ -3,4 +3,9 @@
     width: 100%;
     height: fit-content;
 
+    justify-content: flex-start;
+}
+
+#stats-img {
+    margin-right: var(--long-margin);
 }

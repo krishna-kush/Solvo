@@ -9,6 +9,14 @@ import TimeDifference from '../../TimeDifference'
 import './id.css'
 
 const Id = (params) => {
+  /*
+  *_id = id of the user
+  *source = source of the user
+  createdAt = time of creation of the post
+  full = if true, then show the follow button
+  size = size of the image
+  */
+
   const dispatch = useDispatch()
 
   const profile = useSelector((state) => state.auth.authData);

@@ -10,6 +10,10 @@ export const create = async (data) => {
             type: ADD_POST,
             payload: res
         })
+        dispatch({
+            type: 'UPDATE_POSTS_COUNT',
+            payload: 1
+        })
     }
 }
 export const deletePost = async (index, _id) => { // delete cann't be used as it's a keyword
@@ -21,6 +25,10 @@ export const deletePost = async (index, _id) => { // delete cann't be used as it
             dispatch({
                 type: 'DELETE_POST',
                 index: index
+            })
+            dispatch({
+                type: 'UPDATE_POSTS_COUNT',
+                payload: -1
             })
         }}
     } else {

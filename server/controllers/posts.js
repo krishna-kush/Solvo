@@ -6,19 +6,27 @@ import User from '../models/User.js';
 import UserGoogle from '../models/UserGoogle.js';
 
 
+const utils = {}
+
 export const create = async (req, res) => {
     try {
         let { amount, question, _id, source } = req.body;
         // console.log(question, _id);
         // console.log(typeof _id, _id);
+
+        let user;
+
         if (source=='google') {
             source = 'UserGoogle';
+            user = UserGoogle;
         } else if (source=='own') {
             source = 'User';
+            user = User;
         }
 
         // console.log(source);
 
+        // CREATING POST
         const post = await Post.create({
             amount,
             question: question,
@@ -29,6 +37,15 @@ export const create = async (req, res) => {
         .catch((err) => {
             console.log(err);
         })
+
+        // ADDING POST ID TO CREATOR QUESTION LIST to know which question user asked and how many AND Updating postsCount
+        await user.findOneAndUpdate({ _id: _id }, {
+            $push: {
+                posts: post._id,
+            },
+            $inc: { postsCount: 1 }
+        })
+        
         const populatedPost = await post.populate('creator')
 
         console.log(populatedPost);
@@ -44,17 +61,20 @@ export const deleteAny = async (req, res) => {
     try {
         const { what, _id, parentId } = req.body;
         
-        let Collection;
+        let Collection, source, creatorId;
 
         if (what === 'post') {
             // Checking if the post is already taken or not
-            const post = await Post.findOne({ _id: _id }).select('taken')
-
+            const post = await Post.findOne({ _id: _id }).select(['taken', 'creator', 'creatorRefModel'])
+            
             if (post.taken.length > 0) {
                 console.log('Post is already taken');
                 res.status(400).json({ message: `Post is already taken by ${post.taken.length} ${post.taken.length>1? 'users' : 'user'}` });
                 return;
             }
+
+            creatorId = post.creator;
+            source = post.creatorRefModel;
 
             Collection = Post
         }
@@ -68,11 +88,28 @@ export const deleteAny = async (req, res) => {
                 }
             });
         }
-
+        
         await Collection.deleteOne({_id})
         .catch((err) => {
             console.log(err);
         })
+
+        if (what === 'post') {
+            let user;
+            if (source === 'UserGoogle') {
+                user = UserGoogle;
+            } else if (source === 'User') {
+                user = User;
+            }
+
+            // ADDING POST ID TO CREATOR QUESTION LIST to know which question user asked and how many AND Updating postsCount
+            await user.findOneAndUpdate({ _id: creatorId }, {
+                $pull: {
+                    posts: _id,
+                },
+                $inc: { postsCount: -1 }
+            })
+        }
         
         res.status(200).json({ message: "Deleted successfully" });
     }
@@ -461,14 +498,17 @@ export const wsGetEnumerated = async (ws, req) => {
                     },
                 })
 
-                //  Changing Answers as needed
-                if (posts[0].hide === 'all') {
-                    posts[0].answers = [];
-                } else if (posts[0].hide === 'selected') {
-                    posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() !== posts[0].selected.toString());
-                } else if (posts[0].hide === 'exceptSelected') {
-                    posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() === posts[0].selected.toString());
+                if (posts[0]) {
+                    //  Changing Answers as needed
+                    if (posts[0].hide === 'all') {
+                        posts[0].answers = [];
+                    } else if (posts[0].hide === 'selected') {
+                        posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() !== posts[0].selected.toString());
+                    } else if (posts[0].hide === 'exceptSelected') {
+                        posts[0].answers = posts[0].answers.filter(answer => answer._id.toString() === posts[0].selected.toString());
+                    }
                 }
+
 
                 console.log('sending');
     
