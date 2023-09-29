@@ -15,7 +15,9 @@ const CONNECTION_URL = "mongodb+srv://main-pc:main-solvo@main.enaq9qr.mongodb.ne
 
 Write concern describes the level of acknowledgment requested from MongoDB for write operations to a standalone mongod or to replica sets or to sharded clusters. In sharded clusters, mongos instances will pass the write concern on to the shards. ( if your replica set has 3 members that mean that your majority=2 , meaning that your write operation will receive acknowledgment after it receive success confirmation from at least 2 members) */
 
-mongoose.connect(CONNECTION_URL, {
+const mongooseLocalhost = 'mongodb://localhost:27017/test'
+
+mongoose.connect(mongooseLocalhost, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
