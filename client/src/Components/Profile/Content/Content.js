@@ -2,18 +2,18 @@ import React from 'react'
 
 import { useSelector } from 'react-redux'
 
-import Following from './Following/Following'
+import FollowList from './Following/FollowList'
 
 const Content = () => {
   const profile = useSelector((state) => state.profile.selected)
   
   switch (profile) {
     case 0:
-      return <Following /> 
+      return <FollowList content={'following'} /> 
     case 1:
-      return <>Followers</> 
+      return <FollowList content={'followers'} /> 
     default:
-      return <Following /> 
+      return <FollowList content={'following'} /> 
   }
 }
 

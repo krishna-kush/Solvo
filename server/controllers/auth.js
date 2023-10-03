@@ -4,7 +4,12 @@ import { OAuth2Client } from 'google-auth-library'
 // import User from '../models/user.js';
 import UserGoogle from '../models/UserGoogle.js';
 import User from '../models/User.js';
-import Following from '../models/Following.js';
+import { Following, Followers } from '../models/Follow.js';
+
+
+const common = {
+
+}
 
 // export const getUser = async (req, res) => { 
 //     try {
@@ -55,6 +60,7 @@ export const logIn = async (req, res) => {
         
         const existingUser = await User.findOne({ email })
         .populate({path: 'following'})
+        .populate({path: 'followers'})
 
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
@@ -90,10 +96,12 @@ export const ifLogIn = async (req, res) => {
             existingUser = await UserGoogle.findOne({ googleId: _id })
             .select(desiredFields.join(' '))
             .populate({path: 'following'})
+            .populate({path: 'followers'})
         } else if (source=='own') {
             existingUser = await User.findOne({ _id })
             .select(desiredFields.join(' '))
             .populate({path: 'following'})
+            .populate({path: 'followers'})
         }
         existingUser = { ...existingUser._doc, source: source }; // ...existingUser._doc is because if I don't spread it and only send it, mongoose will automatically send the _doc object but if spread it'll send the whole mongoose object containing _doc and other stuff like functions and inicializations
         // console.log(existingUser.following);
@@ -118,8 +126,11 @@ export const signUp = async (req, res) => {
         if(existingUser) return res.status(400).json({ message: "User already exists" });
 
         const NewFollowing = await Following.create({});
+        const NewFollowers = await Followers.create({});
 
-        const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}`, following: NewFollowing._id });
+        const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}`, following: NewFollowing._id, followers: NewFollowers._id });
+
+        
 
         const token = jwt.sign({
             _id: result._id,
@@ -127,7 +138,7 @@ export const signUp = async (req, res) => {
             name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, following: NewFollowing, source: 'own' } });
+        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, following: NewFollowing, followers: NewFollowers, source: 'own' } });
         
     } catch (error) {
         console.log(error);
@@ -155,13 +166,15 @@ export const google = async (req, res) => {
         //     {returnOriginal: false}, // without it you will get the original document means before updated value...
         // );
         let user = await UserGoogle.findOne({ googleId: sub })
-        .populate({path: 'following'});
+        .populate({path: 'following'})
+        .populate({path: 'followers'})
 
 
         if (user==null) {
             console.log("not found google user");
 
             const NewFollowing = await Following.create({});
+            const NewFollowers = await Followers.create({});
 
             const data = {
                 googleId: sub,
@@ -169,6 +182,7 @@ export const google = async (req, res) => {
                 email: email,
                 photo: picture,
                 following: NewFollowing,
+                followers: NewFollowers,
             }
             // const data = {
             //     id: ticket.getUserId(),
@@ -176,7 +190,8 @@ export const google = async (req, res) => {
             await UserGoogle.create(data)
             
             user = await UserGoogle.findOne({ googleId: sub })
-            .populate({path: 'following'});            
+            .populate({path: 'following'})        
+            .populate({path: 'followers'})        
         }else {
             console.log("found");
             // console.log(user);

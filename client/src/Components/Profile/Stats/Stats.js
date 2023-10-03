@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import './stats.scss'
 
 const Stats = () => {
-  const imgSize = '10vh'
+  const imgSize = '20vh'
 
   const profile = useSelector((state) => state.auth.authData);
   console.log(profile);
@@ -14,12 +14,12 @@ const Stats = () => {
   return (
     <div id='stats-cont' className='flex small-panel'>
       <div id='stats-img'>
-        <img style={{width: imgSize, height: imgSize}} className="circle" src={profile.photo} />
+        <img style={{width: imgSize, height: imgSize}} className="square-curved shadow-dark" src={profile.photo} />
       </div>
 
       <div className='flex-col'>
         <div className=''>
-          {profile.name}
+          {profile.name} Working
         </div>
         <div className=''>
           Software Engineer
@@ -28,7 +28,7 @@ const Stats = () => {
           Answered 10 Question
         </div>
         <div className=''>
-          Post {profile.postsCount} Questions
+          Post {profile.postsCount} Questions Working
         </div>
         <div className=''>
           Rating 4.5

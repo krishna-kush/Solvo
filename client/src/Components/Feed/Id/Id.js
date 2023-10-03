@@ -21,7 +21,7 @@ const Id = (params) => {
 
   const profile = useSelector((state) => state.auth.authData);
   const creator = useSelector((state) => {return state.ids[params._id]})
-  // console.log(profile);
+  console.log(profile);
 
   const upId = async () => {
     if (!creator) {
@@ -35,9 +35,9 @@ const Id = (params) => {
     let temp;
 
     if (follow) {
-      temp = await actionCreators.follow.follow(profile.following._id, creator._id)
+      temp = await actionCreators.follow.follow(profile._id, profile.following._id, creator._id, params.source)
     } else {
-      temp = await actionCreators.follow.unFollow(profile.following._id, creator._id)
+      temp = await actionCreators.follow.unFollow(profile._id, profile.following._id, creator._id, params.source)
     }
 
     if (typeof temp !== 'number') {

@@ -19,6 +19,11 @@ const userSchema = mongoose.Schema({
         ref: 'Following', // Case Sensetive
         required: true,
     },
+    followers: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Followers',
+        required: true,
+    },
 
     photo: {
         type: String,

@@ -1,13 +1,11 @@
-#followers-cont {
+#followlist-cont {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: var(--short-margin);
 }
 
-.followers-block {
+.followlist-block {
     background-color: var(--bar-color);
     padding: var(--short-padding);
     border-radius: var(--short-radius);
-
-    
 }

@@ -94,6 +94,9 @@ input:focus {
 .shadow {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+.shadow-dark {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
 
 .box {    
     border-radius: var(--short-radius);
@@ -156,6 +159,12 @@ input:focus {
     aspect-ratio: 1;
 
     border-radius: 50%; /* 50% of height, and both border will make 100% of height, hence a circle */
+}
+.square-curved {
+    height: 100%;
+    aspect-ratio: 1;
+
+    border-radius: 15%;
 }
 
 /* .img {

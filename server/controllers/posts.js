@@ -1,12 +1,22 @@
 import mongoose from 'mongoose';
 import Comment from '../models/Comment.js';
 import Post from '../models/Post.js';
-import Following from '../models/Following.js';
+import { Following } from '../models/Follow.js';
 import User from '../models/User.js';
 import UserGoogle from '../models/UserGoogle.js';
 
 
-const utils = {}
+const common = {
+    getUser: (whomSource) => {
+        let user;
+        if (whomSource==='google') {
+            user = UserGoogle
+        } else {
+            user = User
+        }
+        return user
+    }
+}
 
 export const create = async (req, res) => {
     try {

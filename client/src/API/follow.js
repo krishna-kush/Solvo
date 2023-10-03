@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
-export const followApi = async (who, whom) => {
-    let mdata = await Axios.post('http://localhost:5000/follow/follow', {who, whom})
+export const followApi = async (whoId, followingID, whomId, whomSource) => {
+    let mdata = await Axios.post('http://localhost:5000/follow/follow', {whoId, followingID, whomId, whomSource})
     .then((res) => {
         return res
     })
@@ -14,8 +14,8 @@ export const followApi = async (who, whom) => {
         status: mdata.status,
     }
 }
-export const unFollowApi = async (who, whom) => {
-    let mdata = await Axios.post('http://localhost:5000/follow/unFollow', {who, whom})
+export const unFollowApi = async (whoId, followingID, whomId, whomSource) => {
+    let mdata = await Axios.post('http://localhost:5000/follow/unFollow', {whoId, followingID, whomId, whomSource})
     .then((res) => {
         return res
     })

@@ -32,7 +32,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   
   const data = useSelector((state) => state.post[params.id]);
   const profile = useSelector((state) => state.auth.authData);
-  // console.log(data, profile);
+  console.log(data, profile);
   
   const optionsBtnRef = useRef(null);
 
