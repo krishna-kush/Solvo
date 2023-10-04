@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useSelector } from 'react-redux'
 
-import FollowList from './Following/FollowList'
+import FollowList from './FollowList/FollowList'
 
 const Content = () => {
   const profile = useSelector((state) => state.profile.selected)

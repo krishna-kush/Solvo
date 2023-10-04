@@ -16,7 +16,7 @@ const Followers = (params) => {
     }
   });
 
-  console.log(follow);
+  // console.log(follow);
 
   return (
     <div id='followlist-cont'>
