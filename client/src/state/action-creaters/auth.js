@@ -19,8 +19,8 @@ export const resetInput = () => {
     }
 }
 
-export const whoAdd = async (_id, source) => {
-    const ans = await whoMin(_id, source);
+export const whoAdd = async (_id) => {
+    const ans = await whoMin(_id);
 
     return (dispatch) => {
         dispatch({

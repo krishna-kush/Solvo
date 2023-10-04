@@ -63,7 +63,7 @@ const Comments = (params) => {
   
   const handle = {
     upComment : async () => {
-      let temp = await actionCreators.comment.upComment(inputData, params._id, profile._id, profile.source, params.post_id)
+      let temp = await actionCreators.comment.upComment(inputData, params._id, profile._id, params.post_id)
       dispatch(temp)
     },
     showReplies : async (_id, child_ids, post_id) => {
@@ -71,7 +71,7 @@ const Comments = (params) => {
       dispatch(temp)
     },
     increment : async (what) => {
-      let temp = await actionCreators.comment.increment(what, params._id, profile._id, profile.source, params.post_id)
+      let temp = await actionCreators.comment.increment(what, params._id, profile._id, params.post_id)
       dispatch(temp)
     },
 
@@ -153,7 +153,7 @@ const Comments = (params) => {
       full = false
     }
 
-    return <Id _id={params.creator._id} source={params.creatorRefModel} createdAt={params.createdAt} full={full}/>
+    return <Id _id={params.creator._id} createdAt={params.createdAt} full={full}/>
   }
 
   

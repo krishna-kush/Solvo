@@ -21,11 +21,11 @@ const Id = (params) => {
 
   const profile = useSelector((state) => state.auth.authData);
   const creator = useSelector((state) => {return state.ids[params._id]})
-  console.log(profile);
+  // console.log(profile, creator, params._id);
 
   const upId = async () => {
     if (!creator) {
-      let temp = await actionCreators.auth.whoAdd(params._id, params.source);
+      const temp = await actionCreators.auth.whoAdd(params._id);
       temp(dispatch)
     }
   }

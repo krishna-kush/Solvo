@@ -32,14 +32,12 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   
   const data = useSelector((state) => state.post[params.id]);
   const profile = useSelector((state) => state.auth.authData);
-  console.log(data, profile);
+  // console.log(data, profile);
   
   const optionsBtnRef = useRef(null);
 
   // -----------------------------------------------------
   const is_same = data.creator._id === profile._id;
-  // console.log(is_same);
-
 
   const dropdownRef = useRef(null);
 
@@ -179,7 +177,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
     className={data?.last?setClass(1):setClass(0)}>
       <div className="feed-head flex">
         <div className="feed-head-id">
-          <Id _id={data.creator._id} source={data.creatorRefModel} createdAt={data.createdAt} full={true}/>
+          <Id _id={data.creator._id} createdAt={data.createdAt} full={true}/>
         </div>
         <div className='feed-head-options flex'>
           <div className='feed-head-options-child'>

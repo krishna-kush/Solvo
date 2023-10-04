@@ -17,12 +17,12 @@ const auth = async (req, res, next) => {
             decodedData = jwt.verify(token, 'secret');
 
             req.userId = decodedData?._id;
-            req.source = 'own'
+            // req.source = 'own'
         } else {
             decodedData = jwt.decode(token);
             
             req.userId = decodedData?.sub; // sub is google's name for unique id it provides to every google user
-            req.source = 'google'
+            // req.source = 'google'
         }
 
         next();

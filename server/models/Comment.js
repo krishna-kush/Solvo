@@ -8,12 +8,7 @@ const commentSchema = mongoose.Schema({
     },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: 'creatorRefModel',
-        // required: true,
-    },
-    creatorRefModel: {
-        type: String,
-        enum: ['UserGoogle', 'User'],
+        ref: 'User',
         // required: true,
     },
     

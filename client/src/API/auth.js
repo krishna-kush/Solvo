@@ -1,8 +1,8 @@
 import Axios from './AxiosInstance.js'
 import axios from 'axios'
 
-export const whoMin = async (_id, source) => {
-    let mdata = await Axios.post('/auth/who', {_id, source})
+export const whoMin = async (_id) => {
+    let mdata = await Axios.post('/auth/who', {_id})
     .then((res) => {
         // console.log(res);
         return res.data

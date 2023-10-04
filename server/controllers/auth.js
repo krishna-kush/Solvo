@@ -1,13 +1,37 @@
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library'
 
+import mongoose from 'mongoose';
 // import User from '../models/user.js';
-import UserGoogle from '../models/UserGoogle.js';
+// import UserGoogle from '../models/UserGoogle.js';
 import User from '../models/User.js';
 import { Following, Followers } from '../models/Follow.js';
+import Reference from '../models/Reference.js';
 
+const ObjectId = mongoose.Types.ObjectId;
 
 const common = {
+
+    getUserFind: (_id) => {
+        return ObjectId.isValid(_id) ? { _id : _id } : { sub: _id }
+    },
+
+    createRef: async (_id, modelName) => { return await Reference.create({ id: result._id, refModel: modelName }) },
+
+    refToUser: async (ref, desiredFields, ) => {
+        if (desiredFields) {
+            return await mongoose.model(ref.refModel).findById(ref.id)
+            .select(desiredFields.join(' '))
+            .populate({path: 'following'})
+            .populate({path: 'followers'})
+        } else {
+            return await mongoose.model(ref.refModel).findById(ref.id)
+            .populate({path: 'following'})
+            .populate({path: 'followers'})
+        }
+
+
+    }
 
 }
 
@@ -23,24 +47,12 @@ const common = {
 
 export const who = async (req, res) => {
     try {
-        let { _id, source } = req.body;
+        const { _id } = req.body;
 
         const desiredFields = ['name', 'email', 'photo']
-        let existingUser;
         
-        if (source=='google') {
-            source = 'UserGoogle';
-        } else if (source=='own') {
-            source = 'User';
-        }
-        
-        if (source==='UserGoogle') {
-            existingUser = await UserGoogle.findOne({ _id })
-            .select(desiredFields.join(' '));
-        } else {
-            existingUser = await User.findOne({ _id })
-            .select(desiredFields.join(' '));
-        }
+        const existingUser = await User.findOne(common.getUserFind(_id))
+        .select(desiredFields.join(' '));
 
         res.status(200).json({
             _id: _id,
@@ -64,7 +76,7 @@ export const logIn = async (req, res) => {
 
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
-        const isPasswordCorrect = password == existingUser.password;
+        const isPasswordCorrect = password == existingUser?.password; // in case of google user, what if they enter password to be undefined will type err occur?
 
         if(!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -76,7 +88,7 @@ export const logIn = async (req, res) => {
 
         console.log('token');
 
-        res.status(200).json({ token, result: { _id: existingUser._id, email: existingUser.email, name: existingUser.name, following: existingUser.following, source: 'own' }});
+        res.status(200).json({ token, result: { _id: existingUser._id, email: existingUser.email, name: existingUser.name, following: existingUser.following }});
         
     } catch (error) {
         console.log(error);
@@ -85,29 +97,36 @@ export const logIn = async (req, res) => {
 }
 export const ifLogIn = async (req, res) => {
     try {
-        // console.log('ifLogIn', req.userId, req.source);
+        console.log('ifLogIn', req.userId);
         const _id = req.userId;
-        const source = req.source;
-        let existingUser;
 
         const desiredFields = ['_id', 'name', 'email', 'photo', 'following', 'postsCount']
 
-        if (source=='google') {
-            existingUser = await UserGoogle.findOne({ googleId: _id })
-            .select(desiredFields.join(' '))
-            .populate({path: 'following'})
-            .populate({path: 'followers'})
-        } else if (source=='own') {
-            existingUser = await User.findOne({ _id })
-            .select(desiredFields.join(' '))
-            .populate({path: 'following'})
-            .populate({path: 'followers'})
-        }
-        existingUser = { ...existingUser._doc, source: source }; // ...existingUser._doc is because if I don't spread it and only send it, mongoose will automatically send the _doc object but if spread it'll send the whole mongoose object containing _doc and other stuff like functions and inicializations
+        const existingUser = await User.findOne(
+            ObjectId.isValid(_id) ? { _id : _id } : { sub: _id }
+        )
+        .select(desiredFields.join(' '))
+        .populate({path: 'following'})
+        .populate({path: 'followers'})
+            
+        // const ref = await Reference.findById(_id)
+        // const existingUser = await common.refToUser(ref, desiredFields)
+        // if (source=='google') {
+        //     existingUser = await UserGoogle.findOne({ googleId: _id })
+        //     .select(desiredFields.join(' '))
+        //     .populate({path: 'following'})
+        //     .populate({path: 'followers'})
+        // } else if (source=='own') {
+        //     existingUser = await User.findOne({ _id })
+        //     .select(desiredFields.join(' '))
+        //     .populate({path: 'following'})
+        //     .populate({path: 'followers'})
+        // }
+        // existingUser = { ...existingUser._doc, source: source }; // ...existingUser._doc is because if I don't spread it and only send it, mongoose will automatically send the _doc object but if spread it'll send the whole mongoose object containing _doc and other stuff like functions and inicializations
         // console.log(existingUser.following);
         if(!existingUser) return res.status(404).json({ message: "User doesn't exists" });
 
-        // console.log('sending');
+        console.log('sending');
 
         res.status(200).json({ result: existingUser});
         
@@ -130,7 +149,7 @@ export const signUp = async (req, res) => {
 
         const result = await User.create({ email, password, photo, name: `${firstName} ${lastName}`, following: NewFollowing._id, followers: NewFollowers._id });
 
-        
+        // const ref = await common.createRef(result._id, 'User')
 
         const token = jwt.sign({
             _id: result._id,
@@ -138,7 +157,7 @@ export const signUp = async (req, res) => {
             name: result.name,
         }, 'secret', { expiresIn: "1h" });
 
-        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, following: NewFollowing, followers: NewFollowers, source: 'own' } });
+        res.status(200).json({ token, result: { _id: result._id, email: result.email, photo: result.photo, name: result.name, following: NewFollowing, followers: NewFollowers} });
         
     } catch (error) {
         console.log(error);
@@ -148,6 +167,7 @@ export const signUp = async (req, res) => {
 
 export const google = async (req, res) => {
     try {
+        console.log('google');
         const token = req.body.credential;
         const clientId  = req.body.clientId;
         
@@ -165,10 +185,10 @@ export const google = async (req, res) => {
         //     // { token: token },
         //     {returnOriginal: false}, // without it you will get the original document means before updated value...
         // );
-        let user = await UserGoogle.findOne({ googleId: sub })
+
+        let user = await User.findOne({ sub: sub })
         .populate({path: 'following'})
         .populate({path: 'followers'})
-
 
         if (user==null) {
             console.log("not found google user");
@@ -177,7 +197,7 @@ export const google = async (req, res) => {
             const NewFollowers = await Followers.create({});
 
             const data = {
-                googleId: sub,
+                sub: sub,
                 name: name,
                 email: email,
                 photo: picture,
@@ -187,11 +207,11 @@ export const google = async (req, res) => {
             // const data = {
             //     id: ticket.getUserId(),
             // }
-            await UserGoogle.create(data)
+            await User.create(data)
             
-            user = await UserGoogle.findOne({ googleId: sub })
-            .populate({path: 'following'})        
-            .populate({path: 'followers'})        
+            user = await User.findOne({ sub: sub })
+            .populate({path: 'following'})
+            .populate({path: 'followers'})
         }else {
             console.log("found");
             // console.log(user);
@@ -200,8 +220,7 @@ export const google = async (req, res) => {
 
         // console.log(user);
 
-        res.status(200).json({token, result: { ...user._doc, source: 'google'}});
-
+        res.status(200).json({token, result: { ...user._doc } });
 
         // Fetch token for perticuler IP, Multiple token can exist for multiple divices
         

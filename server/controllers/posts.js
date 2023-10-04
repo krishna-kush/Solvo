@@ -5,8 +5,13 @@ import { Following } from '../models/Follow.js';
 import User from '../models/User.js';
 import UserGoogle from '../models/UserGoogle.js';
 
+const ObjectId = mongoose.Types.ObjectId;
 
 const common = {
+    getUserFind: (_id) => {
+        return ObjectId.isValid(_id) ? { _id : _id } : { sub: _id }
+    },
+
     getUser: (whomSource) => {
         let user;
         if (whomSource==='google') {
@@ -20,28 +25,15 @@ const common = {
 
 export const create = async (req, res) => {
     try {
-        let { amount, question, _id, source } = req.body;
+        let { amount, question, _id } = req.body;
         // console.log(question, _id);
         // console.log(typeof _id, _id);
-
-        let user;
-
-        if (source=='google') {
-            source = 'UserGoogle';
-            user = UserGoogle;
-        } else if (source=='own') {
-            source = 'User';
-            user = User;
-        }
-
-        // console.log(source);
 
         // CREATING POST
         const post = await Post.create({
             amount,
             question: question,
             creator: _id,
-            creatorRefModel: source,
             createdAt: Date(),
         })
         .catch((err) => {
@@ -49,7 +41,7 @@ export const create = async (req, res) => {
         })
 
         // ADDING POST ID TO CREATOR QUESTION LIST to know which question user asked and how many AND Updating postsCount
-        await user.findOneAndUpdate({ _id: _id }, {
+        await User.findOneAndUpdate(common.getUserFind(_id), {
             $push: {
                 posts: post._id,
             },
@@ -64,18 +56,18 @@ export const create = async (req, res) => {
 
     }
     catch (error) {
-
+        console.log(error);
     }
 }
 export const deleteAny = async (req, res) => {
     try {
         const { what, _id, parentId } = req.body;
         
-        let Collection, source, creatorId;
+        let Collection, creatorId;
 
         if (what === 'post') {
             // Checking if the post is already taken or not
-            const post = await Post.findOne({ _id: _id }).select(['taken', 'creator', 'creatorRefModel'])
+            const post = await Post.findOne({ _id: _id }).select(['taken', 'creator'])
             
             if (post.taken.length > 0) {
                 console.log('Post is already taken');
@@ -84,7 +76,6 @@ export const deleteAny = async (req, res) => {
             }
 
             creatorId = post.creator;
-            source = post.creatorRefModel;
 
             Collection = Post
         }
@@ -105,15 +96,8 @@ export const deleteAny = async (req, res) => {
         })
 
         if (what === 'post') {
-            let user;
-            if (source === 'UserGoogle') {
-                user = UserGoogle;
-            } else if (source === 'User') {
-                user = User;
-            }
-
             // ADDING POST ID TO CREATOR QUESTION LIST to know which question user asked and how many AND Updating postsCount
-            await user.findOneAndUpdate({ _id: creatorId }, {
+            await User.findOneAndUpdate(common.getUserFind(creatorId), {
                 $pull: {
                     posts: _id,
                 },
@@ -205,20 +189,13 @@ export const hide = async (req, res) => {
 
 export const upAnswer = async (req, res) => {
     try {
-        let { ans, post_id, user_id, user_source } = req.body;
+        let { ans, post_id, user_id } = req.body;
         console.log(ans, post_id, user_id);
-
-        if (user_source=='google') {
-            user_source = 'UserGoogle';
-        } else if (user_source=='own') {
-            user_source = 'User';
-        }
 
         const comment = await Comment.create({
             _id: new mongoose.Types.ObjectId(),
             comment: ans,
             creator: user_id,
-            creatorRefModel: user_source,
             createdAt: Date(),
         })
         const populatedComment = await comment.populate('creator')
@@ -246,20 +223,13 @@ export const upAnswer = async (req, res) => {
 }
 export const upComment = async (req, res) => {
     try {
-        let { comment_text, parent_comment_id, user_id, user_source } = req.body;
+        let { comment_text, parent_comment_id, user_id } = req.body;
         // console.log(ans, post_id, user_id);
-
-        if (user_source=='google') {
-            user_source = 'UserGoogle';
-        } else if (user_source=='own') {
-            user_source = 'User';
-        }
 
         const comment = await Comment.create({
             _id: new mongoose.Types.ObjectId(),
             comment: comment_text,
             creator: user_id,
-            creatorRefModel: user_source,
             createdAt: Date(),
         })
         const populatedComment = await comment.populate('creator')
@@ -286,17 +256,10 @@ export const upComment = async (req, res) => {
 }
 export const increment = async (req, res) => {
     try {
-        let { what, comment_id, user_id, user_source } = req.body;
-        // console.log(user_id, user_source, `${what}.ids`);
-
-        if (user_source=='google') {
-            user_source = 'UserGoogle';
-        } else if (user_source=='own') {
-            user_source = 'User';
-        }
+        let { what, comment_id, user_id } = req.body;
+        // console.log(user_id, `${what}.ids`);
 
         let found = true;
-
 
         let existingPost = await Comment.findOneAndUpdate(
         {
@@ -317,7 +280,6 @@ export const increment = async (req, res) => {
             {
             $addToSet: {
                 [`${what}.ids`]: user_id,
-                [`${what}.${what}RefModel`]: user_source
             },
             $inc: { [`${what}.count`]: 1 }
             },
@@ -507,6 +469,8 @@ export const wsGetEnumerated = async (ws, req) => {
                         strictPopulate: false,
                     },
                 })
+
+                // console.log(posts);
 
                 if (posts[0]) {
                     //  Changing Answers as needed

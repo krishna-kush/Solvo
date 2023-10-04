@@ -2,8 +2,8 @@ import { ADD_CHILD_COMMENTS } from "../../constants/actionTypes"
 
 import { upCommentBasic, getComment, incrementComment } from "../../API/comments"
 
-export const upComment = async (comment, parent_comment_id, user_id, user_source, post_id) => {
-    let res = await upCommentBasic(comment, parent_comment_id, user_id, user_source)
+export const upComment = async (comment, parent_comment_id, user_id, post_id) => {
+    let res = await upCommentBasic(comment, parent_comment_id, user_id)
 
     return (dispatch) => {
         dispatch({
@@ -31,8 +31,8 @@ export const showComments = async (_id, child_ids, post_id) => {
     }   
 }
 
-export const increment = async (what, comment_id, user_id, user_source, post_id) => {
-    let res = await incrementComment(what, comment_id, user_id, user_source)
+export const increment = async (what, comment_id, user_id, post_id) => {
+    let res = await incrementComment(what, comment_id, user_id)
 
     if (res.data.status === 200) {
         return (dispatch) => {

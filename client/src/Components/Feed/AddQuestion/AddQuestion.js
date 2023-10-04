@@ -36,7 +36,6 @@ const AddQuestion = () => {
       question: inputData,
       amount: sliderValue,
       _id: profile._id,
-      source: profile.source,
     })
     dispatch(temp)
   }

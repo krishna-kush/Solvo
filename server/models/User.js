@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
+    // _id: mongoose.Schema.Types.ObjectId,
+    sub: String, // id for google, if user is from google, that's why it's not set Required
+    
     name: String,
     // age: String,
     email: String,

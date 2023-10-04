@@ -20,12 +20,7 @@ const postSchema = mongoose.Schema({
 
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: 'creatorRefModel',
-        // required: true,
-    },
-    creatorRefModel: {
-        type: String,
-        enum: ['UserGoogle', 'User'],
+        ref: 'User',
         // required: true,
     },
 
@@ -36,11 +31,7 @@ const postSchema = mongoose.Schema({
 
     taken: [{
         type: mongoose.Schema.Types.ObjectId,
-        refPath: 'takenRefModel',
-    }],
-    takenRefModel: [{
-        type: String,
-        enum: ['UserGoogle', 'User'],
+        ref: 'User',
     }],
 
     hide: {
@@ -54,11 +45,7 @@ const postSchema = mongoose.Schema({
     like: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'likeRefModel',
-        }],
-        likeRefModel: [{
-            type: String,
-            enum: ['UserGoogle', 'User'],
+            ref: 'User',
         }],
         count: {
             type: Number,
@@ -68,11 +55,7 @@ const postSchema = mongoose.Schema({
     dislike: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'dislikeRefModel',
-        }],
-        dislikeRefModel: [{
-            type: String,
-            enum: ['UserGoogle', 'User'],
+            ref: 'User',
         }],
         count: {
             type: Number,
@@ -82,11 +65,7 @@ const postSchema = mongoose.Schema({
     share: {
         ids: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'shareRefModel',
-        }],
-        shareRefModel: [{
-            type: String,
-            enum: ['UserGoogle', 'User'],
+            ref: 'User',
         }],
         count: {
             type: Number,
