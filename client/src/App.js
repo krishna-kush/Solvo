@@ -51,8 +51,12 @@ const App = () => {
 
 
   return (<>
-    <Header/>
-
+    
+    <Routes>
+      <Route path="/auth" element={<></>}/>
+      <Route path="/*" element={<Header/>}/>
+    </Routes>
+    
     <Routes>
       <Route path="/" element={<AppBase/>}>
         {/* Public Routes */}
