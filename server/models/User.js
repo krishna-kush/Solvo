@@ -18,6 +18,11 @@ const userSchema = mongoose.Schema({
       default: 0,  
     },
 
+    answers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+    }],
+
     following: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Following', // Case Sensetive

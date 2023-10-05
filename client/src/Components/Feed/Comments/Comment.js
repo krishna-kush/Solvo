@@ -106,7 +106,7 @@ const Comments = (params) => {
     
             // Change state from open to Close
             actionCreators.post.close(params.post_id, post._id)(dispatch)
-    
+
             // Ask for what to do with Post
             // Another Compoent Like Auth to select what to do with post 
             actionCreators.select.changeShow(true)(dispatch)
@@ -119,6 +119,9 @@ const Comments = (params) => {
             ])(dispatch)
             actionCreators.select.updateSelectorId(post._id)(dispatch)
             actionCreators.select.updateSelectedId(params._id)(dispatch)
+
+            // add to comment that it is selected
+            actionCreators.comment.select(params._id)
     
             // console.log(selected);
     

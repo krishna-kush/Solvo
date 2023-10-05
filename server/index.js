@@ -28,6 +28,7 @@ mongoose.connect(mongooseLocalhost, {
 
 import authRoutes from './routes/auth.js';
 import postRoutes from './routes/posts.js';
+import commentRoutes from './routes/comment.js';
 import searchRoutes from './routes/search.js';
 import followRoutes from './routes/follow.js';
 
@@ -44,6 +45,7 @@ server.use(express.urlencoded({limit: '550mb'}));
 
 server.use('/auth', authRoutes);
 server.use('/posts', postRoutes);
+server.use('/comment', commentRoutes);
 server.use('/search', searchRoutes);
 server.use('/follow', followRoutes);
 

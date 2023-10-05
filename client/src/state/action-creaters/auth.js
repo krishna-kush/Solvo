@@ -1,6 +1,6 @@
 import { LOG, UPDATE_AUTH_INPUT, RESET_AUTH_INPUT, ADD_ID } from '../../constants/actionTypes'
 
-import { whoMin, gAuth, createUser, loginUser, ifLoginUser } from '../../API/auth'
+import { whoId, gAuth, createUser, loginUser, ifLoginUser } from '../../API/auth'
 
 export const updateInput = (data) => {
     return (dispatch) => {
@@ -19,8 +19,8 @@ export const resetInput = () => {
     }
 }
 
-export const whoAdd = async (_id) => {
-    const ans = await whoMin(_id);
+export const whoIdAdd = async (_id) => {
+    const ans = await whoId(_id);
 
     return (dispatch) => {
         dispatch({

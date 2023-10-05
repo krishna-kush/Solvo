@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
 
 import { actionCreators } from '../../../state/index'
@@ -25,7 +27,7 @@ const Id = (params) => {
 
   const upId = async () => {
     if (!creator) {
-      const temp = await actionCreators.auth.whoAdd(params._id);
+      const temp = await actionCreators.auth.whoIdAdd(params._id);
       temp(dispatch)
     }
   }
@@ -68,7 +70,7 @@ const Id = (params) => {
       </div>
       <div className="id-details">
         <div className="id-details-top">
-          <div className="name">{creator.name}</div>
+          <Link to={`/${creator._id}`} className="name hover-text">{creator.name}</Link>
 
           { // for adding · to every Id exept condition
           params.full && profile._id === creator._id

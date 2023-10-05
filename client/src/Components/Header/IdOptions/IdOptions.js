@@ -33,7 +33,7 @@ const IdOptions = () => {
     },
     
     clickProfile: () => {
-      navigate('/profile', { replace: true })
+      navigate(`${profile._id}`, { replace: true })
     }
   }
 

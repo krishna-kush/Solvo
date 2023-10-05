@@ -146,7 +146,7 @@ export default React.memo((params) => { // React's memo is a Higher-Order Compon
   const [showComments, setShowComments] = useState(false)
   
   const upAnswer = async (firstToAns) => {
-    const temp = await actionCreators.post.upAnswer(inputData, data._id, profile._id, profile.source, params.id)
+    const temp = await actionCreators.post.upAnswer(inputData, data._id, profile._id, params.id)
     dispatch(temp)
 
     if (firstToAns) {setShowComments(true)}

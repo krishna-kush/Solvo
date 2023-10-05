@@ -23,6 +23,10 @@ export const upCommentBasic = async (comment_text, parent_comment_id, user_id) =
     return await basic('/posts/upComment', {comment_text, parent_comment_id, user_id}, 'upComment')
 }
 
+export const selectComment = async (_id) => {
+    return await basic('/comment/select', {_id}, 'selectComment')
+}
+
 export const incrementComment = async (what, comment_id, user_id) => {
     return await basic('/posts/increment', {what, comment_id, user_id}, 'increment')
 }

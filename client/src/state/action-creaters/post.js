@@ -66,8 +66,8 @@ export const hide = (option, selectorId, selectedId) => {
     hidePost(option, selectorId, selectedId)
 }
 
-export const upAnswer = async (ans, post_id, user_id, user_source, post_no) => {
-    let res = await upAnswerPost(ans, post_id, user_id, user_source)
+export const upAnswer = async (ans, post_id, user_id, post_no) => {
+    let res = await upAnswerPost(ans, post_id, user_id)
     return (dispatch) => {
         dispatch({
             type: ADD_ANSWER,

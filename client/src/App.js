@@ -23,7 +23,7 @@ import TopShow from './Components/TopShow/TopShow';
 import Auth from './Components/Auth/Auth';
 import Profile from './Components/Profile/Profile';
 
-
+import Err404 from './Components/Error/404';
 
 
 const root_theme = document.querySelector(':root')
@@ -50,7 +50,9 @@ const App = () => {
   // const [theme, setTheme] = useState('dark');
 
 
-  return (
+  return (<>
+    <Header/>
+
     <Routes>
       <Route path="/" element={<AppBase/>}>
         {/* Public Routes */}
@@ -71,21 +73,29 @@ const App = () => {
 
         {/* Protected Routes */}
         <Route element={<RequireAuth/>}>
-          <Route path="/" element={<>
-            <Header/>
+          <Route index element={<>
             <div id="content">
               <Feed production={production}/>
               <TopShow/>
             </div>
           </>}/>
 
-          <Route path="/profile" element={<>
-            <Header/>
+          {/* <Route path="/profile" element={<>
             <div id="content">
               <Profile production={production}/>
               <TopShow/>
             </div>
-          </>}/>
+          </>}/> */}
+
+          <Route path="/:profileId" element={
+            <>
+              <div id="content">
+                <Profile production={production} />
+                <TopShow />
+              </div>
+            {/* // <Err404 /> */}
+            </>
+          } />
         </Route> 
 
         <Route element={<RequireAuth/>}>
@@ -100,10 +110,10 @@ const App = () => {
         </Route>
         {/* Protected Routes */}
 
-        <Route path="*" element={<>Missing...</>} />
+        
       </Route>
     </Routes>
-  );
+  </>);
 }
 
 export default App;

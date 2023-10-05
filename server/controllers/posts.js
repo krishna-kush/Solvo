@@ -201,6 +201,7 @@ export const upAnswer = async (req, res) => {
         const populatedComment = await comment.populate('creator')
         console.log(comment);
 
+        // pushing in post
         await Post.findOneAndUpdate({
             _id: post_id,
         }, {
@@ -210,6 +211,13 @@ export const upAnswer = async (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+        })
+
+        // pushing in creator
+        await User.findOneAndUpdate(common.getUserFind(user_id), {
+            $push: {
+                answers: comment._id,
+            }
         })
 
         // console.log(existingPost); // this will be post before update

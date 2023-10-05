@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library'
 
 import mongoose from 'mongoose';
-// import User from '../models/user.js';
-// import UserGoogle from '../models/UserGoogle.js';
+
 import User from '../models/User.js';
+import Comment from '../models/Comment.js';
 import { Following, Followers } from '../models/Follow.js';
-import Reference from '../models/Reference.js';
+// import Reference from '../models/Reference.js';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -16,7 +16,7 @@ const common = {
         return ObjectId.isValid(_id) ? { _id : _id } : { sub: _id }
     },
 
-    createRef: async (_id, modelName) => { return await Reference.create({ id: result._id, refModel: modelName }) },
+    // createRef: async (_id, modelName) => { return await Reference.create({ id: result._id, refModel: modelName }) },
 
     refToUser: async (ref, desiredFields, ) => {
         if (desiredFields) {
@@ -45,7 +45,7 @@ const common = {
 //     }
 // }
 
-export const who = async (req, res) => {
+export const whoId = async (req, res) => {
     try {
         const { _id } = req.body;
 
@@ -63,7 +63,43 @@ export const who = async (req, res) => {
         console.log(error);
         res.status(500).json({ message: "Something went wrong" });
     }
+}
+export const whoProfile = async (req, res) => {
+    try {
+        const { _id } = req.body;
 
+        if (_id == undefined) {
+            return res.status(500).json({ message: "ID not valid" })
+        } // having _id = undefined will return {sub: undefind from common.getUserFind and then findOne will find the first doc that don't have any sub, which means any other user that is not by site login system}
+
+        const desiredFields = ['name', 'email', 'photo', 'postsCount', 'answers', 'followers', 'following']
+        
+        const existingUser = await User.findOne(common.getUserFind(_id))
+        .select(desiredFields.join(' '))
+        .populate({path: 'following'})
+        .populate({path: 'followers'})
+
+        const answers = existingUser.answers;
+        let selectedAnswersCount = 0;
+            
+        for (let i of answers) {
+            try {
+                const temp = await Comment.findOne({ _id: i }).select("selected")
+                if (temp.selected) {
+                    selectedAnswersCount += 1;
+                }
+            } catch (error) {
+                // Handle any potential errors from the database query
+                console.error("Error while querying the database:", error);
+            }
+        }
+
+        res.status(200).json({ ...existingUser._doc, selectedAnswersCount: selectedAnswersCount });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
 }
 
 export const logIn = async (req, res) => {
