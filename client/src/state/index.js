@@ -8,6 +8,7 @@ import { change } from './action-creaters/changer.js'
 import { changeShow, changeOptions, changeSelected, updateSelectorId, updateSelectedId } from './action-creaters/select.js'
 import { follow, unFollow } from './action-creaters/follow.js'
 import * as profile from './action-creaters/profile.js'
+import { changeHomeLayout } from './action-creaters/homeLayout.js'
 
 const actionCreators = {
     auth: {
@@ -61,6 +62,9 @@ const actionCreators = {
     follow: { follow, unFollow },
 
     profile,
+
+    changeHomeLayout,
+    
 }
 
 export { actionCreators };

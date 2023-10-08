@@ -1,11 +1,15 @@
 import { useRef, useState } from 'react'
 
+import { useDispatch } from 'react-redux'
+import { actionCreators } from '../../state'
+
 import './topShow.css'
 
 import Cross from '../Cross/Cross'
 import Block from './TopShowBlock'
 
 export default () => {
+  const dispatch = useDispatch()
 
   const [mouseInside, setMouseInside] = useState(false)
   const crossRef = useRef({})
@@ -18,7 +22,8 @@ export default () => {
     },
 
     onClickCross: () => {
-      console.log('clicked');
+      // remove cross from dom
+      actionCreators.changeHomeLayout({topShow: false})(dispatch)
     }
   }
 

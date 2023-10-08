@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import {
   Routes,
   Route,
@@ -47,6 +49,9 @@ const App = () => {
 
   const production = 0; // 0 for development, 1 for production
 
+  const homeLayout = useSelector(state => state.homeLayout);
+  // console.log('homeLayout', homeLayout);
+
   // const [theme, setTheme] = useState('dark');
 
 
@@ -79,8 +84,12 @@ const App = () => {
         <Route element={<RequireAuth/>}>
           <Route index element={<>
             <div id="content">
-              <Feed production={production}/>
-              <TopShow/>
+              {
+                homeLayout.post ? <Feed production={production}/> : <></>
+              }
+              {
+                homeLayout.topShow ? <TopShow/> : <></>
+              }
             </div>
           </>}/>
           <Route path="test" element={<>

@@ -10,6 +10,7 @@ import search from "./search/search";
 import post from "./post";
 import select from "./select"
 import profile from "./profile"
+import homeLayout from "./homeLayout";
 
 const reducers = combineReducers({
     authI: authInput,
@@ -28,6 +29,8 @@ const reducers = combineReducers({
     select,
 
     profile,
+
+    homeLayout,
 })
 
 export default reducers
