@@ -5,7 +5,7 @@ import { faBackward, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 import { actionCreators } from '../../state'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { whoProfile } from '../../API/auth'
 
@@ -23,6 +23,7 @@ const Profile = () => {
   const { profileId } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const options = ['Following', 'Followers']
 
@@ -35,6 +36,9 @@ const Profile = () => {
     clickMain: () => {
       toggle(dropdownRef.current.show, dropdownRef.current.setShow)
       // console.log(dropdownRef.current);
+    },
+    goBack: () => {
+      navigate(-1)
     },
 
     onDropdownChange: (to) => {
@@ -89,7 +93,7 @@ const Profile = () => {
 
           <FontAwesomeIcon className='fa-icon transition-fast' icon={faCaretDown} />
         </div>
-        <div className='profile-goback box transition-fast'>
+        <div onClick={handle.goBack} className='profile-goback box transition-fast'>
           <FontAwesomeIcon className='fa-icon transition-fast' icon={faBackward} />
         </div>
       </div>

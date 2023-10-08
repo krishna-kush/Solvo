@@ -1,0 +1,22 @@
+.cross-cont {
+    // background-color: green;
+    // pointer-events: none;
+
+    height: fit-content;
+    
+    position: absolute;
+    
+    left: 100%;
+    padding: 10%;
+    
+    z-index: 2;
+}
+
+.cross {
+    background-color: white;
+}
+
+.fa-cross {
+    // padding: 5px 5px;
+    margin: 5px 5px;
+}

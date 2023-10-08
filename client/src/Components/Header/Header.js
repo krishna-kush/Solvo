@@ -29,14 +29,14 @@ export default () => {
       <div id="header-logo">
         <div id="header-logo-img">
           <Link to="/">
-            <img src="/images/logo.png" alt="logo" />
+            {/* <img src="/images/logo.png" alt="logo" /> */}
           </Link>
         </div>
-        <div id="header-logo-text">
+        <div id="header-logo-text-cont">
           <Link to="/">
-          <div id="header-logo-text">
-            sOlvO
-          </div>
+            <div id="header-logo-text">
+              sOlvO
+            </div>
           </Link>
         </div>
       </div>

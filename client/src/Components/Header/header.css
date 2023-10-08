@@ -20,7 +20,7 @@ body {
 
     position: sticky;
     top: 0px;
-    z-index: 1;
+    z-index: 2;
 }
 
 #header-logo {
@@ -30,6 +30,13 @@ body {
     /* width: 25vw; */
 
     margin-left: 10px;
+}
+
+#header-logo-text {
+    color: var(--box-color);
+
+    font-weight: 800;
+    font-size: 2rem;
 }
 
 #user-in-header {

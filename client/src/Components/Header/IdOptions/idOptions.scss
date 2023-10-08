@@ -1,5 +1,8 @@
-.header-id-cont {
+#header-id-cont {
     height: 80%;
+
+    position: relative;
+    z-index: 3;
 }
 .header-id {
     height: 100%;
@@ -7,6 +10,7 @@
 
 .header-id-options-cont {
     flex-direction: column;
+    z-index: 3;
 
     width: fit-content;
     position: absolute;

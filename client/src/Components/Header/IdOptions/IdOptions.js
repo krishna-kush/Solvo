@@ -56,7 +56,7 @@ const IdOptions = () => {
   });
 
   return (
-    <div ref={componentRef} className='header-id-cont'>
+    <div ref={componentRef} id='header-id-cont'>
       <div className='header-id'
       onClick={handle.show}>
         <img className="circle" src={profile.photo} />
