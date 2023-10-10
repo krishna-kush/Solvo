@@ -84,12 +84,8 @@ const App = () => {
         <Route element={<RequireAuth/>}>
           <Route index element={<>
             <div id="content">
-              {
-                homeLayout.post ? <Feed production={production}/> : <></>
-              }
-              {
-                homeLayout.topShow ? <TopShow/> : <></>
-              }
+              { homeLayout.post ? <Feed production={production}/> : <></> }
+              { homeLayout.topShow ? <TopShow/> : <></> }
             </div>
           </>}/>
           <Route path="test" element={<>
@@ -110,7 +106,7 @@ const App = () => {
             <>
               <div id="content">
                 <Profile production={production} />
-                <TopShow />
+                { homeLayout.topShow ? <TopShow/> : <></> }
               </div>
             {/* // <Err404 /> */}
             </>
@@ -123,7 +119,7 @@ const App = () => {
               {/* <Header/> */}
               <div id="content">
                 <Feed production={production}/>
-                <TopShow/>
+                { homeLayout.topShow ? <TopShow/> : <></> }
               </div>
             </>}/>
         </Route>
