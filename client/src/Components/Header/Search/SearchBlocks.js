@@ -42,6 +42,8 @@ const SearchBlocks = (params) => {
       <div className='name'>{params.element}</div>
 
       {data[params.element].map((element, index) => {
+        if (element === null || element === undefined) return null;
+         
         return (
         <div className='searchblock-child box'
         onClick={() => {

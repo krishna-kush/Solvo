@@ -120,7 +120,7 @@ const App = () => {
         <Route element={<RequireAuth/>}>
           <Route path="feed" element={
             <>
-              <Header/>
+              {/* <Header/> */}
               <div id="content">
                 <Feed production={production}/>
                 <TopShow/>
