@@ -36,6 +36,9 @@ input:focus {
 .nowrap {
     white-space: nowrap;
 }
+.nohover:hover {
+    background-color: transparent !important;
+}
 .btn {
     cursor: pointer;
     width: fit-content;

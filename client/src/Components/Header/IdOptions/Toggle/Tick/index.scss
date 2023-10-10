@@ -1,0 +1,179 @@
+// For this trigonometric function, Refer -> https://stackoverflow.com/questions/26969883/trigonometric-functions-in-sass-preprocessor-error
+// Everything else is done by me
+
+/* power */
+@function pow($number, $exp) {
+$value: 1;
+@if $exp > 0 {
+    @for $i from 1 through $exp {
+    $value: $value * $number;
+    }
+}
+@else if $exp < 0 {
+    @for $i from 1 through -$exp {
+    $value: $value / $number;
+    }
+}
+@return $value;
+}
+
+/* factorial */
+@function fact($number) {
+$value: 1;
+@if $number > 0 {
+    @for $i from 1 through $number {
+    $value: $value * $i;
+    }
+}
+@return $value;
+}
+
+/* pi */
+@function pi() {
+@return 3.1415926535897932384626433832795028841971694;
+}
+
+/* radian */
+@function rad($angle) {
+$unit: unit($angle);
+$unitless: $angle / ($angle * 0 + 1);
+// If the angle has 'deg' as unit, convert to radians.
+@if $unit == deg {
+    $unitless: $unitless / 180 * pi();
+}
+@return $unitless;
+}
+
+/* sine */
+@function sin($angle) {
+$sin: 0;
+$angle: rad($angle);
+// Iterate a bunch of times.
+@for $i from 0 through 10 {
+    $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+}
+@return $sin;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// to find how much a line shortens, when rotated by an theta degrees, 
+@function aMASinTheta($lineWidth, $angle) { // | - ( / into | ),
+    @return ( $lineWidth - ( $lineWidth * sin($angle) ) );
+}
+
+// to find how much a line goes up, when rotated by an theta degrees, By finding first how much the line shortens then dividing by 2, so with it we know how much the line edge moved up or down in the y axis
+@function aDist($lineWidth, $angle) { 
+    @return aMASinTheta($lineWidth, $angle) / 2
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+$transition-speed: 0.2s;
+
+$lineWidthBig: 70%;
+$lineWidthSmall: $lineWidthBig / 2;
+// $lineWidthSmall: $lineWidthBig;
+$lineHeight: 10%;
+
+// $sinTheta: sin(45deg);
+// // A = Half the height of the large tic button, A = lineWidthBig/2
+// $aSinA: ($lineWidthBig/2) * $sinTheta; // ASin(A)
+// $aMAsinA: ($lineWidthBig/2) - $aSinA; // A - ASin(A)
+
+$bigLineUp: aDist($lineWidthBig, 45deg);
+$smallLineUp: aDist($lineWidthSmall, 45deg);
+
+
+.tick-cont {
+    width: 100%;
+    height: 100%;
+    
+    margin: auto;
+
+    background-color: var(--toggle-base-color);
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    
+    position: relative;
+}
+
+
+.tick-button {
+    background-color: var(--base-color);
+    position: relative;
+    
+    left: 0;
+    transition: all $transition-speed ease-out;
+}
+
+.toggle-on {
+    background-color: var(--box-color);
+}
+
+.tick-button-line1 {
+    position: absolute;
+    background-color: var(--box-color);
+
+    width: $lineWidthBig;
+    height: $lineHeight;
+
+    top: 50% - $lineHeight / 2;
+    left: (100% - $lineWidthBig) / 2;
+
+    transform: rotate(-45deg);
+    // transform: rotate(90deg);
+    
+    transition: all $transition-speed ease-out;
+}
+.tick-button-line1-on {
+    background-color: var(--base-color);
+    transform: rotate(-180deg - 45deg);
+}
+.tick-button-line2 {
+    position: absolute;
+    background-color: var(--box-color);
+
+    $width: 70%;
+    $height: 10%;
+
+    width: $width;
+    height: $height;
+
+    top: 50% - ($height / 2);
+    left: 50% - ($width / 2);
+
+    transform: rotate(45deg);    
+    transition: all $transition-speed ease-out;
+}
+.tick-button-line2-on {
+    position: absolute;
+    background-color: var(--base-color);
+
+
+    width: $lineWidthSmall;
+    height: $lineHeight;
+
+    top: 50% - ($lineHeight / 2) + ( ($lineWidthBig / 2) - ($lineWidthSmall / 2) ) - ($bigLineUp - $smallLineUp) ;
+    /*
+    50% - ($lineHeight / 2) -> to center
+    + ( ($lineWidthBig / 2) - ($lineWidthSmall / 2) ) -> to move it to a point where the small line bottom is with match with the big line bottom
+    - ($bigLineUp - $smallLineUp) -> to move it more up, to cancle out the effect of the line(y-axis) shortening done by the rotation OR movement of line bottom more up due to the rotation
+    */
+    // top: 50% - ($lineHeight / 2);
+    left: 50% - ($lineWidthBig / 2) - ($lineWidthSmall / 2) + ($lineHeight / 2);
+    /*
+    50% - ($lineWidthBig / 2) -> to place the small line to the left or starting of big line, if want to center small line just place $lineWidthSmall in place of $lineWidthBig
+    - ($lineWidthSmall / 2) + ($lineHeight / 2) -> to place the small line to the left or starting of big line, but when it is vertically rotated
+    /*
+    When small line is placed at the start of big line, and when they both rotates 45 degrees in opposite direction, their bottom align, means both their bottom moves right by same quantity, WHY?
+    */
+
+    transform: rotate(180deg+180deg+45deg);    
+    // transform: rotate(90deg);
+    // transition: all $transition-speed ease-out;
+}

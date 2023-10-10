@@ -5,7 +5,8 @@
         /* DAY */
         --title-color: #FF4D6D;
         --err-color: #fb133a;
-        --base-color: #fff; 
+        --base-color: #fff;
+        --toggle-base-color: #847f7f;
         --bar-color: #ff4d6e28; /* Transparent */
         --in-bar-color: #FFCCD5;
         --box-color: #ff4d6eb7; /* Transparent */
