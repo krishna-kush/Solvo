@@ -1,0 +1,42 @@
+#top-show {
+    /* width: var(--side-panel-width); */
+
+    flex-grow: 1;
+
+    /* margin-left: 1vw; */
+    margin-right: var(--topshow-margin-right);
+
+    position: relative; /* to absolutely position cross in respect of this container */
+
+}
+
+#topshow-block-cont {
+    /* background-color: var(--in-panel-color); */
+
+    padding: var(--short-padding);
+    border-radius: var(--short-radius);
+}
+
+#topshow-block-title {
+    width: fit-content;
+    margin: auto;
+}
+
+.topshow-count {
+    display: inline-block;
+}
+
+.topshow-block-user {
+    position: relative;
+    height: fit-content;
+
+    p {
+        padding: var(--short-padding);
+    }
+}
+
+.topshow-block-user-enumeration {
+    background-color: var(--box-color);
+
+    margin-right: var(--long-margin);
+}

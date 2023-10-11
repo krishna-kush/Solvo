@@ -11,6 +11,7 @@ import post from "./post";
 import select from "./select"
 import profile from "./profile"
 import homeLayout from "./homeLayout";
+import topShow from "./topShow";
 
 const reducers = combineReducers({
     authI: authInput,
@@ -31,6 +32,8 @@ const reducers = combineReducers({
     profile,
 
     homeLayout,
+
+    topShow,
 })
 
 export default reducers

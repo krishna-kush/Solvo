@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { actionCreators } from '../../state'
 
-import './topShow.css'
+import './topShow.scss'
 
 import Cross from '../Cross/Cross'
 import Block from './TopShowBlock'

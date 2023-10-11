@@ -113,9 +113,14 @@ const Id = (params) => {
             <TimeDifference savedTime={params.createdAt} />
             </div>
           </div>
-        ): (
-          <></>
-        )}
+        ): null}
+        {params.full && params.belowText ? (
+          <div className="topshow-count">
+            <p>
+              {params.belowText}
+            </p>
+          </div>
+        ): null}
       </div>
     </div>
   )

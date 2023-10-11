@@ -34,6 +34,7 @@ import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comment.js';
 import searchRoutes from './routes/search.js';
 import followRoutes from './routes/follow.js';
+import topRoutes from './routes/top.js';
 
 const server = express();
 const PORT = process.env.PORT || 5000; //env if heroku, it'll populate it automatically...
@@ -51,6 +52,7 @@ server.use('/posts', postRoutes);
 server.use('/comment', commentRoutes);
 server.use('/search', searchRoutes);
 server.use('/follow', followRoutes);
+server.use('/top', topRoutes);
 
 server.listen(PORT, () => {
     console.log(`Server running at ${PORT}/`);
