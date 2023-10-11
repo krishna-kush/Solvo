@@ -90,7 +90,7 @@ export default (params) => {
   const useEffectRef = useRef(false)
 
   const searchQuery = query.get('searchQuery') || '';
-  
+
   const changer = useSelector((state) => state.changer);
   const changer_true = (() => {
     for (let i of changer) {
@@ -151,7 +151,7 @@ export default (params) => {
         })
       }
     }
-  }, [changer])
+  }, [changer, searchQuery])
   
   // if (!feed_blocks_len) {
   //   return (

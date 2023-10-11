@@ -143,6 +143,6 @@ export const getPostBySearch = async (search) => {
 
     return {
         source: 'getAll',    
-        data: mdata,
+        data: mdata.data.result,
     }
 }

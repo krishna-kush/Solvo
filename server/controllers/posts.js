@@ -519,7 +519,7 @@ export const wsGetEnumerated = async (ws, req) => {
 
 export const getBySearch = async (req, res) => {
     try {
-        const {search} = req.body;
+        const { search } = req.body;
         const pattern = search.split(" ").join("|");
         const regexPattern = new RegExp(pattern, 'i');
 

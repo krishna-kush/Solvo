@@ -119,12 +119,12 @@ export const wsGetEnumerated = async (data) => {
     return (dispatch) => {}
 }
 export const getBySearch = async (search) => {
-    let res = await getPostBySearch(search)
+    const res = await getPostBySearch(search)
 
     return (dispatch) => {
         dispatch({
             type: SET_POST,
-            payload: res
+            payload: res.data
         })
     }    
 }

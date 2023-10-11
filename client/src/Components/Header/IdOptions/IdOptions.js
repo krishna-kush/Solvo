@@ -93,7 +93,7 @@ const IdOptions = () => {
             <ToggleTick
             state={['homeLayout', 'topShow']}
             onClick={(toggle)=>{actionCreators.changeHomeLayout({topShow: !toggle})(dispatch)}}
-            show={show} width={'10vw'} height={'7vh'}/>
+            show={show} width={'6vw'} height={'4vh'}/>
           </div>
         </li>
         <li className='header-id-option'>
