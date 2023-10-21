@@ -147,6 +147,18 @@ input:focus {
     margin-left: 2vw;
 }
 
+.scroll {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+
+    // scrollbar style
+    &::-webkit-scrollbar {
+        /* display: none; */
+        width: var(--scroll-width);
+        background: transparent;
+    }
+}
+
 .small-box {
     width: fit-content;
     margin: var(--short-margin);

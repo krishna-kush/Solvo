@@ -1,4 +1,4 @@
-#top-show {
+#topshow {
     /* width: var(--side-panel-width); */
 
     flex-grow: 1;
@@ -8,16 +8,26 @@
 
     position: relative; /* to absolutely position cross in respect of this container */
 
+    // padding: 0;
+
 }
 
-#topshow-block-cont {
+#topshow-elements {
+    width: 100%;
+    height: 100%;
+}
+
+
+.topshow-block-cont {
     /* background-color: var(--in-panel-color); */
 
+    position: relative; // for the more-slide-down button
+
     padding: var(--short-padding);
+    margin: 10px; // to show shadow
     border-radius: var(--short-radius);
 }
-
-#topshow-block-title {
+.topshow-block-title {
     width: fit-content;
     margin: auto;
 }
@@ -39,4 +49,12 @@
     background-color: var(--box-color);
 
     margin-right: var(--long-margin);
+}
+
+.more-slide-down {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    
+    padding: var(--short-padding);
 }

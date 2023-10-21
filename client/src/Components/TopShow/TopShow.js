@@ -28,12 +28,16 @@ export default () => {
   }
 
   return (
-    <div id="top-show" className="panel"
+    <div id="topshow" className="panel"
     onMouseEnter={(e)=>{handle.toggleInside(e, true)}}
     onMouseLeave={(e)=>{handle.toggleInside(e, false)}}>
       <Cross ref1={crossRef} parent={'topshow'} onClick={handle.onClickCross} mouseInside={mouseInside} setMouseInside={setMouseInside}/>
 
-      <Block />
+      <div id="topshow-elements" className='scroll'>
+        <Block what={'answers'}/>
+        <Block what={'questions'}/>
+      </div>
+
     </div>
   )
 }

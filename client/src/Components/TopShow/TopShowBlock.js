@@ -3,15 +3,29 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actionCreators } from '../../state'
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
+
+
 import Id from '../Feed/Id/Id'
 
-const Block = () => {
+const Block = (params) => {
   const dispatch = useDispatch()
 
   const data = useSelector((state) => state.topShow)
   // console.log(data);
 
   const inicial = useRef(true)
+
+  const handle = {
+    showMore: async () => {
+      actionCreators.topShow.clear()(dispatch)
+
+      const temp = await actionCreators.topShow.add('question', 5)
+      temp(dispatch)
+    }
+  }
   
   // fetching data
   useEffect(() => {
@@ -36,12 +50,12 @@ const Block = () => {
   if (!data) return null;
 
   return (
-    <div id='topshow-block-cont' className='shadow'>
-      <div id='topshow-block-title' className=''>
-        <h1>Top Answerers</h1>
+    <div className='topshow-block-cont shadow'>
+      <div className='topshow-block-title'>
+        <h1>Top {params.what}</h1>
       </div>
 
-      <div id='topshow-block-body'>
+      <div className='topshow-block-body'>
         {data.map((e, i) => {
             return (
             <div style={{justifyContent: 'inherit'}} className='topshow-block-user flex'>
@@ -54,6 +68,10 @@ const Block = () => {
             </div>
             )
         })}
+
+        <div className='more-slide-down box trasition' onClick={handle.showMore}>
+          <FontAwesomeIcon className='fa-icon' icon={faArrowDown}/>
+        </div>
       </div>
     </div>
   )
