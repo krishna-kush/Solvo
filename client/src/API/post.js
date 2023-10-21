@@ -1,7 +1,11 @@
 import Axios from 'axios'
 
+const url = process.env.REACT_APP_URL || 'http://localhost:5000';
+
 export const createPost = async (data) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/create', data)
+    let mdata = await Axios.post('/posts/create', data, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -15,7 +19,9 @@ export const createPost = async (data) => {
     }
 }
 export const deleteAny = async (what, _id, parentId) => {
-    const mdata = await Axios.post('http://localhost:5000/posts/delete', {what, _id, parentId})
+    const mdata = await Axios.post('/posts/delete', {what, _id, parentId}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -30,7 +36,9 @@ export const deleteAny = async (what, _id, parentId) => {
 }
 
 export const closePost = async (_id) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/close', {_id})
+    let mdata = await Axios.post('/posts/close', {_id}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -44,7 +52,9 @@ export const closePost = async (_id) => {
 }
 
 export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/upAnswer', { ans, post_id, user_id, user_source})
+    let mdata = await Axios.post('/posts/upAnswer', { ans, post_id, user_id, user_source}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -59,7 +69,9 @@ export const upAnswerPost = async (ans, post_id, user_id, user_source) => {
 }
 
 export const takePost = async (_id, takerId, direction) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/take', {_id, takerId, direction})
+    let mdata = await Axios.post('/posts/take', {_id, takerId, direction}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -74,7 +86,9 @@ export const takePost = async (_id, takerId, direction) => {
 }
 
 export const hidePost = async (option, selectorId, selectedId) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/hide', { option, selectorId, selectedId})
+    let mdata = await Axios.post('/posts/hide', { option, selectorId, selectedId}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -89,7 +103,9 @@ export const hidePost = async (option, selectorId, selectedId) => {
 }
 
 export const getAllPost = async () => {
-    let mdata = await Axios.post('http://localhost:5000/posts/getAll')
+    let mdata = await Axios.post('/posts/getAll', null, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -103,7 +119,9 @@ export const getAllPost = async () => {
     }
 }
 export const getEnumeratedPost = async (skip, limit) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/getEnumerated', {skip, limit})
+    let mdata = await Axios.post('/posts/getEnumerated', {skip, limit}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })
@@ -117,7 +135,9 @@ export const getEnumeratedPost = async (skip, limit) => {
     }
 }
 export const getWsEnumeratedPost = async (skip, limit) => {
-    // let mdata = await Axios.post('http://localhost:5000/posts/getEnumerated', {skip, limit})
+    // let mdata = await Axios.post('/posts/getEnumerated', {skip, limit}, {
+    //     baseURL: url,
+    // })
     // .then((res) => {
     //     return res
     // })
@@ -133,7 +153,9 @@ export const getWsEnumeratedPost = async (skip, limit) => {
     }
 }
 export const getPostBySearch = async (search) => {
-    let mdata = await Axios.post('http://localhost:5000/posts/getBySearch', {search})
+    let mdata = await Axios.post('/posts/getBySearch', {search}, {
+        baseURL: url,
+    })
     .then((res) => {
         return res
     })

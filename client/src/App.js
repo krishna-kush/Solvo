@@ -46,8 +46,8 @@ if (theme==='dark') {
 
 const App = () => {
   console.log('APP');
-
-  const production = 0; // 0 for development, 1 for production
+  
+  const production = parseInt(process.env.REACT_APP_PRODUCTION); // 0 for development, 1 for production
 
   const homeLayout = useSelector(state => state.homeLayout);
   // console.log('homeLayout', homeLayout);

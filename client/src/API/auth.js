@@ -1,6 +1,8 @@
 import Axios from './AxiosInstance.js'
 import axios from 'axios'
 
+const url = process.env.REACT_APP_URL || 'http://localhost:5000';
+
 export const whoId = async (_id) => {
     let mdata = await Axios.post('/auth/whoId', {_id})
     .then((res) => {
@@ -44,7 +46,7 @@ export const loginUser = async (data) => {
 }
 export const ifLoginUser = async () => {
     let mdata = await axios.post('/auth/iflogin', null, {
-        baseURL: 'http://localhost:5000',
+        baseURL: url,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('session')}`,
         }

@@ -1,7 +1,11 @@
 import Axios from 'axios'
 
+const url = process.env.REACT_APP_URL || 'http://localhost:5000';
+
 export const upQuestion = async (input, limit) => {
-    let mdata = await Axios.post('http://localhost:5000/search/question', {input, limit})
+    let mdata = await Axios.post('/search/question', {input, limit}, {
+        baseURL: url,
+    })
     .then((res) => {
         // console.log(res);
         return res.data
@@ -12,7 +16,9 @@ export const upQuestion = async (input, limit) => {
     }
 }
 export const upTopic = async (input, limit) => {
-    let mdata = await Axios.post('http://localhost:5000/search/topic', {input, limit})
+    let mdata = await Axios.post('/search/topic', {input, limit}, {
+        baseURL: url,
+    })
     .then((res) => {
         // console.log(res);
         return res.data
@@ -23,7 +29,9 @@ export const upTopic = async (input, limit) => {
     }
 }
 export const upChannel = async (input, limit) => {
-    let mdata = await Axios.post('http://localhost:5000/search/channel', {input, limit})
+    let mdata = await Axios.post('/search/channel', {input, limit}, {
+        baseURL: url,
+    })
     .then((res) => {
         // console.log(res);
         return res.data

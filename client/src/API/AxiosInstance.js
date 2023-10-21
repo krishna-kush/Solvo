@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const url = process.env.REACT_APP_URL;
+
+console.log('url', url);
+
 const Axios = axios.create({
-  baseURL: 'http://localhost:5000', // Your API base URL
+  baseURL: url || 'http://localhost:5000', // Your API base URL
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('session')}`,
     // Other common headers
