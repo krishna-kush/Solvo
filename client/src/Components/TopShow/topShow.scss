@@ -23,13 +23,22 @@
 
     position: relative; // for the more-slide-down button
 
-    padding: var(--short-padding);
+    padding: var(--long-padding);
     margin: 10px; // to show shadow
     border-radius: var(--short-radius);
 }
 .topshow-block-title {
     width: fit-content;
     margin: auto;
+
+    margin-bottom: calc(var(--long-margin)*1.5);
+
+    h1 {
+        padding: var(--long-padding);
+        text-transform: uppercase;
+
+        color: var(--box-color);
+    }
 }
 
 .topshow-count {
@@ -40,15 +49,24 @@
     position: relative;
     height: fit-content;
 
-    p {
-        padding: var(--short-padding);
-    }
+    padding: var(--short-padding);
+    margin: var(--short-margin);
+
 }
 
-.topshow-block-user-enumeration {
-    background-color: var(--box-color);
+.topshow-block-line-vertical {
+    height: auto;
 
-    margin-right: var(--long-margin);
+    align-self: stretch;
+    margin: calc(var(--short-padding)*-1) var(--short-margin);
+}
+
+$line-around-margin: var(--long-margin);
+.topshow-block-user-enumeration {
+    margin: 0 $line-around-margin;
+}
+.topshow-block-id-cont {
+    margin-left: $line-around-margin;
 }
 
 .more-slide-down {

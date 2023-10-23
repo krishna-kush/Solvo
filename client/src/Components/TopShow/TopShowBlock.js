@@ -13,6 +13,8 @@ import Id from '../Feed/Id/Id'
 const Block = (params) => {
   const dispatch = useDispatch()
 
+  const more_amount = 10
+
   const data = useSelector((state) => state.topShow)
   // console.log(data);
 
@@ -20,9 +22,9 @@ const Block = (params) => {
 
   const handle = {
     showMore: async () => {
-      actionCreators.topShow.clear()(dispatch)
+      actionCreators.topShow.clear(params.what)(dispatch)
 
-      const temp = await actionCreators.topShow.add('question', 5)
+      const temp = await actionCreators.topShow.add(params.what, more_amount)
       temp(dispatch)
     }
   }
@@ -30,7 +32,7 @@ const Block = (params) => {
   // fetching data
   useEffect(() => {
     const run = async () => {
-      const temp = await actionCreators.topShow.add('question', 3)
+      const temp = await actionCreators.topShow.add(params.what, 3)
       temp(dispatch)
     }
 
@@ -42,7 +44,7 @@ const Block = (params) => {
 
     return () => {
       // cleanup
-      actionCreators.topShow.clear()(dispatch)
+      actionCreators.topShow.clear(params.what)(dispatch)
     }
 
   }, [])
@@ -52,19 +54,25 @@ const Block = (params) => {
   return (
     <div className='topshow-block-cont shadow'>
       <div className='topshow-block-title'>
-        <h1>Top {params.what}</h1>
+        <h1 className='border-line'>Top {params.what}</h1>
       </div>
 
       <div className='topshow-block-body'>
-        {data.map((e, i) => {
+        {data[params.what].map((e, i) => {
             return (
-            <div style={{justifyContent: 'inherit'}} className='topshow-block-user flex'>
-              <div style={{justifyContent: 'space-around'}} className='topshow-block-user-enumeration circle'>
-                <p>
+            <div style={{justifyContent: 'inherit'}} className='topshow-block-user border-line flex'>
+              <div className='topshow-block-user-enumeration'>
+                {/* <p> */}
                   {i+1}
-                </p>
+                {/* </p> */}
               </div>
-              <Id _id={e._id} belowText={e.postsCount} full={true}/>
+
+              <div className='line-vertical topshow-block-line-vertical'></div>
+
+              <div className='topshow-block-id-cont'>
+                <Id _id={e._id} belowText={e.postsCount} full={true}/>
+              </div>
+
             </div>
             )
         })}

@@ -9,16 +9,18 @@ export const add = async (what, limit) => {
     return (dispatch) => {
         dispatch({
             type: 'TOP_SHOW_ADD_IDS',
+            what: what,
             payload: {_ids: res.data.result}
         })
     }
 }
 
-export const clear = () => {
+export const clear = (what) => {
 
     return (dispatch) => {
         dispatch({
             type: 'TOP_SHOW_CLEAR',
+            what: what,
         })
     }
 }

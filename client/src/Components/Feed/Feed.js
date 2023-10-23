@@ -127,7 +127,7 @@ export default (params) => {
     let socket;
 
     if (params.production || useEffectRef.current) {
-      socket = new WebSocket(`${parseInt(process.env.REACT_APP_PRODUCTION)?'wss':'ws'}://${process.env.REACT_APP_BASE_URL || 'localhost:5000'}/posts/websocket`);
+      socket = new WebSocket(`${parseInt(process.env.REACT_APP_PRODUCTION)?'wss':'ws'}://${process.env.REACT_APP_BASE_URL || 'localhost:5001'}/posts/websocket`);
       // wsInitializeFeed((() => {
       wsInitializeFeed((() => {
         if (changer_true==='Explore') return [null, null]

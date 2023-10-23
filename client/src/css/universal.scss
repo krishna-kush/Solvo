@@ -182,6 +182,18 @@ input:focus {
     border-radius: 15%;
 }
 
+.border-line {
+    border: 0.5px solid var(--box-color);
+    border-radius: var(--short-radius);
+}
+
+.line-vertical {
+    background-color: var(--box-color);
+
+    width: 0.5px;
+    height: 100%;
+}
+
 /* .img {
     width: 100%;
     height: 100%;

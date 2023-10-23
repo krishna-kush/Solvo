@@ -1,10 +1,19 @@
-const reducer = (state = [], action) => {
+const reducer = (state = {
+    questions: [],
+    answers: [],
+}, action) => {
     
     switch (action.type) {
         case 'TOP_SHOW_ADD_IDS':
-            return [...state, ...action.payload._ids]
+            return {
+                ...state,
+                [action.what] : [...action.payload._ids]
+            }
         case 'TOP_SHOW_CLEAR':
-            return []
+            return {
+                ...state,
+                [action.what] : []
+            }
         default:
             return state
     }

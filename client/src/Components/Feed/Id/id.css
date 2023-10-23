@@ -1,6 +1,7 @@
 
 .id {
     /* if not defined height in .id-img then need it */
+    /* And setting height manually, creats problem, content inside id leaks out and makes problem with semitry of page */
     /* height: var(--id-height); */
     
     /* margin-bottom: var(--id-margin); */
