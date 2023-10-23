@@ -1,14 +1,14 @@
 #topshow {
     /* width: var(--side-panel-width); */
 
-    flex-grow: 1;
+    flex: 1;
 
     /* margin-left: 1vw; */
     margin-right: var(--topshow-margin-right);
 
     position: relative; /* to absolutely position cross in respect of this container */
 
-    // padding: 0;
+    padding: 0;
 
 }
 
@@ -24,7 +24,7 @@
     position: relative; // for the more-slide-down button
 
     padding: var(--long-padding);
-    margin: 10px; // to show shadow
+    margin: var(--long-margin); // to show shadow
     border-radius: var(--short-radius);
 }
 .topshow-block-title {
@@ -50,8 +50,7 @@
     height: fit-content;
 
     padding: var(--short-padding);
-    margin: var(--short-margin);
-
+    margin: var(--short-margin) 0;
 }
 
 .topshow-block-line-vertical {

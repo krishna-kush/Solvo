@@ -84,7 +84,9 @@ const App = () => {
         <Route element={<RequireAuth/>}>
           <Route index element={<>
             <div id="content">
-              { homeLayout.post ? <Feed production={production}/> : <></> }
+              {/* <LeftPanel element={ */}
+                {homeLayout.post ? <Feed production={production}/> : <></>}
+              {/* }/> */}
               { homeLayout.topShow ? <TopShow/> : <></> }
             </div>
           </>}/>
