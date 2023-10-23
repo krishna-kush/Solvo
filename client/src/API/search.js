@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-const url = process.env.REACT_APP_URL || 'http://localhost:5000';
+const url = process.env.REACT_APP_URL || 'http://localhost:5001';
 
 export const upQuestion = async (input, limit) => {
     let mdata = await Axios.post('/search/question', {input, limit}, {
