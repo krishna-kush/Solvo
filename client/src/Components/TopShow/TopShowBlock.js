@@ -63,14 +63,16 @@ const Block = (params) => {
             <div style={{justifyContent: 'inherit'}} className='topshow-block-user border-line flex'>
               <div className='topshow-block-user-enumeration'>
                 {/* <p> */}
-                  {i+1}
+                  {/* {i+1} */}
+                  {e.count}
                 {/* </p> */}
               </div>
 
               <div className='line-vertical topshow-block-line-vertical'></div>
 
               <div className='topshow-block-id-cont'>
-                <Id _id={e._id} belowText={e.postsCount} full={true}/>
+                {/* <Id _id={e._id} belowText={e.count} full={true}/> */}
+                <Id _id={e._id} full={true}/>
               </div>
 
             </div>

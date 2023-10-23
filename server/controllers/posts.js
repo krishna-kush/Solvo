@@ -159,25 +159,36 @@ export const hide = async (req, res) => {
         const { option, selectorId, selectedId } = req.body;
         // console.log(option, selectorId, selectedId);
 
+        let convertedOption;
+
         switch (option) {
             case 0:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'none', selected: selectedId });
+                convertedOption = 'none';
                 break;
             case 1:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'private', selected: selectedId });
+                convertedOption = 'private';
                 break;
             case 2:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'selected', selected: selectedId });
+                convertedOption = 'selected';
                 break;
             case 3:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'exceptSelected', selected: selectedId });
+                convertedOption = 'exceptSelected';
                 break;
             case 4:
-                await Post.findOneAndUpdate({ _id: selectorId }, { hide: 'all', selected: selectedId });
+                convertedOption = 'all';
                 break;
             default:
                 break;
         }
+
+        await Post.findOneAndUpdate({ _id: selectorId }, { hide: convertedOption, selected: selectedId });
+
+        // selectorId is a comment then comment.creator is the user who selected the answer get it them increment count
+        const selectedAnswerUser = await Comment.findOne({ _id: selectedId })
+        .select('creator')
+        // console.log(creator);
+
+        await User.findOneAndUpdate(common.getUserFind(selectedAnswerUser.creator), { $inc: { selectedAnswersCount: 1 } });
         
         res.status(200).json({ message: "Post hidden successfully" })
     }

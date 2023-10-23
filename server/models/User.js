@@ -14,14 +14,18 @@ const userSchema = mongoose.Schema({
         ref: 'Post',
     }],
     postsCount: {
-      type: Number,
-      default: 0,  
+        type: Number,
+        default: 0,  
     },
 
     answers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
     }],
+    selectedAnswersCount: {
+        type: Number,
+        default: 0,  
+    },
 
     following: {
         type: mongoose.Schema.Types.ObjectId,
