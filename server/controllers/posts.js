@@ -449,7 +449,7 @@ export const wsGetEnumerated = async (ws, req) => {
 
                 let following;
                 let following_ids_list;
-
+1
                 if (is_following) {
                     following = await Following.findOne({ _id: following_id });
                     if (following) {
